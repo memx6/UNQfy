@@ -19,6 +19,4 @@ class Artist {
 
 }
 
-module.exports = {
-    Artist: Artist,
-};
+module.exports = Artist;

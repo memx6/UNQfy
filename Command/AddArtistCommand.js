@@ -17,5 +17,6 @@ class AddArtistCommand {
         console.log(`${createdArtist.name} was successfully added`)
     }
   
-  }
+}
+
 module.exports = AddArtistCommand;

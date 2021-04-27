@@ -20,6 +20,4 @@ class Track{
     }
 }
 
-module.export = {
-    Track : Track,
-}
+module.export = Track;

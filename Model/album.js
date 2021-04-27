@@ -22,6 +22,4 @@ class Album{
     }
 }
 
-module.export = {
-    Album : Album,
-}
+module.export = Album;

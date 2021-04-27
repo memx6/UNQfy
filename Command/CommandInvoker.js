@@ -8,5 +8,6 @@ class CommandInvoker {
         let wantedCommand = allKnownCommands.find(command => command.isCommand(consoleInput[0]));
         wantedCommand.executeCommand(consoleInput.slice(1),unqfy)
     }
-  }
+}
+
 module.exports = CommandInvoker;

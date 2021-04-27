@@ -1,6 +1,7 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
+const Artist = require('./Model/artist')
 
 class UNQfy {
   

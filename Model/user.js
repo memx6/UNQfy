@@ -29,6 +29,4 @@ class User {
     }
 }
 
-module.export = {
-    User : User,
-}
+module.export = User;
