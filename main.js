@@ -57,13 +57,12 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 
 function main() {
   const arguments = process.argv.slice(2)
-  console.log('arguments: ');
-  process.argv.forEach(argument => console.log(argument));
   let unqfy = getUNQfy();
   commandInvoker = new CommandInvoker();
   commandInvoker.executeCommand(arguments,unqfy);
   saveUNQfy(unqfy);
   console.log(unqfy.artists);
+  console.log(unqfy.getArtistById(1))
 }
 
 main();
