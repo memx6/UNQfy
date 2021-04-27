@@ -1,9 +1,34 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
+class Artist {
+  constructor(id,name,country,albums = []){
+      this._id = id;
+      this._name = name;
+      this._country = country;
+      this._albums = albums; 
+  }
 
+  get id(){return this._id}
+  set id(newId){return this._id = newId}
+  get name(){return this._name}
+  set name(newName){  return this._name = newName}
+  get country(){return this._country}
+  set country(newCountry){return this._country = newCountry}
+  get albums(){return this._albums}
+  set albums(newAlbum){  return this._albums = newAlbum}
+  
+
+
+}
 
 class UNQfy {
+  
+  constructor (){
+    this.currentId = 0
+    this.artists   = []
+  }
+  
 
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
@@ -15,6 +40,10 @@ class UNQfy {
     - una propiedad name (string)
     - una propiedad country (string)
   */
+    let artist = new Artist(this.currentId,artistData.name,artistData.country)
+    this.currentId = this.currentId + 1
+    this.artists.push(artist)
+    return artist
   }
 
 
@@ -30,7 +59,7 @@ class UNQfy {
   */
   }
 
-
+  //artists.map(artist => artist.albums).filter(album => almbum.id === albumId)
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
   //   trackData.duration (number)
@@ -96,7 +125,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy];
+    const classes = [UNQfy,Artist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
