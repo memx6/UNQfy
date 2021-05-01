@@ -17,9 +17,17 @@ class Album{
     set year(newYear){this._year = newYear}
     set tracks(newTracks){this.tracks = newTracks}
     set duration(newDur){this._duration = newDur}
+
     printAlbum(){
-        console.log(this)
+        let print = 
+        `Album: ${this.name}\nID: ${this.id}\nRelease: ${this.year}\nTracks: ${this.allTracks().map(track => track.name)}\nDuration: ${this.duration}`
+        console.log(print)
     }
+
+    allTracks(){
+        return Object.values(this.tracks)
+    }
+
 }
 
-module.export = Album;
+module.exports = Album;
