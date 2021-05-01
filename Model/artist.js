@@ -15,8 +15,28 @@ class Artist {
     get albums(){return this._albums}
     set albums(newAlbum){  return this._albums = newAlbum}
 
+    isArtist(name){
+        return this.name === name
+    }
 
+    allAlbums(){
+        return Object.values(this.albums)
+    }
 
+    tracks(){
+        return flatten(this.albums().map(album => album.tracks()))
+    }
+
+    printArtist(){
+        let print = 
+        `Artist: ${this.name}\nID: ${this.id}\nCountry of origin: ${this.country}\nAlbums: ${this.allAlbums().map(album => album.name)}`
+        console.log(print)
+    }
+
+}
+
+function flatten (array) {
+    return array.reduce((acc,curVal) => acc.concat(curVal),[]); //El valor inicial de acc es []
 }
 
 module.exports = Artist;

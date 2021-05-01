@@ -16,7 +16,9 @@ class Track{
     set genres(newGenres) { this._genres = newGenres}
 
     printTrack(){
-        console.log(this)
+        let print = 
+        `Track: ${this.name}\n ID: ${this.id}\nDuration: ${this.maxDuration}\n Genres: ${this.genres}`
+        console.log(print)
     }
 }
 
