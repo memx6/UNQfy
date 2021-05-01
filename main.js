@@ -62,7 +62,6 @@ function main() {
   commandInvoker.executeCommand(arguments,unqfy);
   saveUNQfy(unqfy);
   console.log(unqfy.artists);
-  console.log(unqfy.getArtistById(1))
 }
 
 main();

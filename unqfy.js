@@ -7,7 +7,7 @@ class UNQfy {
   
   constructor (){
     this.currentId = 0
-    this.artists   = []
+    this.artists   = {}
   }
   
 
@@ -21,12 +21,18 @@ class UNQfy {
     - una propiedad name (string)
     - una propiedad country (string)
   */
+    if(this.hasArtistNamed(artistData.name)){
+      console.log(`Command was not successful: An artist named ${artistData.name} already exists.`)
+    } else {
     let artist = new Artist(this.currentId,artistData.name,artistData.country)
+    this.artists[this.currentId] = artist
     this.currentId = this.currentId + 1
-    this.artists.push(artist)
     return artist
+    }
   }
-
+  hasArtistNamed(name){
+    return this.allArtists().find(artist => artist.name === name)
+  }
 
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
@@ -54,10 +60,11 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
   }
-
+  allArtists(){
+    return Object.values(this.artists)
+  }
   getArtistById(id) {
-    return this.artists.find(artist => artist.id === id);
-
+    return this.allArtists().find(artist => artist.id === id);
   }
 
   getAlbumById(id) {

@@ -16,7 +16,8 @@ class CommandInvoker {
     getCommand(commandName){
         let result = this.commands[commandName]
         if (result === undefined){
-            throw Error ("Te confundiste flaco")
+            let error = new Error('Invalid Command')
+            throw error 
         } else {
             return result
         }
@@ -26,8 +27,8 @@ class CommandInvoker {
         try {
             let wantedCommand = this.getCommand(consoleInput[0]);
             wantedCommand.executeCommand(consoleInput.slice(1),unqfy)
-        } catch (e) {
-            console.log("No existe el comando ingresado")
+        } catch (error) {
+            console.log(error.message)
         }
     }
 }
