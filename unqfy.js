@@ -8,6 +8,7 @@ class UNQfy {
   constructor (){
     this.currentId = 0
     this.artists   = []
+    this.playList = []
   }
   
 
@@ -110,7 +111,14 @@ class UNQfy {
     const classes = [UNQfy,Artist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
+
+  createThisIs(artist){
+    this.artists.filter( a => a.name === artist.name).map(alb => alb.tracks)
+  
+  }
 }
+
+
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = {
