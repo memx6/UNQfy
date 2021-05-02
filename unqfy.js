@@ -3,6 +3,7 @@ const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./Model/artist');
 const Album = require('./Model/album');
+const Track = require('./Model/track');
 
 class UNQfy {
   
@@ -61,7 +62,18 @@ class UNQfy {
     }
   }
 
-  //artists.map(artist => artist.albums).filter(album => almbum.id === albumId)
+
+  hasAlbumNamed(name){
+    let album = this.getAlbumByName(name)
+    return album !== undefined
+  }
+
+  getAlbumByName(name){
+    return this.allAlbums().find(album => album.name === name)
+  }
+
+
+
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
   //   trackData.duration (number)
@@ -74,20 +86,41 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-  }
+      let album = this.getAlbumById(albumId)
+      if(album !== undefined){
+        let newTrack = new Track(this.currentId,trackData.name,trackData.duration,trackData.genres);
+        album.addTrack(this.currentId,newTrack);
+        this.currentId = this.currentId + 1;
+        return newTrack;
+      } else {
+        console.log(`Command was not successful: The id ${albumId} does not belong to an album`)
+      }
+    }
+
+
   allArtists(){
-    return Object.values(this.artists)
+    return Object.values(this.artists).filter(artist => artist !== undefined)
   }
+
+  allAlbums(){
+    return flatten(this.allArtists().map(artist => artist.allAlbums()))
+  }
+
+  allTracks(){
+    return flatten(this.allArtists().map(artist => artist.allTracks()))
+  }
+
+
   getArtistById(id) {
     return this.allArtists().find(artist => artist.id === id);
   }
 
   getAlbumById(id) {
-
+    return this.allAlbums().find(album => album.id === id)
   }
 
   getTrackById(id) {
-
+    return this.allTracks().find(track => track.id === id)
   }
 
   getPlaylistById(id) {
@@ -129,9 +162,12 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artist,Album];
+    const classes = [UNQfy,Artist,Album,Track];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
+}
+function flatten (array) {
+  return array.reduce((acc,curVal) => acc.concat(curVal),[]); //El valor inicial de acc es []
 }
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente

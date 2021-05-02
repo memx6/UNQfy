@@ -17,9 +17,9 @@ class Track{
 
     printTrack(){
         let print = 
-        `Track: ${this.name}\n ID: ${this.id}\nDuration: ${this.maxDuration}\n Genres: ${this.genres}`
+        `Track: ${this.name}\nID: ${this.id}\nDuration: ${this.duration}\nGenres: ${this.genres}`
         console.log(print)
     }
 }
 
-module.export = Track;
+module.exports = Track;

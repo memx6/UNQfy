@@ -20,11 +20,11 @@ class Artist {
     }
 
     allAlbums(){
-        return Object.values(this.albums)
+        return Object.values(this.albums).filter(album => album !== undefined)
     }
 
-    tracks(){
-        return flatten(this.albums().map(album => album.tracks()))
+    allTracks(){
+        return flatten(this.allAlbums().map(album => album.allTracks()))
     }
 
     printArtist(){
