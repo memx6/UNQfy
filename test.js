@@ -114,6 +114,67 @@ describe('Add, remove and filter data', () => {
     assert.isTrue(matchingTracks.includes(t2));
     assert.isTrue(matchingTracks.includes(t3));
   });
+
+  
+  it('should get all Track matching partial name', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    const t2 = createAndAddTrack(unqfy, album.id, 'It\'s so easy', 200, ['rock', 'hard rock']);
+
+    const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
+
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album3 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    createAndAddTrack(unqfy, album3.id, 'Thriller', 200, ['pop', 'movie']);
+    createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
+    createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
+
+    const trackRecovered = unqfy.getTracksMatchingParcialName("ry");
+
+    assert.equal(trackRecovered[0], t3, "Matched Track");
+  });
+
+  it('should get all album matching partial name', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    const t2 = createAndAddTrack(unqfy, album.id, 'It\'s so easy', 200, ['rock', 'hard rock']);
+
+    const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
+
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album3 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    createAndAddTrack(unqfy, album3.id, 'Thriller', 200, ['pop', 'movie']);
+    createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
+    createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
+
+    const albumRecovered = unqfy.getAlbumsMatchingParcialName("usi");
+
+    assert.equal(albumRecovered[0], album2, "Matched Album");
+  });
+
+  it('should get all artist matching partial name', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    const t2 = createAndAddTrack(unqfy, album.id, 'It\'s so easy', 200, ['rock', 'hard rock']);
+
+    const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
+
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album3 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    createAndAddTrack(unqfy, album3.id, 'Thriller', 200, ['pop', 'movie']);
+    createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
+    createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
+
+    const artistRecovered = unqfy.getArtistsMatchingParcialName("chael");
+
+    assert.equal(artistRecovered[0], artist2, "Matched Artist");
+  });
 });
 
 describe('Playlist Creation and properties', () => {

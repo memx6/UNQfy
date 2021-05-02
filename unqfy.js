@@ -129,16 +129,25 @@ class UNQfy {
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres) {
-
+  getTracksMatchingGenres(genress) {
+    return this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-
+    return this.getArtistByName(artistName).allTracks();
   }
 
+  getTracksMatchingParcialName(parcialName) {
+    return this.allTracks().filter(track => track.name.toLowerCase().includes(parcialName.toLowerCase()));
+  }
+  getAlbumsMatchingParcialName(parcialName) {
+    return this.allAlbums().filter(album => album.name.toLowerCase().includes(parcialName.toLowerCase()));
+  }
+  getArtistsMatchingParcialName(parcialName) {
+    return this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
+  }
 
   // name: nombre de la playlist
   // genresToInclude: array de generos
@@ -151,8 +160,8 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-
   }
+
 
   save(filename) {
     const serializedData = picklify.picklify(this);
