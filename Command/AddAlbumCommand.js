@@ -8,6 +8,12 @@ class AddAlbumCommand {
         throw new Error ("Command was not successful: Year is expected to be a number")
       }
     }
+    
+    /*argumentos[0] = ArtistName,
+      argumentos[1] = name of the album,
+      argumentos[2] = release year,
+      the artist name must correspond to one artist from unqfy.
+      Example input: MichaelJackson BestHits 1990.*/
     executeCommand(argumentos,unqfy){
       this.validateInput(argumentos,unqfy)
       let albumData = {
