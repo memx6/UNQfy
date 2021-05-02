@@ -1,5 +1,5 @@
 class Artist {
-    constructor(id,name,country,albums = []){
+    constructor(id,name,country,albums = {}){
         this._id = id;
         this._name = name;
         this._country = country;
@@ -31,6 +31,10 @@ class Artist {
         let print = 
         `Artist: ${this.name}\nID: ${this.id}\nCountry of origin: ${this.country}\nAlbums: ${this.allAlbums().map(album => album.name)}`
         console.log(print)
+    }
+
+    addAlbum(albumId,album){
+        this.albums[albumId] = album
     }
 
 }
