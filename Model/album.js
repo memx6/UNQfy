@@ -22,7 +22,7 @@ class Album{
     }
 
     allTracks(){
-        return Object.values(this.tracks)
+        return Object.values(this.tracks).filter(track => track !== undefined)
     }
 
     duration() {

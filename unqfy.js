@@ -78,6 +78,12 @@ class UNQfy {
   allArtists(){
     return Object.values(this.artists)
   }
+
+  allAlbums(){
+    return this.allArtists().map(artist => artist.allAlbums())
+  }
+
+
   getArtistById(id) {
     return this.allArtists().find(artist => artist.id === id);
   }

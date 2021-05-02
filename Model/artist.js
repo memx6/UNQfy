@@ -20,7 +20,7 @@ class Artist {
     }
 
     allAlbums(){
-        return Object.values(this.albums)
+        return Object.values(this.albums).filter(album => album !== undefined)
     }
 
     tracks(){
