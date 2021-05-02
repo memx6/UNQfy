@@ -1,13 +1,14 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
-const Artist = require('./Model/artist')
+const Artist = require('./Model/artist');
+const Album = require('./Model/album');
 
 class UNQfy {
   
   constructor (){
     this.currentId = 0
-    this.artists   = []
+    this.artists   = {}
   }
   
 
@@ -21,12 +22,23 @@ class UNQfy {
     - una propiedad name (string)
     - una propiedad country (string)
   */
+    if(this.hasArtistNamed(artistData.name)){
+      console.log(`Command was not successful: An artist named ${artistData.name} already exists.`)
+    } else {
     let artist = new Artist(this.currentId,artistData.name,artistData.country)
+    this.artists[this.currentId] = artist
     this.currentId = this.currentId + 1
-    this.artists.push(artist)
     return artist
+    }
+  }
+  hasArtistNamed(name){
+    let artist = this.getArtistByName(name)
+    return artist !== undefined
   }
 
+  getArtistByName(name){
+    return this.allArtists().find(artist => artist.name === name)
+  }
 
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
@@ -38,6 +50,15 @@ class UNQfy {
      - una propiedad name (string)
      - una propiedad year (number)
   */
+    let artist = this.getArtistById(artistId)
+    if(artist !== undefined){
+      let newAlbum = new Album(this.currentId,albumData.name,albumData.year)
+      artist.addAlbum(this.currentId,newAlbum)
+      this.currentId = this.currentId + 1
+      return newAlbum
+    } else {
+      console.log(`Command was not successful: The id ${artistId} does not belong to an artist`)
+    }
   }
 
   //artists.map(artist => artist.albums).filter(album => almbum.id === albumId)
@@ -54,10 +75,11 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
   }
-
+  allArtists(){
+    return Object.values(this.artists)
+  }
   getArtistById(id) {
-    return this.artists.find(artist => artist.id === id);
-
+    return this.allArtists().find(artist => artist.id === id);
   }
 
   getAlbumById(id) {
@@ -107,7 +129,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artist];
+    const classes = [UNQfy,Artist,Album];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
