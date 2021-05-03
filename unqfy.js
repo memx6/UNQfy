@@ -4,6 +4,7 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./Model/artist');
 const Album = require('./Model/album');
 const Track = require('./Model/track');
+const PlayList = require('./Model/playList')
 
 class UNQfy {
   
@@ -208,6 +209,14 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+    if ( this.playLists.map(p => p.name).includes(name)){
+      console.log("the name already exists")
+    }
+    else{
+      playlist = new PlayList(this.currentId,name,genresToInclude,maxDuration,genresToInclude)
+      this.playList.set(this.currentId,playList)
+      this.currentId = this.currentId + 1;
+    }
   }
 
   //Delete methods
