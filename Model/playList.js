@@ -1,5 +1,5 @@
 class PlayList {
-    constructor(id,name,tracks,maxDuration){
+    constructor(id,name,tracks = {},maxDuration){
         this._id = id;
         this._name = name;
         this._tracks = tracks;
@@ -31,6 +31,11 @@ class PlayList {
         `PlayList: ${this.name}\nID: ${this.id}\nTracks: ${this.allTracks().map(track => track.name)}\nDuration: ${this.maxDuration}`
         console.log(print)
     }
+
+    deleteTrack(trackId){
+        this.tracks[trackId] = undefined
+    }
+
 }
 
 module.exports = PlayList;

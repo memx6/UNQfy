@@ -62,7 +62,7 @@ function main() {
   commandInvoker.executeCommand(arguments,unqfy);
   saveUNQfy(unqfy);
   console.log(unqfy.artists);
-  unqfy.getArtistById(0).printArtist()
+  //unqfy.getArtistById(0).printArtist()
   unqfy.allAlbums().map(album => album.printAlbum())
   unqfy.allTracks().map(track => track.printTrack())
 }
