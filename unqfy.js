@@ -10,6 +10,7 @@ class UNQfy {
   constructor (){
     this.currentId = 0
     this.artists   = {}
+    this.playLists = {}
   }
   
 
@@ -109,6 +110,9 @@ class UNQfy {
   allTracks(){
     return flatten(this.allArtists().map(artist => artist.allTracks()))
   }
+  allPlaylists(){
+    return Object.values(this.playLists).filter(playlist => playlist !== undefined)
+  }
 
 
   getArtistById(id) {
@@ -124,7 +128,7 @@ class UNQfy {
   }
 
   getPlaylistById(id) {
-
+    return this.allPlaylists().find(playlist => playlist.id === id)
   }
 
   // genres: array de generos(strings)
@@ -160,6 +164,53 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+  }
+
+  //Delete methods
+  deleteArtist(artistId){
+    let artist = this.getArtistById(artistId)
+    if (artist !== undefined){
+      artist.allAlbums().map(album => this.deleteAlbum(album.id))
+      this.artists[artistId] = undefined
+    } else {
+      console.log(`Command was not successful: The id ${artistId} does not belong to an artist`)
+    }
+    
+  }
+  
+  deleteAlbum(albumId){
+    let album = this.getAlbumById(albumId)
+    if (album !== undefined){
+      let artist = this.authorOf(albumId)
+      album.allTracks().map(track => this.deleteTrack(track.id))
+      artist.deleteAlbum(albumId)
+    } else {
+      console.log(`Command was not successful: The id ${albumId} does not belong to an album`)
+    }
+  }
+
+  deleteTrack(trackId){
+    let track = this.getTrackById(trackId)
+    if (track !== undefined) {
+      let album = this.albumOf(trackId)
+      album.deleteTrack(trackId)
+      this.allPlaylists().filter(playlist => playlist.hasTrack(trackId))
+                         .map(playlist => playlist.deleteTrack(trackId))
+    } else {
+      console.log(`Command was not successful: The id ${trackId} does not belong to a track`)
+    }
+  }
+
+  deletePlayList(playListId){
+    this.playLists[playListId] = undefined
+  }
+
+  authorOf(albumId){
+    return this.allArtists().find(artist => artist.isAuthorOf(albumId))
+  }
+
+  albumOf(trackId){
+    return this.allAlbums().find(album => album.hasTrack(trackId))
   }
 
 

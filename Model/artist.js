@@ -37,6 +37,14 @@ class Artist {
         this.albums[albumId] = album
     }
 
+    isAuthorOf(albumId){
+        return this.allAlbums().some(album => album.id === albumId);
+    }
+
+    deleteAlbum(albumId){
+        this.albums[albumId] = undefined;
+    }
+
 }
 
 function flatten (array) {

@@ -2,6 +2,11 @@ const AddArtistCommand = require('./AddArtistCommand')
 const AddUserCommand  = require('./AddUserCommand')
 const AddAlbumCommand = require('./AddAlbumCommand')
 const AddTrackCommand = require('./AddTrackCommand')
+const DeleteAlbumCommand = require('./DeleteAlbumCommand')
+const DeletePlayListCommand = require('./DeletePlayListCommand')
+const DeleteArtistCommand = require('./DeleteArtistCommand')
+const DeleteTrackCommand = require('./DeleteTrackCommand')
+
 
 class CommandInvoker {
 
@@ -10,7 +15,11 @@ class CommandInvoker {
             AddArtist: new AddArtistCommand(),
             AddAlbum:  new AddAlbumCommand(),
             AddTrack:  new AddTrackCommand(),
-            AddUser:   new AddUserCommand()
+            AddUser:   new AddUserCommand(),
+            DeleteArtist: new DeleteArtistCommand(),
+            DeleteAlbum: new DeleteAlbumCommand(),
+            DeleteTrack: new DeleteTrackCommand(),
+            DeletePlayList: new DeletePlayListCommand()
         }
     }
     getCommand(commandName){

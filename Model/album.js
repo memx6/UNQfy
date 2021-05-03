@@ -32,7 +32,12 @@ class Album{
     addTrack(trackId,track){
         this.tracks[trackId] = track;
     }
-
+    deleteTrack(trackId){
+        this.tracks[trackId] = undefined
+    }
+    hasTrack(trackId){
+        return this.allTracks().some(track => track.id === trackId)
+    }
 }
 
 function sum(array) {
