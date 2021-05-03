@@ -175,6 +175,69 @@ describe('Add, remove and filter data', () => {
 
     assert.equal(artistRecovered[0], artist2, "Matched Artist");
   });
+
+  it('should delete the artist from artists', () =>{
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    unqfy.deleteArtist(artist.id);
+
+    assert.lengthOf(unqfy.allArtists(),0);
+    assert.isFalse(unqfy.hasArtistNamed(artist.name));
+  });
+
+  it('should delete the album from the artist', () =>{
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    unqfy.deleteAlbum(album.id);
+
+    assert.isFalse(artist.isAuthorOf(album.id));
+    assert.lengthOf(unqfy.allAlbums(),0);
+    assert.isFalse(unqfy.hasAlbumNamed(album.name));
+  });
+
+  it('should delete the track from the album', () =>{
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    unqfy.deleteTrack(t1.id);
+
+    assert.isFalse(album.hasTrack(t1.id));
+    assert.lengthOf(unqfy.allTracks(),0);
+    assert.isFalse(unqfy.hasTrackNamed(t1.name));
+  });
+
+  it('should delete the tracks from the album when deleting the album', () =>{
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    unqfy.deleteAlbum(album.id);
+
+    assert.lengthOf(unqfy.allTracks(),0);
+    assert.isFalse(unqfy.hasTrackNamed(t1.name));
+  });
+
+  it('should delete the albums from the artist when deleting the artist', () =>{
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    unqfy.deleteArtist(artist.id);
+
+    assert.lengthOf(unqfy.allAlbums(),0);;
+    assert.isFalse(unqfy.hasAlbumNamed(album.name));
+  });
+  it('should delete the tracks from the artist when deleting the artist', () =>{
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    unqfy.deleteArtist(artist.id)
+
+    assert.lengthOf(unqfy.allTracks(),0);
+    assert.isFalse(unqfy.hasTrackNamed(t1.name))
+  });
+
+
+
+
+
 });
 
 describe('Playlist Creation and properties', () => {
