@@ -4,6 +4,7 @@ class Track{
         this._name = name 
         this._duration = duration
         this._genres= genres
+        this.countListen = 0 
     }
 
     get id(){return this._id}
@@ -14,7 +15,12 @@ class Track{
     set name(newName){ this._name = newName}
     set duration(newDuration){ this._duration = newDuration}
     set genres(newGenres) { this._genres = newGenres}
+    get countListen(){return this._countListen}
+    set countListen(count) { this._countListen = count}
 
+    sumCountListen(){
+        this.countListen = this.countListen + 1
+    }
     printTrack(){
         let print = 
         `Track: ${this.name}\nID: ${this.id}\nDuration: ${this.duration}\nGenres: ${this.genres}`

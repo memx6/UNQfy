@@ -215,8 +215,13 @@ class UNQfy {
     else{
       playlist = new PlayList(this.currentId,name,genresToInclude,maxDuration,genresToInclude)
       this.playList.set(this.currentId,playList)
+      this.loadPlayList(this.currentId,genresToInclude[0])
       this.currentId = this.currentId + 1;
     }
+  }
+  loadPlayList(idPlayList , genres){
+    var tracks = this.allTracks.filter(t => t._genres === genres)
+    this.getPlaylistById(idPlayList).tracks(tracks)
   }
 
   //Delete methods
