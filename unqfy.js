@@ -65,15 +65,31 @@ class UNQfy {
 
 
   hasAlbumNamed(name){
-    let album = this.getAlbumByName(name)
-    return album !== undefined
+    let album = this.getAlbumByName(name);
+    return album !== undefined;
   }
 
   getAlbumByName(name){
-    return this.allAlbums().find(album => album.name === name)
+    return this.allAlbums().find(album => album.name === name);
   }
 
+  hasTrackNamed(name){
+    let track = this.getTrackByName(name);
+    return track !== undefined;
+  }
 
+  getTrackByName(name){
+    return this.allTracks().find(track => track.name === name);
+  }
+
+  hasPlayListNamed(name){
+    let playList = this.getPlayListByName(name);
+    return playList !== undefined;
+  }
+
+  getPlayListByName(name){
+    return this.allPlaylists().find(playlist => playlist.name === name);
+  }
 
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
@@ -130,6 +146,34 @@ class UNQfy {
   getPlaylistById(id) {
     return this.allPlaylists().find(playlist => playlist.id === id)
   }
+
+  //Prints all the tracks with the name "name"
+  printTrack(name){
+    let tracksWithName = this.allTracks().filter(track => track.name === name)
+    tracksWithName.map(track => track.printTrack())
+  }
+
+  //Prints all the albums with the name "name"
+  printAlbum(name){
+    let albumsWithName = this.allAlbums().filter(album => album.name === name)
+    albumsWithName.map(album => album.printAlbum())
+  }
+
+  //Prints the artist with the name "name"
+  printArtist(name){
+    let artistWithName = this.getArtistByName(name)
+    artistWithName.printArtist()
+  }
+
+  //Prints all the playLists with the name "name"
+  printPlayList(name){
+    let playListsWithName = this.allPlaylists().filter(playList => playList.name === name)
+    playListsWithName.map(playList => playList.printPlayList())
+  }
+  
+
+
+
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
