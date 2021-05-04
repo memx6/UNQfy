@@ -282,10 +282,7 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-
- 
-
-      let tracks = this.getTracksMatchingGenres(genresToInclude).sort();
+      let tracks = this.getTracksMatchingGenres(genresToInclude);
       const listOfTracksAndDuration = this.cutPlaylistByDuration(tracks, maxDuration);
       let newPlayList = new PlayList(this.currentId,name,genresToInclude, listOfTracksAndDuration.duration);
       newPlayList.addTracks(listOfTracksAndDuration.tracks);
@@ -300,7 +297,7 @@ class UNQfy {
     let accumulatedDuration = 0;
     let newtracks = [];
     tracks.forEach(track => {
-      if(track.duration + accumulatedDuration <= maxDuration){
+      if(track._duration + accumulatedDuration <= maxDuration){
         newtracks.push(track);
         accumulatedDuration = accumulatedDuration + track.duration;
       }
