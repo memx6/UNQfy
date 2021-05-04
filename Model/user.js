@@ -24,7 +24,8 @@ class User {
 
     listen(track){
         this.listenedTracks.push(track)
-        this.listen = this.name + ' listen : ' + track.name ;
+        this.listen = this.name + ' listen : ' + track.name;
+        track.countListen = track.countListen + 1 
     }
     timesListenTrack(track){
         return this.listenedTracks.filter( t => t.name == track.name).map(t => t.duration).reduce((a, b) => a + b, 0)

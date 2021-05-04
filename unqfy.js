@@ -242,6 +242,27 @@ class UNQfy {
     this.getPlaylistById(idPlayList).tracks(tracks)
   }
 
+  thisIs(artistaID){
+    /*
+   var tranksL =  new ArrayList(new Set(this.user.map( u => u.listenedTracks()).flat()))
+   artist = this.getArtistById(artistaID)
+   alltrackArtist= this.getTracksMatchingArtist(artist.name)
+   for ( i = 0 ; i < alltrackArtist.length ; i++){
+        this.tranksL.filter( t => t.name === alltrackArtist[i].name)
+   }
+   for  (i = 0 ; i < 3 ; i++){
+      max = Math.max(tranksL.map(t => t.countListen))
+      top1 = tranksL.filter( t => t.countListen === max)[0]
+      
+   }
+   */
+   
+
+   }
+
+
+
+  }
   //Delete methods
   deleteArtist(artistId){
     let artist = this.getArtistById(artistId)
