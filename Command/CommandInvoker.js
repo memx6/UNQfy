@@ -15,6 +15,7 @@ const PrintTrackCommand = require('./PrintTrackCommand')
 const PrintPlayListCommand = require('./PrintPlayListCommand')
 const ListenMusicCommand = require('./ListenMusicCommand')
 const CreatePlaylistCommand = require('./CreatePlayListCommand')
+const ThisIsCommand = require('./ThisISCommand')
 
 
 class CommandInvoker {
@@ -38,6 +39,7 @@ class CommandInvoker {
             PrintPlayList: new PrintPlayListCommand(),
             ListenMusic : new ListenMusicCommand(),
             CreatePlayList: new CreatePlaylistCommand(),
+            ThisIs : new ThisIsCommand()
 
         }
     }
