@@ -55,19 +55,31 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 
 
 
-function main() {
-  const arguments = process.argv.slice(2)
+function main(filteredArgs) {
   let unqfy = getUNQfy();
   commandInvoker = new CommandInvoker();
-  commandInvoker.executeCommand(arguments,unqfy);
+  commandInvoker.executeCommand(filteredArgs,unqfy);
   saveUNQfy(unqfy);
-  //console.log(unqfy.artists);
-  //unqfy.getArtistById(0).printArtist()
-  //unqfy.allAlbums().map(album => album.printAlbum())
-  //unqfy.allTracks().map(track => track.printTrack())
 }
+const filteredArgs = process.argv.slice(2)
+main(filteredArgs);
 
-main();
+//Pequeño Script para cargar algunas cosas para probar.
+/*
+main(['AddArtist','Michael Jackson','United States']);
+main(['AddArtist','Undertale','United States']);
+main(['AddAlbum','Michael Jackson','Bad 25','2012']);
+main(['AddAlbum','Undertale','Game Theme','2015']);
+main(['AddTrack','Game Theme','Death by Glamour',500,'Pop','Games']);
+main(['AddTrack','Bad 25','Smooth Criminal',500,'Pop']);
+main(['PrintArtist','Michael Jackson']);
+main(['PrintAlbum','Game Theme']);
+main(['PrintTrack','Death by Glamour'])
+main(['GetMatchingPartial','Death'])
+main(['GetTracksMatchingGenres','Pop'])
+main(['GetTracksMatchingArtist','Undertale'])
+*/
+
 
 
 

@@ -22,14 +22,17 @@ class PlayList {
         return this._name;
     }
     hasTrack(nameTrack){
-        return this.allTracks().find(track => track.name === nameTrack) !== undefined
+        return (this.allTracks().find(track => track.name === nameTrack)) !== undefined
+    }
+    hasTrackWithId(trackId){
+        return (this.allTracks().find(track => track.id === trackId)) !== undefined
     }
     duration(){
         return this.allTracks().map(track => track.duration).reduce((a, b) => a + b, 0)
     }
 
     allTracks(){
-        return Object.values(this.tracks)
+        return Object.values(this.tracks).filter(track => track !== undefined)
     }
  
     printPlaylist(){

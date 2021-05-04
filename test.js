@@ -249,4 +249,64 @@ describe('Playlist Creation and properties', () => {
     assert.isTrue(playlist.hasTrack(t4.name));
     assert.lengthOf(playlist.allTracks(), 4);
   });
+  it('should Delete tracks from a playlist when deleting a track', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+    const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+    const t1Name = t1.name
+    const playlist = unqfy.createPlaylist('my playlist', 1400, ['pop', 'rock']);
+
+
+    unqfy.deleteTrack(t1.id)
+
+    assert.isFalse(playlist.hasTrack(t1Name));
+    assert.lengthOf(playlist.allTracks(), 3);
+  });
+  it('should Delete tracks from a playlist when deleting an album', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+    const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+    const t1Name = t1.name
+    const playlist = unqfy.createPlaylist('my playlist', 1400, ['pop', 'rock']);
+
+
+    unqfy.deleteAlbum(album.id)
+
+    assert.isFalse(playlist.hasTrack(t1Name));
+    assert.lengthOf(playlist.allTracks(), 3);
+  });
+  it('should Delete tracks from a playlist when deleting an artist', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+    const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+    const t1Name = t1.name
+    const playlist = unqfy.createPlaylist('my playlist', 1400, ['pop', 'rock']);
+
+
+    unqfy.deleteArtist(artist.id)
+
+    assert.isFalse(playlist.hasTrack(t1Name));
+    assert.lengthOf(playlist.allTracks(), 3);
+  });
 });
