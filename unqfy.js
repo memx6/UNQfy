@@ -92,6 +92,13 @@ class UNQfy {
     return this.allPlaylists().find(playlist => playlist.name === name);
   }
 
+  listenMusic(trackId,UserId){
+    let track = this.getTrackById(trackId)
+    let user = this.getUserById(UserId)
+    if( track !== undefined){
+      
+    }
+  }
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
   //   trackData.duration (number)
