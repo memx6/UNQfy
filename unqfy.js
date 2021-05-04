@@ -37,6 +37,16 @@ class UNQfy {
     return artist
     }
   }
+
+  addUser(userData){
+    let user = this.user.some(userData.id)
+    if(!user){
+      let newUser = new User(this.currentId,userData.name,userData.email,userData.password,[])
+      this.user.push(newUser)
+      this.currentId = this.currentId + 1
+      return newUser
+    }
+  }
   hasArtistNamed(name){
     let artist = this.getArtistByName(name)
     return artist !== undefined
@@ -67,6 +77,9 @@ class UNQfy {
     }
   }
 
+  addUser(userData){
+    let user = this.user.find(userData.id)
+  }
 
   hasAlbumNamed(name){
     let album = this.getAlbumByName(name);
@@ -300,13 +313,6 @@ class UNQfy {
    
    }
   
-   
-
-   
-
-
-
-  }
 
   findAllArtistByName(name) {
     return this.allArtists().filter(artist => artist.name.toLowerCase().includes(name.toLowerCase()));
