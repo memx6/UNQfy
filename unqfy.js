@@ -185,30 +185,57 @@ class UNQfy {
     playListsWithName.map(playList => playList.printPlayList())
   }
   
-
-
-
-
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genress) {
-    return this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
+    let tracks = this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
+    if (tracks !== undefined ){
+      tracks.map(track=> track.printTrack())
+      return tracks;
+    }else {
+      console.log(`Command was not successful: The genres ${genress} does not belong to an track`)
+    }
+
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-    return this.getArtistByName(artistName).allTracks();
+    let tracks = this.getArtistByName(artistName).allTracks();
+    if (tracks !== undefined ){
+      tracks.map(track=> track.printTrack())
+      return tracks;
+    }else {
+      console.log(`Command was not successful: The artist ${artistName} does not belong to an track`)
+    }
   }
 
   getTracksMatchingParcialName(parcialName) {
-    return this.allTracks().filter(track => track.name.toLowerCase().includes(parcialName.toLowerCase()));
+    let tracks = this.allTracks().filter(track => track.name.toLowerCase().includes(parcialName.toLowerCase()));
+    if (tracks.length > 0){
+      tracks.map(track => track.printTrack())
+      return tracks;
+    } else {
+      console.log("No Track were found with the requested partial name")
+    }
   }
   getAlbumsMatchingParcialName(parcialName) {
-    return this.allAlbums().filter(album => album.name.toLowerCase().includes(parcialName.toLowerCase()));
+    let albums = this.allAlbums().filter(album => album.name.toLowerCase().includes(parcialName.toLowerCase()));
+    if (albums.length > 0){
+      albums.map(album => album.printAlbum())
+      return albums
+    } else {
+      console.log("No Album were found with the requested partial name")
+    }
   }
   getArtistsMatchingParcialName(parcialName) {
-    return this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
+    let artists = this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
+    if (artists.length > 0){
+      artists.map(artist => artist.printArtist())
+      return artists
+    } else {
+      console.log("No Artist were found with the requested partial name")
+    }
   }
 
   createUser(id,name,email,pass,list){
@@ -220,27 +247,42 @@ class UNQfy {
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
   // retorna: la nueva playlist creada
-  createPlaylist(name, genresToInclude, maxDuration) {
+  createPlaylist(name,maxDuration, genresToInclude) {
   /*** Crea una playlist y la agrega a unqfy. ***
     El objeto playlist creado debe soportar (al menos):
       * una propiedad name (string)
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-    if ( this.playLists.map(p => p.name).includes(name)){
-      console.log("the name already exists")
-    }
-    else{
-      playlist = new PlayList(this.currentId,name,maxDuration,genresToInclude)
-      this.playList.set(this.currentId,playList)
-      this.loadPlayList(this.currentId,genresToInclude[0])
+
+ 
+
+      let tracks = this.getTracksMatchingGenres(genresToInclude).sort();
+      const listOfTracksAndDuration = this.cutPlaylistByDuration(tracks, maxDuration);
+      let newPlayList = new PlayList(this.currentId,name,genresToInclude, listOfTracksAndDuration.duration);
+      newPlayList.addTracks(listOfTracksAndDuration.tracks);
+      this.playLists[this.currentId] = newPlayList;
       this.currentId = this.currentId + 1;
-    }
+      newPlayList.printPlaylist();
+      return newPlayList;
   }
-  loadPlayList(idPlayList , genres){
-    var tracks = this.allTracks.filter(t => t._genres === genres)
-    this.getPlaylistById(idPlayList).tracks(tracks)
+
+  cutPlaylistByDuration(tracks, maxDuration){
+
+    let accumulatedDuration = 0;
+    let newtracks = [];
+    tracks.forEach(track => {
+      if(track.duration + accumulatedDuration <= maxDuration){
+        newtracks.push(track);
+        accumulatedDuration = accumulatedDuration + track.duration;
+      }
+      else{
+        return {tracks: newtracks, duration: accumulatedDuration};
+      }
+    });
+    return {tracks: newtracks, duration: accumulatedDuration};
   }
+
 
   thisIs(artistaID){
     
@@ -265,6 +307,34 @@ class UNQfy {
 
 
   }
+
+  findAllArtistByName(name) {
+    return this.allArtists().filter(artist => artist.name.toLowerCase().includes(name.toLowerCase()));
+  }  
+
+  findAllAlbumsByName(name) {
+    return this.allAlbums().filter(album => album.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  findAllTracksByName(name) {
+    return this.allTracks().filter(track => track.name.toLowerCase().includes(name.toLowerCase()))
+  }
+
+  findAllPlaylistsByName(name) {
+    return this.allPlaylists().filter(playlist => playlist.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  searchByName(name) {
+    return {
+        artists: this.findAllArtistByName(name),
+        albums: this.findAllAlbumsByName(name),
+        tracks: this.findAllTracksByName(name),
+        playlists: this.findAllPlaylistsByName(name)
+    }
+  }
+
+
+
   //Delete methods
   deleteArtist(artistId){
     let artist = this.getArtistById(artistId)
@@ -293,7 +363,7 @@ class UNQfy {
     if (track !== undefined) {
       let album = this.albumOf(trackId)
       album.deleteTrack(trackId)
-      this.allPlaylists().filter(playlist => playlist.hasTrack(trackId))
+      this.allPlaylists().filter(playlist => playlist.hasTrackWithId(trackId))
                          .map(playlist => playlist.deleteTrack(trackId))
     } else {
       console.log(`Command was not successful: The id ${trackId} does not belong to a track`)
@@ -321,7 +391,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artist,Album,Track];
+    const classes = [UNQfy,Artist,Album,Track, PlayList];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
