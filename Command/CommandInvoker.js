@@ -2,6 +2,9 @@ const AddArtistCommand = require('./AddArtistCommand')
 const AddUserCommand  = require('./AddUserCommand')
 const AddAlbumCommand = require('./AddAlbumCommand')
 const AddTrackCommand = require('./AddTrackCommand')
+const GetMatchingPartial = require('./GetMatchingPartial')
+const GetTracksMatchingGenres = require('./GetTracksMatchingGenres')
+const GetTracksMatchingArtist = require('./GetTracksMatchingArtist')
 
 class CommandInvoker {
 
@@ -10,7 +13,10 @@ class CommandInvoker {
             AddArtist: new AddArtistCommand(),
             AddAlbum:  new AddAlbumCommand(),
             AddTrack:  new AddTrackCommand(),
-            AddUser:   new AddUserCommand()
+            AddUser:   new AddUserCommand(),
+            GetMatchingPartial: new GetMatchingPartial(),
+            GetTracksMatchingGenres: new GetTracksMatchingGenres(),
+            GetTracksMatchingArtist: new GetTracksMatchingArtist()
         }
     }
     getCommand(commandName){
