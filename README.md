@@ -81,11 +81,13 @@ GetTracksMatchingGenres:
 node main.js GetTrackMatchingGenres pop
 
 ThisIs:
+
 node main.js ThisIs 0
 *donde el número pasado es el ID de artista
 
 ListenMusic:
 node main.js 0 1
+
 *donde el primer parámetro es el id de usuario y el segundo el id de track
 
 
