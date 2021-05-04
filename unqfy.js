@@ -88,6 +88,18 @@ class UNQfy {
   getAlbumByName(name){
     return this.allAlbums().find(album => album.name === name);
   }
+  
+  getAlbumByNameAndArtist(artistName, albumName){
+    let artist = this.getArtistByName(artistName)
+    if (artist === undefined){
+      throw new Error (`Command was not succesful: artist ${artistName} is not in the system`)
+    }
+    let album = artist.allAlbums().find(album => album.name === albumName)
+    if (album === undefined){
+      throw new Error (`Command was not succesful: the album ${albumName} does not belong to the artist ${artistName}`)
+    }
+    return album;
+  }
 
   hasTrackNamed(name){
     let track = this.getTrackByName(name);
