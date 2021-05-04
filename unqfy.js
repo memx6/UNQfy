@@ -4,12 +4,14 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./Model/artist');
 const Album = require('./Model/album');
 const Track = require('./Model/track');
+const PlayList = require('./Model/playList')
 
 class UNQfy {
   
   constructor (){
     this.currentId = 0
     this.artists   = {}
+    this.playLists = {}
   }
   
 
@@ -64,15 +66,31 @@ class UNQfy {
 
 
   hasAlbumNamed(name){
-    let album = this.getAlbumByName(name)
-    return album !== undefined
+    let album = this.getAlbumByName(name);
+    return album !== undefined;
   }
 
   getAlbumByName(name){
-    return this.allAlbums().find(album => album.name === name)
+    return this.allAlbums().find(album => album.name === name);
   }
 
+  hasTrackNamed(name){
+    let track = this.getTrackByName(name);
+    return track !== undefined;
+  }
 
+  getTrackByName(name){
+    return this.allTracks().find(track => track.name === name);
+  }
+
+  hasPlayListNamed(name){
+    let playList = this.getPlayListByName(name);
+    return playList !== undefined;
+  }
+
+  getPlayListByName(name){
+    return this.allPlaylists().find(playlist => playlist.name === name);
+  }
 
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
@@ -109,6 +127,9 @@ class UNQfy {
   allTracks(){
     return flatten(this.allArtists().map(artist => artist.allTracks()))
   }
+  allPlaylists(){
+    return Object.values(this.playLists).filter(playlist => playlist !== undefined)
+  }
 
 
   getArtistById(id) {
@@ -124,8 +145,36 @@ class UNQfy {
   }
 
   getPlaylistById(id) {
-
+    return this.allPlaylists().find(playlist => playlist.id === id)
   }
+
+  //Prints all the tracks with the name "name"
+  printTrack(name){
+    let tracksWithName = this.allTracks().filter(track => track.name === name)
+    tracksWithName.map(track => track.printTrack())
+  }
+
+  //Prints all the albums with the name "name"
+  printAlbum(name){
+    let albumsWithName = this.allAlbums().filter(album => album.name === name)
+    albumsWithName.map(album => album.printAlbum())
+  }
+
+  //Prints the artist with the name "name"
+  printArtist(name){
+    let artistWithName = this.getArtistByName(name)
+    artistWithName.printArtist()
+  }
+
+  //Prints all the playLists with the name "name"
+  printPlayList(name){
+    let playListsWithName = this.allPlaylists().filter(playList => playList.name === name)
+    playListsWithName.map(playList => playList.printPlayList())
+  }
+  
+
+
+
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
@@ -186,6 +235,66 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+    if ( this.playLists.map(p => p.name).includes(name)){
+      console.log("the name already exists")
+    }
+    else{
+      playlist = new PlayList(this.currentId,name,genresToInclude,maxDuration,genresToInclude)
+      this.playList.set(this.currentId,playList)
+      this.loadPlayList(this.currentId,genresToInclude[0])
+      this.currentId = this.currentId + 1;
+    }
+  }
+  loadPlayList(idPlayList , genres){
+    var tracks = this.allTracks.filter(t => t._genres === genres)
+    this.getPlaylistById(idPlayList).tracks(tracks)
+  }
+
+  //Delete methods
+  deleteArtist(artistId){
+    let artist = this.getArtistById(artistId)
+    if (artist !== undefined){
+      artist.allAlbums().map(album => this.deleteAlbum(album.id))
+      this.artists[artistId] = undefined
+    } else {
+      console.log(`Command was not successful: The id ${artistId} does not belong to an artist`)
+    }
+    
+  }
+  
+  deleteAlbum(albumId){
+    let album = this.getAlbumById(albumId)
+    if (album !== undefined){
+      let artist = this.authorOf(albumId)
+      album.allTracks().map(track => this.deleteTrack(track.id))
+      artist.deleteAlbum(albumId)
+    } else {
+      console.log(`Command was not successful: The id ${albumId} does not belong to an album`)
+    }
+  }
+
+  deleteTrack(trackId){
+    let track = this.getTrackById(trackId)
+    if (track !== undefined) {
+      let album = this.albumOf(trackId)
+      album.deleteTrack(trackId)
+      this.allPlaylists().filter(playlist => playlist.hasTrack(trackId))
+                         .map(playlist => playlist.deleteTrack(trackId))
+    } else {
+      console.log(`Command was not successful: The id ${trackId} does not belong to a track`)
+    }
+  }
+
+  deletePlayList(playListId){
+    this.playLists[playListId] = undefined
+  }
+
+  authorOf(albumId){
+    return this.allArtists().find(artist => artist.isAuthorOf(albumId))
+  }
+
+  albumOf(trackId){
+    return this.allAlbums().find(album => album.hasTrack(trackId))
   }
 
 
