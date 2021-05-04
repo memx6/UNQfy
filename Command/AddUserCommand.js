@@ -1,25 +1,15 @@
 class AddUserCommand {
-    constructor(){
-      this.command = "AddUser";
-    }
-    
-  
-    isCommand(commandName){
-        return commandName === this.command
-    }
-  
+    /* argumentos[0] = user name
+       argumentos[1] = email
+       argumentos[2] = password
+    */
     executeCommand(argumentos,unqfy){
-      this.validateInput(argumentos,unqfy)
       userData = {
-          id : argumentos[0],
-           name : argumentos[1],
-          email : argumentos[2],
-          password : argumentos[3],
+          name : argumentos[0],
+          email : argumentos[1],
+          password : argumentos[2]
         }
         unqfy.addUser(userData)
-
-       
     }
-  
   }
 module.exports = AddUserCommand;
