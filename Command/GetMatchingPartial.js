@@ -1,5 +1,5 @@
 class GetMatchingPartial {
-    /*argumentos[0] =  */
+    /*argumentos[0] = Partial name */
     executeCommand(argumentos,unqfy){
         unqfy.getTracksMatchingParcialName(argumentos[0])
         unqfy.getAlbumsMatchingParcialName(argumentos[0])
