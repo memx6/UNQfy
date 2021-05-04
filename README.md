@@ -32,7 +32,7 @@ node main.js PrintAlbum Bad25
 
 AddTrack:
 
-node main.js AddTrack Bad25 SmoothCriminal 550 pop
+node main.js AddTrack MichaelJackson Bad25 SmoothCriminal 550 pop
 
 PrintTrack:
 
