@@ -34,13 +34,16 @@ class CommandInvoker {
             PrintAlbum: new PrintAlbumCommand(),
             PrintTrack: new PrintTrackCommand(),
             PrintPlayList: new PrintPlayListCommand(),
-            CreatePlayList: new CreatePlaylistCommand()
+            CreatePlayList: new CreatePlaylistCommand(),
         }
     }
     getCommand(commandName){
+        if (!commandName){
+            throw new Error("You must provide a command name")
+        }
         let result = this.commands[commandName]
         if (result === undefined){
-            let error = new Error('Invalid Command')
+            let error = new Error(`Command ${commandName} does not exist`)
             throw error 
         } else {
             return result

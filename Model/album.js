@@ -30,6 +30,9 @@ class Album{
     }
 
     addTrack(trackId,track){
+        if(this.hasATrackNamed(track.name)){
+            throw new Error (`Command was not successful: A track named ${track.name} already exists in this album`)
+        }
         this.tracks[trackId] = track;
     }
     deleteTrack(trackId){
@@ -37,6 +40,9 @@ class Album{
     }
     hasTrack(trackId){
         return this.allTracks().some(track => track.id === trackId)
+    }
+    hasATrackNamed(trackName){
+        return this.allTracks().some(track => track.name === trackName)
     }
 }
 

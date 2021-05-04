@@ -177,6 +177,7 @@ class UNQfy {
   getTracksMatchingGenres(genress) {
     let tracks = this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
     if (tracks !== undefined ){
+      tracks.map(track=> track.printTrack())
       return tracks;
     }else {
       console.log(`Command was not successful: The genres ${genress} does not belong to an track`)
@@ -189,6 +190,7 @@ class UNQfy {
   getTracksMatchingArtist(artistName) {
     let tracks = this.getArtistByName(artistName).allTracks();
     if (tracks !== undefined ){
+      tracks.map(track=> track.printTrack())
       return tracks;
     }else {
       console.log(`Command was not successful: The artist ${artistName} does not belong to an track`)
@@ -314,7 +316,7 @@ class UNQfy {
     if (track !== undefined) {
       let album = this.albumOf(trackId)
       album.deleteTrack(trackId)
-      this.allPlaylists().filter(playlist => playlist.hasTrack(trackId))
+      this.allPlaylists().filter(playlist => playlist.hasTrackWithId(trackId))
                          .map(playlist => playlist.deleteTrack(trackId))
     } else {
       console.log(`Command was not successful: The id ${trackId} does not belong to a track`)
