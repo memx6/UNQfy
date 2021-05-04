@@ -68,13 +68,20 @@ main(filteredArgs);
 /*
 main(['AddArtist','Michael Jackson','United States']);
 main(['AddArtist','Undertale','United States']);
+main(['AddArtist','Death Stranding','United States']);
 main(['AddAlbum','Michael Jackson','Bad 25','2012']);
+main(['AddAlbum','Michael Jackson','Thriller','1982']);
 main(['AddAlbum','Undertale','Game Theme','2015']);
 main(['AddTrack','Game Theme','Death by Glamour',500,'Pop','Games']);
 main(['AddTrack','Bad 25','Smooth Criminal',500,'Pop']);
+main(['AddTrack','Bad 25','Thriller',500,'Pop','Rock']);
 main(['PrintArtist','Michael Jackson']);
+main(['PrintAlbum','Bad 25']);
 main(['PrintAlbum','Game Theme']);
 main(['PrintTrack','Death by Glamour'])
+*/
+
+/*
 main(['GetMatchingPartial','Death'])
 main(['GetTracksMatchingGenres','Pop'])
 main(['GetTracksMatchingArtist','Undertale'])
