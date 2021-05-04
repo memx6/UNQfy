@@ -1,8 +1,8 @@
 class PlayList {
-    constructor(id,name,maxDuration,gen){
+    constructor(id,name,gen,maxDuration, tracks = {}){
         this._id = id;
         this._name = name;
-        this._tracks = {};
+        this._tracks = tracks;
         this._maxDuration = maxDuration; 
         this._gen = gen 
     }
@@ -18,11 +18,14 @@ class PlayList {
     get gen(){return this._gen}
     set gen(newGen){this._gen._gen = newGen}
 
+    name(){
+        return this._name;
+    }
     hasTrack(nameTrack){
-        return this.tracks.find(track => track.name === nameTrack)
+        return this.allTracks().find(track => track.name === nameTrack) !== undefined
     }
     duration(){
-        return this.tracks.map(track => track.duration).reduce((a, b) => a + b, 0)
+        return this.allTracks().map(track => track.duration).reduce((a, b) => a + b, 0)
     }
 
     allTracks(){
@@ -31,12 +34,16 @@ class PlayList {
  
     printPlaylist(){
         let print = 
-        `PlayList: ${this.name}\nID: ${this.id}\nTracks: ${this.allTracks().map(track => track.name)}\nDuration: ${this.maxDuration}`
+        `PlayList: ${this._name}\nID: ${this.id}\nTracks: ${this.allTracks().map(track => track._name)}\nGenres: ${this._gen}\nDuration: ${this._maxDuration}`
         console.log(print)
     }
 
     deleteTrack(trackId){
         this.tracks[trackId] = undefined
+    }
+
+    addTracks(tracks){
+        tracks.forEach(track => { this._tracks[track.id] = track});
     }
 
 }

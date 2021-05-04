@@ -172,10 +172,6 @@ class UNQfy {
     playListsWithName.map(playList => playList.printPlayList())
   }
   
-
-
-
-
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genress) {
@@ -201,7 +197,8 @@ class UNQfy {
 
   getTracksMatchingParcialName(parcialName) {
     let tracks = this.allTracks().filter(track => track.name.toLowerCase().includes(parcialName.toLowerCase()));
-    if (tracks.length){
+    if (tracks.length > 0){
+      tracks.map(track => track.printTrack())
       return tracks;
     } else {
       console.log("No Track were found with the requested partial name")
@@ -209,16 +206,18 @@ class UNQfy {
   }
   getAlbumsMatchingParcialName(parcialName) {
     let albums = this.allAlbums().filter(album => album.name.toLowerCase().includes(parcialName.toLowerCase()));
-    if (albums.length){
-      return albums;
+    if (albums.length > 0){
+      albums.map(album => album.printAlbum())
+      return albums
     } else {
       console.log("No Album were found with the requested partial name")
     }
   }
   getArtistsMatchingParcialName(parcialName) {
     let artists = this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
-    if (artists.length){
-      return artists;
+    if (artists.length > 0){
+      artists.map(artist => artist.printArtist())
+      return artists
     } else {
       console.log("No Artist were found with the requested partial name")
     }
@@ -228,27 +227,64 @@ class UNQfy {
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
   // retorna: la nueva playlist creada
-  createPlaylist(name, genresToInclude, maxDuration) {
+  createPlaylist(name,maxDuration, genresToInclude) {
   /*** Crea una playlist y la agrega a unqfy. ***
     El objeto playlist creado debe soportar (al menos):
       * una propiedad name (string)
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-    if ( this.playLists.map(p => p.name).includes(name)){
-      console.log("the name already exists")
-    }
-    else{
-      playlist = new PlayList(this.currentId,name,genresToInclude,maxDuration,genresToInclude)
-      this.playList.set(this.currentId,playList)
-      this.loadPlayList(this.currentId,genresToInclude[0])
+      let tracks = this.getTracksMatchingGenres(genresToInclude).sort();
+      const listOfTracksAndDuration = this.cutPlaylistByDuration(tracks, maxDuration);
+      let newPlayList = new PlayList(this.currentId,name,genresToInclude, listOfTracksAndDuration.duration);
+      newPlayList.addTracks(listOfTracksAndDuration.tracks);
+      this.playLists[this.currentId] = newPlayList;
       this.currentId = this.currentId + 1;
+      newPlayList.printPlaylist();
+      return newPlayList;
+  }
+
+  cutPlaylistByDuration(tracks, maxDuration){
+
+    let accumulatedDuration = 0;
+    let newtracks = [];
+    tracks.forEach(track => {
+      if(track.duration + accumulatedDuration <= maxDuration){
+        newtracks.push(track);
+        accumulatedDuration = accumulatedDuration + track.duration;
+      }
+      else{
+        return {tracks: newtracks, duration: accumulatedDuration};
+      }
+    });
+    return {tracks: newtracks, duration: accumulatedDuration};
+  }
+
+  findAllArtistByName(name) {
+    return this.allArtists().filter(artist => artist.name.toLowerCase().includes(name.toLowerCase()));
+  }  
+
+  findAllAlbumsByName(name) {
+    return this.allAlbums().filter(album => album.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  findAllTracksByName(name) {
+    return this.allTracks().filter(track => track.name.toLowerCase().includes(name.toLowerCase()))
+  }
+
+  findAllPlaylistsByName(name) {
+    return this.allPlaylists().filter(playlist => playlist.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  searchByName(name) {
+    return {
+        artists: this.findAllArtistByName(name),
+        albums: this.findAllAlbumsByName(name),
+        tracks: this.findAllTracksByName(name),
+        playlists: this.findAllPlaylistsByName(name)
     }
   }
-  loadPlayList(idPlayList , genres){
-    var tracks = this.allTracks.filter(t => t._genres === genres)
-    this.getPlaylistById(idPlayList).tracks(tracks)
-  }
+
 
   //Delete methods
   deleteArtist(artistId){
@@ -306,7 +342,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artist,Album,Track];
+    const classes = [UNQfy,Artist,Album,Track, PlayList];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
