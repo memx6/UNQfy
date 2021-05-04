@@ -53,6 +53,10 @@ class UNQfy {
     let artist = this.getArtistByName(name)
     return artist !== undefined
   }
+  hasArtistId(id){
+    let artist = this.getArtistById(id)
+    return artist !== undefined
+  }
 
   getArtistByName(name){
     return this.allArtists().find(artist => artist.name === name)
@@ -298,11 +302,13 @@ class UNQfy {
 
   thisIs(artistaID){
     
-   var tranksL =  new ArrayList(new Set(this.user.map( u => u.listenedTracks()).flat()))
-   var alltrackArtist= this.getTracksMatchingArtist(this.getArtistById(artistaID).name)
+   var tranksL =  [(new Set(this.user.map( u => u.listenedTracks()).flat()))]
+   var a  =  this.getArtistById(artistaID)
+   var name = a.name
+   var alltrackArtist= this.getTracksMatchingArtist(name)
    var listenArtistt= []
-   for ( i = 0 ; i < alltrackArtist.length ; i++){
-    listenArtistt.concat(this.tranksL.filter( t => t.name === alltrackArtist[i].name))
+   for (var  i = 0 ; i < alltrackArtist.length ; i++){
+    listenArtistt.concat(tranksL.filter( t => t.name === alltrackArtist[i].name))
    }
    listenArtistt.flat()
    console.log("This is " + this.getArtistById(artistaID).name )
