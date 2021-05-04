@@ -310,3 +310,41 @@ describe('Playlist Creation and properties', () => {
     assert.lengthOf(playlist.allTracks(), 3);
   });
 });
+
+
+describe('User Creation and properties', () => {
+  let unqfy = null;
+
+  beforeEach(() => {
+    unqfy = new libunqfy.UNQfy();
+  });
+
+  it('should create a user as requested', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+    const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+
+    //const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
+
+    //var list = playlist.tracks()
+      unqfy.createUser(1,'Fede','ff@gmail.com','+++',[])
+      unqfy.createUser(2,'Pepe','ff@gmail.com','+++',[])
+      
+      var user = unqfy.user[0];
+      user.listen(t3)
+   
+      
+
+    assert.equal(unqfy.user.length, 2);
+    assert.equal(user.name, 'Fede');
+    assert.equal(user.listenCount(t3), 1);
+    assert.equal(user.timesListenTrack(t3), 500);
+  });
+});

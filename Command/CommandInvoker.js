@@ -13,7 +13,9 @@ const PrintArtistCommand = require('./PrintArtistCommand')
 const PrintAlbumCommand = require('./PrintAlbumCommand')
 const PrintTrackCommand = require('./PrintTrackCommand')
 const PrintPlayListCommand = require('./PrintPlayListCommand')
+const ListenMusicCommand = require('./ListenMusicCommand')
 const CreatePlaylistCommand = require('./CreatePlayListCommand')
+
 
 class CommandInvoker {
 
@@ -34,7 +36,9 @@ class CommandInvoker {
             PrintAlbum: new PrintAlbumCommand(),
             PrintTrack: new PrintTrackCommand(),
             PrintPlayList: new PrintPlayListCommand(),
+            ListenMusic : new ListenMusicCommand(),
             CreatePlayList: new CreatePlaylistCommand(),
+
         }
     }
     getCommand(commandName){

@@ -4,7 +4,9 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./Model/artist');
 const Album = require('./Model/album');
 const Track = require('./Model/track');
-const PlayList = require('./Model/playList')
+const PlayList = require('./Model/playList');
+const User = require('./Model/user')
+
 
 class UNQfy {
   
@@ -12,6 +14,7 @@ class UNQfy {
     this.currentId = 0
     this.artists   = {}
     this.playLists = {}
+    this.user = []
   }
   
 
@@ -92,6 +95,16 @@ class UNQfy {
     return this.allPlaylists().find(playlist => playlist.name === name);
   }
 
+  listenMusic(trackId,userId){
+    let track = this.getTrackById(trackId)
+    let user = this.getUserById(userId)
+    if( track !== undefined){
+      user.listen(track)
+    }
+    else{
+      console.log(`Command was not successful: The id ${userId} does not belong to an album`)
+    }
+  }
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
   //   trackData.duration (number)
@@ -225,6 +238,11 @@ class UNQfy {
     }
   }
 
+  createUser(id,name,email,pass,list){
+  var u =  new User(id,name,email,pass,list)
+  this.user.push(u)
+  
+  }
   // name: nombre de la playlist
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
@@ -236,6 +254,9 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+
+ 
+
       let tracks = this.getTracksMatchingGenres(genresToInclude).sort();
       const listOfTracksAndDuration = this.cutPlaylistByDuration(tracks, maxDuration);
       let newPlayList = new PlayList(this.currentId,name,genresToInclude, listOfTracksAndDuration.duration);
@@ -262,6 +283,31 @@ class UNQfy {
     return {tracks: newtracks, duration: accumulatedDuration};
   }
 
+
+  thisIs(artistaID){
+    
+   var tranksL =  new ArrayList(new Set(this.user.map( u => u.listenedTracks()).flat()))
+   var alltrackArtist= this.getTracksMatchingArtist(this.getArtistById(artistaID).name)
+   var listenArtistt= []
+   for ( i = 0 ; i < alltrackArtist.length ; i++){
+    listenArtistt.concat(this.tranksL.filter( t => t.name === alltrackArtist[i].name))
+   }
+   listenArtistt.flat()
+   console.log("This is " + this.getArtistById(artistaID).name )
+   console.log(listenArtistt[0])
+   console.log(listenArtistt[1])
+   console.log(listenArtistt[2])
+   
+   }
+  
+   
+
+   
+
+
+
+  }
+
   findAllArtistByName(name) {
     return this.allArtists().filter(artist => artist.name.toLowerCase().includes(name.toLowerCase()));
   }  
@@ -286,6 +332,7 @@ class UNQfy {
         playlists: this.findAllPlaylistsByName(name)
     }
   }
+
 
 
   //Delete methods
