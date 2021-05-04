@@ -4,7 +4,9 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./Model/artist');
 const Album = require('./Model/album');
 const Track = require('./Model/track');
-const PlayList = require('./Model/playList')
+const PlayList = require('./Model/playList');
+const User = require('./Model/user')
+
 
 class UNQfy {
   
@@ -12,6 +14,7 @@ class UNQfy {
     this.currentId = 0
     this.artists   = {}
     this.playLists = {}
+    this.user = []
   }
   
 
@@ -92,11 +95,14 @@ class UNQfy {
     return this.allPlaylists().find(playlist => playlist.name === name);
   }
 
-  listenMusic(trackId,UserId){
+  listenMusic(trackId,userId){
     let track = this.getTrackById(trackId)
-    let user = this.getUserById(UserId)
+    let user = this.getUserById(userId)
     if( track !== undefined){
-      
+      user.listen(track)
+    }
+    else{
+      console.log(`Command was not successful: The id ${userId} does not belong to an album`)
     }
   }
   // trackData: objeto JS con los datos necesarios para crear un track
@@ -205,6 +211,11 @@ class UNQfy {
     return this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
   }
 
+  createUser(id,name,email,pass,list){
+  var u =  new User(id,name,email,pass,list)
+  this.user.push(u)
+  
+  }
   // name: nombre de la playlist
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
@@ -220,7 +231,7 @@ class UNQfy {
       console.log("the name already exists")
     }
     else{
-      playlist = new PlayList(this.currentId,name,genresToInclude,maxDuration,genresToInclude)
+      playlist = new PlayList(this.currentId,name,maxDuration,genresToInclude)
       this.playList.set(this.currentId,playList)
       this.loadPlayList(this.currentId,genresToInclude[0])
       this.currentId = this.currentId + 1;

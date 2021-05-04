@@ -3,10 +3,10 @@ class User {
     constructor(id,name,email,password,listenedTracks){
         this._id = id;
         this._name = name;
-        this._email = email
-        this._password = password
-        this._listenedTracks = listenedTracks
-        this._listen = ''
+        this._email = email;
+        this._password = password;
+        this._listenedTracks = listenedTracks;
+        this._listen = '';
     }
 
     get id(){return this._id}
@@ -24,7 +24,7 @@ class User {
 
     listen(track){
         this.listenedTracks.push(track)
-        this.listen = this.name + ' listen : ' + track.name 
+        this.listen = this.name + ' listen : ' + track.name ;
     }
     timesListenTrack(track){
         return this.listenedTracks.filter( t => t.name == track.name).map(t => t.duration).reduce((a, b) => a + b, 0)
@@ -42,4 +42,4 @@ class User {
     }
 }
 
-module.export = User;
+module.exports =User;
