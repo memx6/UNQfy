@@ -39,12 +39,14 @@ class UNQfy {
   }
 
   addUser(userData){
-    let user = this.user.some(userData.id)
-    if(!user){
+    let emailExists = this.user.some(user => user.email === userData.email)
+    if(!emailExists){
       let newUser = new User(this.currentId,userData.name,userData.email,userData.password,[])
       this.user.push(newUser)
       this.currentId = this.currentId + 1
       return newUser
+    } else {
+      console.log('Command was not successful: Email is already in use')
     }
   }
   hasArtistNamed(name){
@@ -77,9 +79,6 @@ class UNQfy {
     }
   }
 
-  addUser(userData){
-    let user = this.user.find(userData.id)
-  }
 
   hasAlbumNamed(name){
     let album = this.getAlbumByName(name);
@@ -307,10 +306,11 @@ class UNQfy {
    }
    listenArtistt.flat()
    console.log("This is " + this.getArtistById(artistaID).name )
-   console.log(listenArtistt[0])
-   console.log(listenArtistt[1])
-   console.log(listenArtistt[2])
-   
+   let topThree = listenArtistt.slice(0,3).filter(track => track !== undefined)
+   topThree.map(track => track.printTrack())
+   //console.log(listenArtistt[0])
+   //console.log(listenArtistt[1])
+   //console.log(listenArtistt[2])
    }
   
 
