@@ -61,7 +61,7 @@ node main.js DeleteArtist 0
 
 CreatePlaylist:
 
-node main.js CreatePlayList 'my playlist' 1400 'pop' 'rock'
+node main.js CreatePlayList 'my playlist' 1400 Pop Rock
 
 
 PrintPlayList:
