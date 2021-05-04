@@ -1,27 +1,30 @@
 class AddTrackCommand {
 
   validateInput(argumentos,unqfy){
-    if (!unqfy.hasAlbumNamed(argumentos[0])){
-      throw new Error (`Command was not successful: ${argumentos[0]} is not in the system`)
-    }
-    if (isNaN(parseInt(argumentos[2]))){
+    if (isNaN(parseInt(argumentos[3]))){
       throw new Error ("Command was not successful: Duration is expected to be a number")
     }
   }
-    /*argumentos[0] = AlbumName,
-      argumentos[1] = name of the track,
-      argumentos[2] = duration of the track,
+    /*argumentos[0] = ArtistName,
+      argumentos[1] = AlbumName,
+      argumentos[2] = name of the track,
+      argumentos[3] = duration of the track,
       the rest are genres.
+      the artist name must correspond to one album from unqfy
       the album name must correspond to one album from unqfy
-      Example input: BestHits SmoothCriminal pop.*/
+      Example input: BestHits SmoothCriminal pop.
+      Anotacion: Opte por pedirle el nombre del artista porque
+      como el nombre de los albumes se puede repetir entre los 
+      artistas, de esta forma me aseguro que se lo agrego al 
+      artista correcto.*/
     executeCommand(argumentos,unqfy){
       this.validateInput(argumentos,unqfy)
       let trackData = {
-        name: argumentos[1],
-        duration: parseInt(argumentos[2]),
-        genres: argumentos.slice(3)
+        name: argumentos[2],
+        duration: parseInt(argumentos[3]),
+        genres: argumentos.slice(4)
        }
-      let album = unqfy.getAlbumByName(argumentos[0])
+      let album = unqfy.getAlbumByNameAndArtist(argumentos[0],argumentos[1])
       unqfy.addTrack(album.id,trackData)
     }
   }

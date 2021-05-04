@@ -33,8 +33,15 @@ class Artist {
         console.log(print)
     }
 
-    addAlbum(albumId,album){
+    addAlbum(albumId,album) {
+        if(this.hasAlbumNamed(album.name)){
+            throw new Error (`Command was not successful: ${this.name} already has an album named ${album.name}`)
+        }
         this.albums[albumId] = album
+    }
+
+    hasAlbumNamed(albumName){
+        return this.allAlbums().some(album => album.name === albumName)
     }
 
     isAuthorOf(albumId){

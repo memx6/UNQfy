@@ -31,7 +31,7 @@ class Album{
 
     addTrack(trackId,track){
         if(this.hasATrackNamed(track.name)){
-            throw new Error (`Command was not successful: A track named ${track.name} already exists in this album`)
+            throw new Error (`Command was not successful: A track named ${track.name} already exists in ${this.name}`)
         }
         this.tracks[trackId] = track;
     }
