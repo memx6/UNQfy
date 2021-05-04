@@ -4,7 +4,7 @@ class AddUserCommand {
        argumentos[2] = password
     */
     executeCommand(argumentos,unqfy){
-      userData = {
+      let userData = {
           name : argumentos[0],
           email : argumentos[1],
           password : argumentos[2]
