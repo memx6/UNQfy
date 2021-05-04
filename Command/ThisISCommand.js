@@ -1,6 +1,6 @@
 class ThisIsCommand{
     validateInput(argumentos,unqfy){
-        if (!unqfy.hasArtistNamed(argumentos[0])){
+        if (!unqfy.hasArtistId(argumentos[0])){
           throw new Error (`Command was not successful: ${argumentos[0]} is not in the system`)
         }
         if (isNaN(parseInt(argumentos[2]))){
@@ -8,8 +8,8 @@ class ThisIsCommand{
         }
       }
       executeCommand(argumentos,unqfy){
-        this.validateInput(argumentos,unqfy)
-        let artisId = argumentos[0]
+        //this.validateInput(argumentos,unqfy)
+        let artisId = parseInt(argumentos[0])
         
         unqfy.thisIs(artisId)
       }
