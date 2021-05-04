@@ -80,6 +80,15 @@ GetTracksMatchingGenres:
 
 node main.js GetTrackMatchingGenres pop
 
+ThisIs:
+node main.js ThisIs 0
+*donde el número pasado es el ID de artista
+
+ListenMusic:
+node main.js 0 1
+*donde el primer parámetro es el id de usuario y el segundo el id de track
+
+
 Este fue el UML tentativo que presentamos en la reunión que tuvimos la primera semana del visado. A lo largo del trabajo se agregaron otros métodos para utilizar como subtareas y que quede mas prolijo el código, pero en cuanto a funcionalidad, se mantuvo lo presentado en el UML.
 
 
