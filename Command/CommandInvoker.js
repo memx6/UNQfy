@@ -2,6 +2,9 @@ const AddArtistCommand = require('./AddArtistCommand')
 const AddUserCommand  = require('./AddUserCommand')
 const AddAlbumCommand = require('./AddAlbumCommand')
 const AddTrackCommand = require('./AddTrackCommand')
+const GetMatchingPartial = require('./GetMatchingPartial')
+const GetTracksMatchingGenres = require('./GetTracksMatchingGenres')
+const GetTracksMatchingArtist = require('./GetTracksMatchingArtist')
 const DeleteAlbumCommand = require('./DeleteAlbumCommand')
 const DeletePlayListCommand = require('./DeletePlayListCommand')
 const DeleteArtistCommand = require('./DeleteArtistCommand')
@@ -20,6 +23,9 @@ class CommandInvoker {
             AddAlbum:  new AddAlbumCommand(),
             AddTrack:  new AddTrackCommand(),
             AddUser:   new AddUserCommand(),
+            GetMatchingPartial: new GetMatchingPartial(),
+            GetTracksMatchingGenres: new GetTracksMatchingGenres(),
+            GetTracksMatchingArtist: new GetTracksMatchingArtist(),
             DeleteArtist: new DeleteArtistCommand(),
             DeleteAlbum: new DeleteAlbumCommand(),
             DeleteTrack: new DeleteTrackCommand(),

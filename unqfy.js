@@ -179,23 +179,49 @@ class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genress) {
-    return this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
+    let tracks = this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
+    if (tracks !== undefined ){
+      return tracks;
+    }else {
+      console.log(`Command was not successful: The genres ${genress} does not belong to an track`)
+    }
+
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-    return this.getArtistByName(artistName).allTracks();
+    let tracks = this.getArtistByName(artistName).allTracks();
+    if (tracks !== undefined ){
+      return tracks;
+    }else {
+      console.log(`Command was not successful: The artist ${artistName} does not belong to an track`)
+    }
   }
 
   getTracksMatchingParcialName(parcialName) {
-    return this.allTracks().filter(track => track.name.toLowerCase().includes(parcialName.toLowerCase()));
+    let tracks = this.allTracks().filter(track => track.name.toLowerCase().includes(parcialName.toLowerCase()));
+    if (tracks.length){
+      return tracks;
+    } else {
+      console.log("No Track were found with the requested partial name")
+    }
   }
   getAlbumsMatchingParcialName(parcialName) {
-    return this.allAlbums().filter(album => album.name.toLowerCase().includes(parcialName.toLowerCase()));
+    let albums = this.allAlbums().filter(album => album.name.toLowerCase().includes(parcialName.toLowerCase()));
+    if (albums.length){
+      return albums;
+    } else {
+      console.log("No Album were found with the requested partial name")
+    }
   }
   getArtistsMatchingParcialName(parcialName) {
-    return this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
+    let artists = this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
+    if (artists.length){
+      return artists;
+    } else {
+      console.log("No Artist were found with the requested partial name")
+    }
   }
 
   // name: nombre de la playlist
