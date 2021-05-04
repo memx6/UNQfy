@@ -53,21 +53,6 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
 
-  it('should find different things by name', () => {
-    const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
-    const track = createAndAddTrack(unqfy, album1.id, 'Roses track', 200, ['pop', 'movie']);
-    const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
-
-    const results = unqfy.searchByName('Roses');
-    assert.deepEqual(results, {
-      artists: [artist1],
-      albums: [album1],
-      tracks: [track],
-      playlists: [playlist],
-    });
-  });
-
   it('should get all tracks matching genres', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist1.id, 'Appetite for Destruction', 1987);
@@ -233,11 +218,6 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(unqfy.allTracks(),0);
     assert.isFalse(unqfy.hasTrackNamed(t1.name))
   });
-
-
-
-
-
 });
 
 describe('Playlist Creation and properties', () => {
@@ -259,14 +239,14 @@ describe('Playlist Creation and properties', () => {
     const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
     const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
 
-    const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
+    const playlist = unqfy.createPlaylist('my playlist', 1400, ['pop', 'rock']);
 
-    assert.equal(playlist.name, 'my playlist');
+    assert.equal(playlist.name(), 'my playlist');
     assert.isAtMost(playlist.duration(), 1400);
-    assert.isTrue(playlist.hasTrack(t1));
-    assert.isTrue(playlist.hasTrack(t2));
-    assert.isTrue(playlist.hasTrack(t3));
-    assert.isTrue(playlist.hasTrack(t4));
-    assert.lengthOf(playlist.tracks, 4);
+    assert.isTrue(playlist.hasTrack(t1.name));
+    assert.isTrue(playlist.hasTrack(t2.name));
+    assert.isTrue(playlist.hasTrack(t3.name));
+    assert.isTrue(playlist.hasTrack(t4.name));
+    assert.lengthOf(playlist.allTracks(), 4);
   });
 });
