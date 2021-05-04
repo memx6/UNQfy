@@ -10,7 +10,8 @@ class ListenMusicCommand {
     executeCommand(argumentos,unqfy){
         this.validateInput(argumentos)
         let trackId = parseInt(argumentos[0])
-        unqfy.deleteTrack(trackId)
+        let userId = parseInt(argumentos[1])
+        unqfy.listenMusic(trackId,userId)
       }
     }
   module.exports = ListenMusicCommand;

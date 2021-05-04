@@ -243,22 +243,24 @@ class UNQfy {
   }
 
   thisIs(artistaID){
-    /*
+    
    var tranksL =  new ArrayList(new Set(this.user.map( u => u.listenedTracks()).flat()))
-   artist = this.getArtistById(artistaID)
-   alltrackArtist= this.getTracksMatchingArtist(artist.name)
+   var alltrackArtist= this.getTracksMatchingArtist(this.getArtistById(artistaID).name)
+   var listenArtistt= []
    for ( i = 0 ; i < alltrackArtist.length ; i++){
-        this.tranksL.filter( t => t.name === alltrackArtist[i].name)
+    listenArtistt.concat(this.tranksL.filter( t => t.name === alltrackArtist[i].name))
    }
-   for  (i = 0 ; i < 3 ; i++){
-      max = Math.max(tranksL.map(t => t.countListen))
-      top1 = tranksL.filter( t => t.countListen === max)[0]
-      
+   listenArtistt.flat()
+   console.log("This is " + this.getArtistById(artistaID).name )
+   console.log(listenArtistt[0])
+   console.log(listenArtistt[1])
+   console.log(listenArtistt[2])
+   
    }
-   */
+  
    
 
-   }
+   
 
 
 

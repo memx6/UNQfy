@@ -29,7 +29,7 @@ class CommandInvoker {
             PrintAlbum: new PrintAlbumCommand(),
             PrintTrack: new PrintTrackCommand(),
             PrintPlayList: new PrintPlayListCommand(),
-            ListenMusicCommand : new ListenMusicCommand()
+            ListenMusic : new ListenMusicCommand()
 
         }
     }
