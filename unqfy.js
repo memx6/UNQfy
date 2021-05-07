@@ -216,14 +216,10 @@ class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genress) {
-    let tracks = this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
-    if (tracks !== undefined ){
-      tracks.map(track=> track.printTrack())
-      return tracks;
-    }else {
-      console.log(`Command was not successful: The genres ${genress} does not belong to an track`)
-    }
-
+      let tracks = this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
+      if (tracks !== undefined ){
+        return tracks;
+      }
   }
 
   // artistName: nombre de artista(string)
@@ -231,39 +227,44 @@ class UNQfy {
   getTracksMatchingArtist(artistName) {
     let tracks = this.getArtistByName(artistName).allTracks();
     if (tracks !== undefined ){
-      tracks.map(track=> track.printTrack())
       return tracks;
-    }else {
-      console.log(`Command was not successful: The artist ${artistName} does not belong to an track`)
     }
   }
 
-  getTracksMatchingParcialName(parcialName) {
-    let tracks = this.allTracks().filter(track => track.name.toLowerCase().includes(parcialName.toLowerCase()));
-    if (tracks.length > 0){
-      tracks.map(track => track.printTrack())
+  getTracksMatchingPartialName(partialName) {
+    let tracks = this.allTracks().filter(track => track.name.toLowerCase().includes(partialName.toLowerCase()));
+    if (tracks.length){
       return tracks;
-    } else {
-      console.log("No Track were found with the requested partial name")
     }
   }
-  getAlbumsMatchingParcialName(parcialName) {
-    let albums = this.allAlbums().filter(album => album.name.toLowerCase().includes(parcialName.toLowerCase()));
-    if (albums.length > 0){
-      albums.map(album => album.printAlbum())
-      return albums
-    } else {
-      console.log("No Album were found with the requested partial name")
+  getAlbumsMatchingPartialName(partialName) {
+    let albums = this.allAlbums().filter(album => album.name.toLowerCase().includes(partialName.toLowerCase()));
+    if (albums.length){
+      return albums;
     }
   }
-  getArtistsMatchingParcialName(parcialName) {
-    let artists = this.allArtists().filter(artist => artist.name.toLowerCase().includes(parcialName.toLowerCase()));
-    if (artists.length > 0){
-      artists.map(artist => artist.printArtist())
-      return artists
-    } else {
-      console.log("No Artist were found with the requested partial name")
+  getArtistsMatchingPartialName(partialName) {
+    let artists = this.allArtists().filter(artist => artist.name.toLowerCase().includes(partialName.toLowerCase()));
+    if (artists.length){
+      return artists;
     }
+  }
+
+  getPlayListMatchingPartialName(partialName) {
+    let playList = this.allPlaylists().filter(playlist => playlist._name.toLowerCase().includes(partialName.toLowerCase()));
+    if (playList.length){
+      return playList;
+    }
+  }
+
+  searchByName(name) {
+    let dicctionary = {
+        artists:   this.getArtistsMatchingPartialName(name),
+        albums:    this.getAlbumsMatchingPartialName(name),
+        tracks:    this.getTracksMatchingPartialName(name),
+        playlists: this.getPlayListMatchingPartialName(name)
+    }
+    return dicctionary;
   }
 
   createUser(id,name,email,pass,list){
@@ -327,32 +328,6 @@ class UNQfy {
    //console.log(listenArtistt[1])
    //console.log(listenArtistt[2])
    }
-  
-
-  findAllArtistByName(name) {
-    return this.allArtists().filter(artist => artist.name.toLowerCase().includes(name.toLowerCase()));
-  }  
-
-  findAllAlbumsByName(name) {
-    return this.allAlbums().filter(album => album.name.toLowerCase().includes(name.toLowerCase()));
-  }
-
-  findAllTracksByName(name) {
-    return this.allTracks().filter(track => track.name.toLowerCase().includes(name.toLowerCase()))
-  }
-
-  findAllPlaylistsByName(name) {
-    return this.allPlaylists().filter(playlist => playlist.name.toLowerCase().includes(name.toLowerCase()));
-  }
-
-  searchByName(name) {
-    return {
-        artists: this.findAllArtistByName(name),
-        albums: this.findAllAlbumsByName(name),
-        tracks: this.findAllTracksByName(name),
-        playlists: this.findAllPlaylistsByName(name)
-    }
-  }
 
 
 
