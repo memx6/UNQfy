@@ -2,9 +2,13 @@ const AddArtistCommand = require('./AddArtistCommand')
 const AddUserCommand  = require('./AddUserCommand')
 const AddAlbumCommand = require('./AddAlbumCommand')
 const AddTrackCommand = require('./AddTrackCommand')
-const GetMatchingPartial = require('./GetMatchingPartial')
-const GetTracksMatchingGenres = require('./GetTracksMatchingGenres')
-const GetTracksMatchingArtist = require('./GetTracksMatchingArtist')
+const GetMatchingPartial = require('./CommandGets/GetMatchingPartialCommand')
+const GetTracksMatchingGenres = require('./CommandGets/GetTracksMatchingGenresCommand')
+const GetTracksMatchingArtist = require('./CommandGets/GetTracksMatchingArtistCommand')
+const GetTracksMatchingPartialNameCommand = require('./CommandGets/GetTracksMatchingPartialNameCommand')
+const GetArtistMatchingPartialNameCommand = require('./CommandGets/GetArtistsMatchingPartialNameCommand')
+const GetAlbumsMatchingPartialNameCommand = require('./CommandGets/GetAlbumsMatchingPartialNameCommand')
+const GetPlayListMatchingPartialNameCommand = require('./CommandGets/GetPlayListsMatchingPartialNameCommand')
 const DeleteAlbumCommand = require('./DeleteAlbumCommand')
 const DeletePlayListCommand = require('./DeletePlayListCommand')
 const DeleteArtistCommand = require('./DeleteArtistCommand')
@@ -29,6 +33,10 @@ class CommandInvoker {
             GetMatchingPartial: new GetMatchingPartial(),
             GetTracksMatchingGenres: new GetTracksMatchingGenres(),
             GetTracksMatchingArtist: new GetTracksMatchingArtist(),
+            GetTracksMatchingPartialName : new GetTracksMatchingPartialNameCommand(),
+            GetArtistsMatchingPartialName : new GetArtistMatchingPartialNameCommand(),
+            GetAlbumsMatchingPartialName : new GetAlbumsMatchingPartialNameCommand(),
+            GetPlayListsMatchingPartialName: new GetPlayListMatchingPartialNameCommand(),
             DeleteArtist: new DeleteArtistCommand(),
             DeleteAlbum: new DeleteAlbumCommand(),
             DeleteTrack: new DeleteTrackCommand(),

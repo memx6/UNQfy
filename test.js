@@ -53,6 +53,21 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
 
+  it('should find different things by name', () => {
+    const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
+    const track = createAndAddTrack(unqfy, album1.id, 'Roses track', 200, ['pop', 'movie']);
+    const playlist = unqfy.createPlaylist('Roses playlist', 1400, ['pop'] );
+
+    const results = unqfy.searchByName('Roses');
+    assert.deepEqual(results, {
+      artists: [artist1],
+      albums: [album1],
+      tracks: [track],
+      playlists: [playlist],
+    });
+  });
+
   it('should get all tracks matching genres', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist1.id, 'Appetite for Destruction', 1987);
@@ -116,7 +131,7 @@ describe('Add, remove and filter data', () => {
     createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
     createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
 
-    const trackRecovered = unqfy.getTracksMatchingParcialName("ry");
+    const trackRecovered = unqfy.getTracksMatchingPartialName("ry");
 
     assert.equal(trackRecovered[0], t3, "Matched Track");
   });
@@ -136,7 +151,7 @@ describe('Add, remove and filter data', () => {
     createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
     createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
 
-    const albumRecovered = unqfy.getAlbumsMatchingParcialName("usi");
+    const albumRecovered = unqfy.getAlbumsMatchingPartialName("usi");
 
     assert.equal(albumRecovered[0], album2, "Matched Album");
   });
@@ -156,7 +171,7 @@ describe('Add, remove and filter data', () => {
     createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
     createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
 
-    const artistRecovered = unqfy.getArtistsMatchingParcialName("chael");
+    const artistRecovered = unqfy.getArtistsMatchingPartialName("chael");
 
     assert.equal(artistRecovered[0], artist2, "Matched Artist");
   });
