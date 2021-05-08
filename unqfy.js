@@ -29,26 +29,25 @@ class UNQfy {
     - una propiedad country (string)
   */
     if(this.hasArtistNamed(artistData.name)){
-      console.log(`Command was not successful: An artist named ${artistData.name} already exists.`)
-    } else {
+      throw new Error(`Command was not successful: An artist named ${artistData.name} already exists.`);
+    }
     let artist = new Artist(this.currentId,artistData.name,artistData.country)
     this.artists[this.currentId] = artist
     this.currentId = this.currentId + 1
     return artist
-    }
   }
 
   addUser(userData){
     let emailExists = this.user.some(user => user.email === userData.email)
-    if(!emailExists){
-      let newUser = new User(this.currentId,userData.name,userData.email,userData.password,[])
+    if(emailExists){
+      throw new Error('Command was not successful: Email is already in use')
+    }
+    let newUser = new User(this.currentId,userData.name,userData.email,userData.password,[])
       this.user.push(newUser)
       this.currentId = this.currentId + 1
-      return newUser
-    } else {
-      console.log('Command was not successful: Email is already in use')
-    }
+      return newUser 
   }
+
   hasArtistNamed(name){
     let artist = this.getArtistByName(name)
     return artist !== undefined
@@ -73,14 +72,13 @@ class UNQfy {
      - una propiedad year (number)
   */
     let artist = this.getArtistById(artistId)
-    if(artist !== undefined){
-      let newAlbum = new Album(this.currentId,albumData.name,albumData.year)
-      artist.addAlbum(this.currentId,newAlbum)
-      this.currentId = this.currentId + 1
-      return newAlbum
-    } else {
-      console.log(`Command was not successful: The id ${artistId} does not belong to an artist`)
+    if(artist === undefined){
+      throw new Error(`Command was not successful: The id ${artistId} does not belong to an artist`)  
     }
+    let newAlbum = new Album(this.currentId,albumData.name,albumData.year)
+    artist.addAlbum(this.currentId,newAlbum)
+    this.currentId = this.currentId + 1
+    return newAlbum 
   }
 
 
@@ -126,12 +124,13 @@ class UNQfy {
   listenMusic(trackId,userId){
     let track = this.getTrackById(trackId)
     let user = this.getUserById(userId)
-    if( track !== undefined){
-      user.listen(track)
+    if( track === undefined){
+      throw new Error(`Command was not successful: The id ${trackId} does not belong to a track`)
     }
-    else{
-      console.log(`Command was not successful: The id ${userId} does not belong to an album`)
+    if (user === undefined){
+      throw new Error(`Command was not successful: The id ${userId} does not belong to an user`)
     }
+    user.listen(track)
   }
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
@@ -146,14 +145,13 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
       let album = this.getAlbumById(albumId)
-      if(album !== undefined){
-        let newTrack = new Track(this.currentId,trackData.name,trackData.duration,trackData.genres);
-        album.addTrack(this.currentId,newTrack);
-        this.currentId = this.currentId + 1;
-        return newTrack;
-      } else {
-        console.log(`Command was not successful: The id ${albumId} does not belong to an album`)
-      }
+      if(album === undefined){
+        throw new Error(`Command was not successful: The id ${albumId} does not belong to an album`)
+      } 
+      let newTrack = new Track(this.currentId,trackData.name,trackData.duration,trackData.genres);
+      album.addTrack(this.currentId,newTrack);
+      this.currentId = this.currentId + 1;
+      return newTrack;  
     }
 
 
@@ -183,6 +181,10 @@ class UNQfy {
 
   getTrackById(id) {
     return this.allTracks().find(track => track.id === id)
+  }
+
+  getUserById(id){
+    return this.user.find(user => user.id === id)
   }
 
   getPlaylistById(id) {
@@ -324,9 +326,6 @@ class UNQfy {
    console.log("This is " + this.getArtistById(artistaID).name )
    let topThree = listenArtistt.slice(0,3).filter(track => track !== undefined)
    topThree.map(track => track.printTrack())
-   //console.log(listenArtistt[0])
-   //console.log(listenArtistt[1])
-   //console.log(listenArtistt[2])
    }
 
 
@@ -334,36 +333,32 @@ class UNQfy {
   //Delete methods
   deleteArtist(artistId){
     let artist = this.getArtistById(artistId)
-    if (artist !== undefined){
-      artist.allAlbums().map(album => this.deleteAlbum(album.id))
-      this.artists[artistId] = undefined
-    } else {
-      console.log(`Command was not successful: The id ${artistId} does not belong to an artist`)
-    }
-    
+    if (artist === undefined){
+      throw new Error(`Command was not successful: The id ${artistId} does not belong to an artist`) 
+    } 
+    artist.allAlbums().map(album => this.deleteAlbum(album.id))
+    this.artists[artistId] = undefined
   }
   
   deleteAlbum(albumId){
     let album = this.getAlbumById(albumId)
-    if (album !== undefined){
-      let artist = this.authorOf(albumId)
-      album.allTracks().map(track => this.deleteTrack(track.id))
-      artist.deleteAlbum(albumId)
-    } else {
-      console.log(`Command was not successful: The id ${albumId} does not belong to an album`)
+    if (album === undefined){
+      throw new Error(`Command was not successful: The id ${albumId} does not belong to an album`) 
     }
+    let artist = this.authorOf(albumId)
+    album.allTracks().map(track => this.deleteTrack(track.id))
+    artist.deleteAlbum(albumId)
   }
 
   deleteTrack(trackId){
     let track = this.getTrackById(trackId)
-    if (track !== undefined) {
-      let album = this.albumOf(trackId)
-      album.deleteTrack(trackId)
-      this.allPlaylists().filter(playlist => playlist.hasTrackWithId(trackId))
-                         .map(playlist => playlist.deleteTrack(trackId))
-    } else {
-      console.log(`Command was not successful: The id ${trackId} does not belong to a track`)
+    if (track === undefined) {
+      throw new Error(`Command was not successful: The id ${trackId} does not belong to a track`);
     }
+    let album = this.albumOf(trackId)
+    album.deleteTrack(trackId);
+    this.allPlaylists().filter(playlist => playlist.hasTrackWithId(trackId))
+                       .map(playlist => playlist.deleteTrack(trackId));
   }
 
   deletePlayList(playListId){
