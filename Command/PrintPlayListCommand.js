@@ -10,7 +10,7 @@ class PrintPlayListCommand {
       the playList name must correspond to one playList from unqfy.
       Example input: BestHits*/
     executeCommand(argumentos,unqfy){
-      this.validateInput(argumentos,unqfy)
+      //this.validateInput(parseInt(argumentos),unqfy)
       let playListName = argumentos[0];
       unqfy.printPlayList(playListName);
     }

@@ -130,7 +130,7 @@ class UNQfy {
     if (user === undefined){
       throw new Error(`Command was not successful: The id ${userId} does not belong to an user`)
     }
-    user.listen(track)
+    user.listenMusicU(track)
   }
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
@@ -212,7 +212,14 @@ class UNQfy {
   //Prints all the playLists with the name "name"
   printPlayList(name){
     let playListsWithName = this.allPlaylists().filter(playList => playList.name === name)
+    console.log(name)
     playListsWithName.map(playList => playList.printPlayList())
+  }
+
+  //Print all User by id
+  printUser(userID){
+    //console.log(this.user)
+    console.log(this.user.find( u => u.id == userID))
   }
   
   // genres: array de generos(strings)
@@ -313,19 +320,20 @@ class UNQfy {
 
 
   thisIs(artistaID){
+   var tranksL =  this.user.map( u => u.listenedTracks).flat()
+   var a  =  this.getArtistById(parseInt(artistaID))
     
-   var tranksL =  [(new Set(this.user.map( u => u.listenedTracks()).flat()))]
-   var a  =  this.getArtistById(artistaID)
    var name = a.name
    var alltrackArtist= this.getTracksMatchingArtist(name)
    var listenArtistt= []
    for (var  i = 0 ; i < alltrackArtist.length ; i++){
-    listenArtistt.concat(tranksL.filter( t => t.name === alltrackArtist[i].name))
+    listenArtistt.push(tranksL.filter( t => t.name === alltrackArtist[i].name))
    }
-   listenArtistt.flat()
-   console.log("This is " + this.getArtistById(artistaID).name )
+   console.log("This is " + name )
    let topThree = listenArtistt.slice(0,3).filter(track => track !== undefined)
-   topThree.map(track => track.printTrack())
+   console.log(topThree[0][0].name)
+   
+   
    }
 
 

@@ -13,6 +13,7 @@ const DeleteAlbumCommand = require('./DeleteAlbumCommand')
 const DeletePlayListCommand = require('./DeletePlayListCommand')
 const DeleteArtistCommand = require('./DeleteArtistCommand')
 const DeleteTrackCommand = require('./DeleteTrackCommand')
+const PrintUserCommand = require('./PrintUserCommand')
 const PrintArtistCommand = require('./PrintArtistCommand')
 const PrintAlbumCommand = require('./PrintAlbumCommand')
 const PrintTrackCommand = require('./PrintTrackCommand')
@@ -45,6 +46,7 @@ class CommandInvoker {
             PrintAlbum: new PrintAlbumCommand(),
             PrintTrack: new PrintTrackCommand(),
             PrintPlayList: new PrintPlayListCommand(),
+            PrintUser : new PrintUserCommand(),
             ListenMusic : new ListenMusicCommand(),
             CreatePlayList: new CreatePlaylistCommand(),
             ThisIs : new ThisIsCommand()

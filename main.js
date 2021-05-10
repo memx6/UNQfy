@@ -76,6 +76,7 @@ main(['AddAlbum','Undertale','Bad 25','2015']);
 main(['AddTrack','Undertale','Game Theme','Death by Glamour',500,'Pop','Games']);
 main(['AddTrack','Michael Jackson','Bad 25','Smooth Criminal',500,'Pop']);
 main(['AddTrack','Michael Jackson','Bad 25','Thriller',500,'Pop','Rock']);
+main(['AddUser','Pepe','pepe@gmail.com','hola'])
 /*main(['PrintArtist','Michael Jackson']);
 main(['PrintAlbum','Bad 25']);
 main(['PrintAlbum','Game Theme']);

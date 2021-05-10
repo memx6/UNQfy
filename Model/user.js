@@ -22,7 +22,7 @@ class User {
     get listen(){return this._listen}
     set listen(trackName) { this._listen = trackName}
 
-    listen(track){
+    listenMusicU(track){
         this.listenedTracks.push(track)
         this.listen = this.name + ' listen : ' + track.name;
         track.countListen = track.countListen + 1 
