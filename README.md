@@ -82,9 +82,16 @@ node main.js GetTracksMatchingArtist 'Michael Jackson'
 
 node main.js GetTracksMatchingGenres Pop Rock
 
-Como una funcionalidad interesante el UNQfy por medio del comando GetMatchingPartial nos devuelve las tracks, álbumes o artistas por matching parcial del string recibido como parámetro contra el nombre de de cada una de las entidades, en caso de no encontrar alguno de las entidades nos avisará que para el partial String ingresado no se encontraron Matching.
+Como una funcionalidad interesante el UNQfy por medio del comando GetMatchingPartial nos devuelve las tracks, álbumes o artistas por matching parcial del string recibido como parámetro contra el nombre de de cada una de las entidades.
 
 node main.js GetMatchingPartial bad
+
+Tambien como comando adicional  se pueden buscar parcialmente y de forma separada los Tracks, Artistas, Albums y las PlayList con los siguentes comandos.
+
+node  main.js GetArtistsMatchingPartialName "cha"
+node  main.js GetAlbumsMatchingPartialName "Bad"
+node  main.js GetTracksMatchingPartialName "it"
+node  main.js GetPlayListsMatchingPartialName "top"
 
 ThisIs:
 
