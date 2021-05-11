@@ -46,15 +46,26 @@ main(['PrintArtist','Undertale']);
 console.log("       Track:")
 main(['PrintTrack','Smooth Criminal']);
 console.log("¡¡¡  Delete Track  !!!")
-main(['DeleteTrack','8']);
+main(['DeleteTrack','10']);
 main(['PrintTrack','Smooth Criminal']);
 
 //PlayList
 console.log("       PlayList:")
 main(['PrintPlayList','tini<3']);
 console.log("¡¡¡  Delete PlayList  !!!")
-main(['DeletePlayList',16])
+main(['DeletePlayList',18])
 main(['PrintPlayList','tini<3']);
+
+//Caso Delete en cascada
+console.log("       Delete en cascada")
+main(['PrintArtist','Michael Jackson']);
+main(['DeleteArtist','0']);
+console.log("¡¡¡  Delete Artist  !!!")
+console.log("----Si se quiere obtener algun album suyo:")
+main(['PrintAlbum','Thriller']);
+console.log("----Si se quiere obtener algun tema suyo:")
+main(['PrintTrack','Beat it']);
+
 
 
 

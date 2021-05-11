@@ -29,7 +29,7 @@ function main(filteredArgs) {
   //Pequeño Script para printiar set datos
   
   console.log("¡¡¡  Print Album  !!!")
-  main(['PrintAlbum','Thriller'])
+  main(['PrintAlbum','Bad 25'])
   console.log("¡¡¡  Print Artist  !!!")
   main(['PrintArtist','Undertale'])
   console.log("¡¡¡   Print Track  !!!")
@@ -37,7 +37,7 @@ function main(filteredArgs) {
   console.log("¡¡¡   Print PlayList  !!!")
   main(['PrintPlayList','tini<3'])
   console.log("¡¡¡   Print User  !!!")
-  main(['PrintUser','10'])
+  main(['PrintUser','14'])
 
   
   

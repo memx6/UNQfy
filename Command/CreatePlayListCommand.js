@@ -5,7 +5,8 @@ class CreatePlaylistCommand {
     const maxDuration = parseInt(argumentos[1])
     const genres = argumentos.slice(2, argumentos.length)
 
-    unqfy.createPlaylist(name, maxDuration, genres);
+    let newPlayList = unqfy.createPlaylist(name, maxDuration, genres);
+    newPlayList.printPlayList();
     }
 }
 module.exports = CreatePlaylistCommand;

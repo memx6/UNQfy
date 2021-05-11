@@ -284,7 +284,6 @@ class UNQfy {
       newPlayList.addTracks(listOfTracksAndDuration.tracks);
       this.playLists[this.currentId] = newPlayList;
       this.currentId = this.currentId + 1;
-      newPlayList.printPlayList();
       return newPlayList;
   }
 
@@ -316,15 +315,7 @@ class UNQfy {
     listenArtistt.push({track : alltrackArtist[i]
                         , count : tranksL.filter( t => t.name === alltrackArtist[i].name).length})
    }
-   listenArtistt.sort(function (obj1,obj2){
-    if(obj1.count > obj2.count){
-      return -1
-    }
-    if (obj1.count < obj2.count){
-      return 1 
-    }
-    return 0
-  })
+   listenArtistt.sort((obj1,obj2)=> this.compareCount(obj1,obj2))
   console.log("This is " + name )
   return listenArtistt.slice(0,3).map( obj => obj.track) 
   
@@ -332,10 +323,10 @@ class UNQfy {
 
 compareCount(obj1,obj2){
     if(obj1.count > obj2.count){
-      return 1
+      return -1
     }
     if (obj1.count < obj2.count){
-      return -1 
+      return 1 
     }
     return 0
 }
