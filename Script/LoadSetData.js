@@ -3,7 +3,7 @@ const unqmod = require('../unqfy'); // importamos el modulo unqfy
 const CommandInvoker = require('../Command/CommandInvoker')
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
-function getUNQfy(filename = 'data.json') {
+function getUNQfy(filename = '../data.json') {
   let unqfy = new unqmod.UNQfy();
   if (fs.existsSync(filename)) {
     unqfy = unqmod.UNQfy.load(filename);
@@ -11,7 +11,7 @@ function getUNQfy(filename = 'data.json') {
   return unqfy;
 }
 
-function saveUNQfy(unqfy, filename = 'data.json') {
+function saveUNQfy(unqfy, filename = '../data.json') {
   unqfy.save(filename);
 }
 
@@ -43,6 +43,6 @@ function main(filteredArgs) {
   main(['AddUser','Juli','Jlpoah@gmail.com','1234'])
   main(['AddUser','Ger','guyqgw@gmail.com','1234'])
   main(['AddUser','Luis','Luiasdhsda@gmail.com','1234'])
-  main(['CreatePlayList','tini<3','1400','pop'])
-  main(['CreatePlayList','top50','2000','Trap'])
+  main(['CreatePlayList','tini<3',1400,'Pop'])
+  main(['CreatePlayList','top50',2000,'Rock'])
   

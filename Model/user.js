@@ -39,7 +39,9 @@ class User {
         return this.listenedTracks.filter( t => t.id == track.id).length 
     }
     printUser(){
-        console.log(this)
+        let print = 
+        `User: ${this._name}\nID: ${this.id}\nEmail: ${this.email}\nListenedTracks: ${this._listenedTracks.map(track => track.name)}`;
+        console.log(print);
     }
 }
 

@@ -1,7 +1,8 @@
 class GetPlayListsMatchingPartialNameCommand {
     /*argumentos[0] = Partial name */
     executeCommand(argumentos,unqfy){
-        unqfy.getPlayListsMatchingPartialName(argumentos[0])
+        let playLists = unqfy.getPlayListsMatchingPartialName(argumentos[0])
+        playLists.map(playList => playList.printPlayList())
     }
 }
 module.exports = GetPlayListsMatchingPartialNameCommand;

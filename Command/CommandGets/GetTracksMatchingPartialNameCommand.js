@@ -1,7 +1,8 @@
 class GetTracksMatchingPartialNameCommand {
     /*argumentos[0] = Partial name */
     executeCommand(argumentos,unqfy){
-        unqfy.getTracksMatchingPartialName(argumentos[0])
+       let tracks = unqfy.getTracksMatchingPartialName(argumentos[0])
+        tracks.map(track => track.printTrack())
     }
 }
 module.exports = GetTracksMatchingPartialNameCommand;

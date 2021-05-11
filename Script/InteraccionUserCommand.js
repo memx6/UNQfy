@@ -4,7 +4,7 @@ const unqmod = require('../unqfy'); // importamos el modulo unqfy
 const CommandInvoker = require('../Command/CommandInvoker')
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
-function getUNQfy(filename = 'data.json') {
+function getUNQfy(filename = '../data.json') {
   let unqfy = new unqmod.UNQfy();
   if (fs.existsSync(filename)) {
     unqfy = unqmod.UNQfy.load(filename);
@@ -12,7 +12,7 @@ function getUNQfy(filename = 'data.json') {
   return unqfy;
 }
 
-function saveUNQfy(unqfy, filename = 'data.json') {
+function saveUNQfy(unqfy, filename = '../data.json') {
   unqfy.save(filename);
 }
 
@@ -29,10 +29,10 @@ function main(filteredArgs) {
   //Pequeño Script para printiar set datos
   
   console.log("¡¡¡  User listen Music  !!!")
-  //main(['ListenMusic','7','10'])
-  //main(['ListenMusic','7','10'])
-  //main(['ListenMusic','7','10'])
-  //main(['PrintUser','10'])
+  main(['ListenMusic','7','10'])
+  main(['ListenMusic','7','10'])
+  main(['ListenMusic','7','10'])
+  main(['PrintUser','10'])
 
   console.log("This iS Command")
   main(['ThisIs',1])

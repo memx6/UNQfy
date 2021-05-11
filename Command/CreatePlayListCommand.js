@@ -6,7 +6,6 @@ class CreatePlaylistCommand {
     const genres = argumentos.slice(2, argumentos.length)
 
     unqfy.createPlaylist(name, maxDuration, genres);
-    console.log('Se creo la playlist de forma correcta.');
     }
 }
 module.exports = CreatePlaylistCommand;

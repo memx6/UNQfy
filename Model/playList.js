@@ -18,9 +18,6 @@ class PlayList {
     get gen(){return this._gen}
     set gen(newGen){this._gen._gen = newGen}
 
-    name(){
-        return this._name;
-    }
     hasTrack(nameTrack){
         return (this.allTracks().find(track => track.name === nameTrack)) !== undefined
     }
@@ -35,7 +32,7 @@ class PlayList {
         return Object.values(this.tracks).filter(track => track !== undefined)
     }
  
-    printPlaylist(){
+    printPlayList(){
         let print = 
         `PlayList: ${this._name}\nID: ${this.id}\nTracks: ${this.allTracks().map(track => track._name)}\nGenres: ${this._gen}\nDuration: ${this._maxDuration}`
         console.log(print)

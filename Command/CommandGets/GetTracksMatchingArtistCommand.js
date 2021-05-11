@@ -1,7 +1,8 @@
 class GetTracksMatchingArtistCommand {
     /*argumentos[0] = Artist name*/
     executeCommand(argumentos,unqfy){
-        unqfy.getTracksMatchingArtist(argumentos[0])
+        let tracksArts = unqfy.getTracksMatchingArtist(argumentos[0])
+        tracksArts.map(track => track.printTrack())
     }
 }
 module.exports = GetTracksMatchingArtistCommand;

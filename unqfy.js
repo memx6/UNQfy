@@ -212,58 +212,41 @@ class UNQfy {
   //Prints all the playLists with the name "name"
   printPlayList(name){
     let playListsWithName = this.allPlaylists().filter(playList => playList.name === name)
-    console.log(name)
     playListsWithName.map(playList => playList.printPlayList())
   }
 
   //Print all User by id
   printUser(userID){
     //console.log(this.user)
-    console.log(this.user.find( u => u.id == userID))
+    let user = this.user.find( u => u.id == userID)
+    user.printUser()
+   // console.log(this.user.find( u => u.id == userID))
   }
   
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genress) {
-      let tracks = this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
-      if (tracks !== undefined ){
-        return tracks;
-      }
+      return this.allTracks().filter(track => track.genres.some(genre => genress.includes(genre)));
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-    let tracks = this.getArtistByName(artistName).allTracks();
-    if (tracks !== undefined ){
-      return tracks;
-    }
+    return this.getArtistByName(artistName).allTracks();
   }
 
   getTracksMatchingPartialName(partialName) {
-    let tracks = this.allTracks().filter(track => track.name.toLowerCase().includes(partialName.toLowerCase()));
-    if (tracks.length){
-      return tracks;
-    }
+    return this.allTracks().filter(track => track.name.toLowerCase().includes(partialName.toLowerCase()));
   }
   getAlbumsMatchingPartialName(partialName) {
-    let albums = this.allAlbums().filter(album => album.name.toLowerCase().includes(partialName.toLowerCase()));
-    if (albums.length){
-      return albums;
-    }
+    return this.allAlbums().filter(album => album.name.toLowerCase().includes(partialName.toLowerCase()));
   }
   getArtistsMatchingPartialName(partialName) {
-    let artists = this.allArtists().filter(artist => artist.name.toLowerCase().includes(partialName.toLowerCase()));
-    if (artists.length){
-      return artists;
-    }
+    return this.allArtists().filter(artist => artist.name.toLowerCase().includes(partialName.toLowerCase()));
   }
 
-  getPlayListMatchingPartialName(partialName) {
-    let playList = this.allPlaylists().filter(playlist => playlist._name.toLowerCase().includes(partialName.toLowerCase()));
-    if (playList.length){
-      return playList;
-    }
+  getPlayListsMatchingPartialName(partialName) {
+    return this.allPlaylists().filter(playlist => playlist.name.toLowerCase().includes(partialName.toLowerCase()));
   }
 
   searchByName(name) {
@@ -271,7 +254,7 @@ class UNQfy {
         artists:   this.getArtistsMatchingPartialName(name),
         albums:    this.getAlbumsMatchingPartialName(name),
         tracks:    this.getTracksMatchingPartialName(name),
-        playlists: this.getPlayListMatchingPartialName(name)
+        playlists: this.getPlayListsMatchingPartialName(name)
     }
     return dicctionary;
   }
@@ -292,13 +275,16 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+    if(this.allPlaylists().some(playlist => playlist.name === name)){
+      throw new Error(`Command was not successful: A playlist named ${name} already exists.`)
+    }
       let tracks = this.getTracksMatchingGenres(genresToInclude);
       const listOfTracksAndDuration = this.cutPlaylistByDuration(tracks, maxDuration);
       let newPlayList = new PlayList(this.currentId,name,genresToInclude, listOfTracksAndDuration.duration);
       newPlayList.addTracks(listOfTracksAndDuration.tracks);
       this.playLists[this.currentId] = newPlayList;
       this.currentId = this.currentId + 1;
-      newPlayList.printPlaylist();
+      newPlayList.printPlayList();
       return newPlayList;
   }
 
