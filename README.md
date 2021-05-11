@@ -89,8 +89,11 @@ node main.js GetMatchingPartial bad
 Tambien como comando adicional  se pueden buscar parcialmente y de forma separada los Tracks, Artistas, Albums y las PlayList con los siguentes comandos.
 
 node  main.js GetArtistsMatchingPartialName "cha"
+
 node  main.js GetAlbumsMatchingPartialName "Bad"
+
 node  main.js GetTracksMatchingPartialName "it"
+
 node  main.js GetPlayListsMatchingPartialName "top"
 
 ThisIs:
