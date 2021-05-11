@@ -100,4 +100,6 @@ node main.js 0 1
 Este fue el UML tentativo que presentamos en la reunión que tuvimos la primera semana del visado. A lo largo del trabajo se agregaron otros métodos para utilizar como subtareas y que quede mas prolijo el código, pero en cuanto a funcionalidad, se mantuvo lo presentado en el UML.
 
 
-![UML-UNQFY-Grupo6](https://user-images.githubusercontent.com/62217520/117049705-e341d800-acea-11eb-896a-3f6a0c4b4f3a.png)
+
+![UML-UNQFY-Grupo6](https://user-images.githubusercontent.com/37801469/117866382-72139f00-b26d-11eb-9ab3-dcc3108eebbd.jpg)
+
