@@ -29,13 +29,25 @@ function main(filteredArgs) {
   //Pequeño Script para printiar set datos
   
   console.log("¡¡¡  User listen Music  !!!")
-  main(['ListenMusic','7','10'])
-  main(['ListenMusic','7','10'])
-  main(['ListenMusic','7','10'])
-  main(['PrintUser','10'])
+  main(['ListenMusic','7','12'])
+  main(['ListenMusic','7','12'])
+  main(['ListenMusic','8','12'])
+  main(['ListenMusic','8','12'])
+  main(['ListenMusic','8','12'])
+  main(['ListenMusic','9','12'])
+  main(['ListenMusic','9','12'])
+  main(['ListenMusic','9','12'])
+  main(['ListenMusic','9','12'])
+  main(['ListenMusic','10','12'])
+  main(['ListenMusic','10','12'])
+  main(['ListenMusic','10','12'])
+  main(['ListenMusic','10','12'])
+  main(['ListenMusic','10','12'])
+  main(['ListenMusic','11','12'])
+  main(['PrintUser','12'])
 
-  console.log("This iS Command")
-  main(['ThisIs',1])
+  console.log("This is Command")
+  main(['ThisIs',0])
 
 
 

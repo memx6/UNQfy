@@ -35,7 +35,9 @@ function main(filteredArgs) {
   main(['AddAlbum','Undertale','Game Theme','2015']);
   main(['AddAlbum','Undertale','Bad 25','2015']);
   main(['AddTrack','Undertale','Game Theme','Death by Glamour',500,'Pop','Games']);
-  main(['AddTrack','Michael Jackson','Bad 25','Smooth Criminal',500,'Pop']);
+  main(['AddTrack','Michael Jackson','Bad 25','dummy',500,'Pop']);
+  main(['AddTrack','Michael Jackson','Bad 25','dummyAS',500,'Pop']);
+  main(['AddTrack','Michael Jackson','Bad 25','dummy3444',500,'Pop']);
   main(['AddTrack','Michael Jackson','Bad 25','Thriller',500,'Pop','Rock']);
   main(['AddUser','Fede','fcito@gmail.com','1234'])
   main(['AddUser','Mau','pcxce@gmail.com','1234'])

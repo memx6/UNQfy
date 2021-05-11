@@ -349,11 +349,11 @@ describe('User Creation and properties', () => {
     //const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
 
     //var list = playlist.tracks()
-      unqfy.createUser(1,'Fede','ff@gmail.com','+++',[])
-      unqfy.createUser(2,'Pepe','ff@gmail.com','+++',[])
+      unqfy.addUser({name:'Fede',email:'ff@gmail.com',password:'+++'})
+      unqfy.addUser({name:'Emi',email:'ef@gmail.com',password:'+++'})
       
       var user = unqfy.user[0];
-      user.listen(t3)
+      user.listenMusicU(t3)
    
       
 

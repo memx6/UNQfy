@@ -313,14 +313,32 @@ class UNQfy {
    var alltrackArtist= this.getTracksMatchingArtist(name)
    var listenArtistt= []
    for (var  i = 0 ; i < alltrackArtist.length ; i++){
-    listenArtistt.push(tranksL.filter( t => t.name === alltrackArtist[i].name))
+    listenArtistt.push({track : alltrackArtist[i]
+                        , count : tranksL.filter( t => t.name === alltrackArtist[i].name).length})
    }
-   console.log("This is " + name )
-   let topThree = listenArtistt.slice(0,3).filter(track => track !== undefined)
-   console.log(topThree[0][0].name)
-   
-   
-   }
+   listenArtistt.sort(function (obj1,obj2){
+    if(obj1.count > obj2.count){
+      return -1
+    }
+    if (obj1.count < obj2.count){
+      return 1 
+    }
+    return 0
+  })
+  console.log("This is " + name )
+  return listenArtistt.slice(0,3).map( obj => obj.track) 
+  
+}
+
+compareCount(obj1,obj2){
+    if(obj1.count > obj2.count){
+      return 1
+    }
+    if (obj1.count < obj2.count){
+      return -1 
+    }
+    return 0
+}
 
 
 

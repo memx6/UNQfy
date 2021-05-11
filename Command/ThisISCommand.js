@@ -11,7 +11,8 @@ class ThisIsCommand{
         //this.validateInput(argumentos,unqfy)
         let artisId = parseInt(argumentos[0])
         
-        unqfy.thisIs(artisId)
+        let top = unqfy.thisIs(artisId)
+        top.map(t => t.printTrack())
       }
 }
 
