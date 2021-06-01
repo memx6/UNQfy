@@ -45,7 +45,29 @@ class PlayList {
     addTracks(tracks){
         tracks.forEach(track => { this._tracks[track.id] = track});
     }
+      
 
+    static createPlayList(name,maxDuration, genresToInclude, tracksMatchingGenres, id) {
+            const listOfTracksAndDuration = cutPlaylistByDuration(tracksMatchingGenres, maxDuration);
+            let newPlayList = new PlayList(id,name,genresToInclude, listOfTracksAndDuration.duration);
+            newPlayList.addTracks(listOfTracksAndDuration.tracks);
+            return newPlayList;
+    }
+}
+
+function cutPlaylistByDuration(tracks, maxDuration){
+    let accumulatedDuration = 0;
+    let newtracks = [];
+    tracks.forEach(track => {
+      if(track._duration + accumulatedDuration <= maxDuration){
+        newtracks.push(track);
+        accumulatedDuration = accumulatedDuration + track.duration;
+      }
+      else{
+        return {tracks: newtracks, duration: accumulatedDuration};
+      }
+    });
+    return {tracks: newtracks, duration: accumulatedDuration};
 }
 
 module.exports = PlayList;

@@ -29,7 +29,7 @@ class UNQfy {
     - una propiedad country (string)
   */
     if(this.hasArtistNamed(artistData.name)){
-      throw new Error(`Command was not successful: An artist named ${artistData.name} already exists.`);
+      throw new ResourceAlreadyExists(`An artist named ${artistData.name} already exists.`);
     }
     let artist = new Artist(this.currentId,artistData.name,artistData.country)
     this.artists[this.currentId] = artist
@@ -40,7 +40,7 @@ class UNQfy {
   addUser(userData){
     let emailExists = this.user.some(user => user.email === userData.email)
     if(emailExists){
-      throw new Error('Command was not successful: Email is already in use')
+      throw new ResourceAlreadyExists('Email is already in use')
     }
     let newUser = new User(this.currentId,userData.name,userData.email,userData.password,[])
       this.user.push(newUser)
@@ -73,7 +73,7 @@ class UNQfy {
   */
     let artist = this.getArtistById(artistId)
     if(artist === undefined){
-      throw new Error(`Command was not successful: The id ${artistId} does not belong to an artist`)  
+      throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`)  
     }
     let newAlbum = new Album(this.currentId,albumData.name,albumData.year)
     artist.addAlbum(this.currentId,newAlbum)
@@ -94,11 +94,11 @@ class UNQfy {
   getAlbumByNameAndArtist(artistName, albumName){
     let artist = this.getArtistByName(artistName)
     if (artist === undefined){
-      throw new Error (`Command was not succesful: artist ${artistName} is not in the system`)
+      throw new RelatedResourceNotFound(`artist ${artistName} is not in the system`)
     }
     let album = artist.allAlbums().find(album => album.name === albumName)
     if (album === undefined){
-      throw new Error (`Command was not succesful: the album ${albumName} does not belong to the artist ${artistName}`)
+      throw new RelatedResourceNotFound(`the album ${albumName} does not belong to the artist ${artistName}`)
     }
     return album;
   }
@@ -125,10 +125,10 @@ class UNQfy {
     let track = this.getTrackById(trackId)
     let user = this.getUserById(userId)
     if( track === undefined){
-      throw new Error(`Command was not successful: The id ${trackId} does not belong to a track`)
+      throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`)
     }
     if (user === undefined){
-      throw new Error(`Command was not successful: The id ${userId} does not belong to an user`)
+      throw new RelatedResourceNotFound(`The id ${userId} does not belong to an user`)
     }
     user.listenMusicU(track)
   }
@@ -146,7 +146,7 @@ class UNQfy {
   */
       let album = this.getAlbumById(albumId)
       if(album === undefined){
-        throw new Error(`Command was not successful: The id ${albumId} does not belong to an album`)
+        throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`)
       } 
       let newTrack = new Track(this.currentId,trackData.name,trackData.duration,trackData.genres);
       album.addTrack(this.currentId,newTrack);
@@ -276,31 +276,13 @@ class UNQfy {
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
     if(this.allPlaylists().some(playlist => playlist.name === name)){
-      throw new Error(`Command was not successful: A playlist named ${name} already exists.`)
+      throw new ResourceAlreadyExists(`A playlist named ${name} already exists.`)
     }
       let tracks = this.getTracksMatchingGenres(genresToInclude);
-      const listOfTracksAndDuration = this.cutPlaylistByDuration(tracks, maxDuration);
-      let newPlayList = new PlayList(this.currentId,name,genresToInclude, listOfTracksAndDuration.duration);
-      newPlayList.addTracks(listOfTracksAndDuration.tracks);
+      let newPlayList = PlayList.createPlayList(name,maxDuration, genresToInclude, tracks, this.currentId)
       this.playLists[this.currentId] = newPlayList;
       this.currentId = this.currentId + 1;
       return newPlayList;
-  }
-
-  cutPlaylistByDuration(tracks, maxDuration){
-
-    let accumulatedDuration = 0;
-    let newtracks = [];
-    tracks.forEach(track => {
-      if(track._duration + accumulatedDuration <= maxDuration){
-        newtracks.push(track);
-        accumulatedDuration = accumulatedDuration + track.duration;
-      }
-      else{
-        return {tracks: newtracks, duration: accumulatedDuration};
-      }
-    });
-    return {tracks: newtracks, duration: accumulatedDuration};
   }
 
 
@@ -337,7 +319,7 @@ compareCount(obj1,obj2){
   deleteArtist(artistId){
     let artist = this.getArtistById(artistId)
     if (artist === undefined){
-      throw new Error(`Command was not successful: The id ${artistId} does not belong to an artist`) 
+      throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`) 
     } 
     artist.allAlbums().map(album => this.deleteAlbum(album.id))
     this.artists[artistId] = undefined
@@ -346,7 +328,7 @@ compareCount(obj1,obj2){
   deleteAlbum(albumId){
     let album = this.getAlbumById(albumId)
     if (album === undefined){
-      throw new Error(`Command was not successful: The id ${albumId} does not belong to an album`) 
+      throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`) 
     }
     let artist = this.authorOf(albumId)
     album.allTracks().map(track => this.deleteTrack(track.id))
@@ -356,7 +338,7 @@ compareCount(obj1,obj2){
   deleteTrack(trackId){
     let track = this.getTrackById(trackId)
     if (track === undefined) {
-      throw new Error(`Command was not successful: The id ${trackId} does not belong to a track`);
+      throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`);
     }
     let album = this.albumOf(trackId)
     album.deleteTrack(trackId);
