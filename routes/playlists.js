@@ -3,6 +3,9 @@ const router = express.Router();
 const controller = require('../controllers/playlists_controller')
 
 
+router.post("/",controller.createPlaylist)
+router.get("/",controller.getPlaylistById)
+router.delete("/",controller.deletePlaylist)
+router.get("/",controller.getPlaylists)
 
-router.get("/",controller.getPlaylists)// ESTO ES UN PLACEHOLDER PARA VER SI ANDA, CAMBIAR.
 module.exports = router
