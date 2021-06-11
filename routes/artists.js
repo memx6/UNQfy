@@ -3,7 +3,11 @@ const router = express.Router();
 const controller = require('../controllers/artists_controller')
 
 
-router.get("/",controller.getArtists)// ESTO ES UN PLACEHOLDER PARA VER SI ANDA, CAMBIAR.
+router.post("/",controller.addArtist)
+router.get("/",controller.getArtists)
+router.get("/:id",controller.getArtistById)
+router.patch("/:id",controller.updateArtist)
+router.delete("/:id",controller.deleteArtist)
 
 
 module.exports = router
