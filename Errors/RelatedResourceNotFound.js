@@ -4,3 +4,5 @@ class RelatedResourceNotFound extends Error {
         this.name = "RELATED_RESOURCE_NOT_FOUND"
     }
 }
+
+module.exports = RelatedResourceNotFound
