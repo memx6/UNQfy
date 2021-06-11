@@ -4,7 +4,8 @@ class Track{
         this._name = name 
         this._duration = duration
         this._genres= genres
-        this.countListen = 0 
+        this.countListen = 0
+        this._lyrics = '' 
     }
 
     get id(){return this._id}
@@ -17,6 +18,8 @@ class Track{
     set genres(newGenres) { this._genres = newGenres}
     get countListen(){return this._countListen}
     set countListen(count) { this._countListen = count}
+    get lyrics(){return this._lyrics}
+    set lyrics(lyrics){this._lyrics = lyrics}
 
     sumCountListen(){
         this.countListen = this.countListen + 1

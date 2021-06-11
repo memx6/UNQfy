@@ -6,7 +6,7 @@ const Album = require('./Model/album');
 const Track = require('./Model/track');
 const PlayList = require('./Model/playList');
 const User = require('./Model/user')
-
+const musixMatchClient = require('./APIClients/musixmatchClient')
 
 class UNQfy {
   
@@ -356,6 +356,15 @@ compareCount(obj1,obj2){
 
   albumOf(trackId){
     return this.allAlbums().find(album => album.hasTrack(trackId))
+  }
+
+  async getLyrics(trackId){//Este retorna un not found.
+    let track = this.getTrackById(trackId)
+    if (track.lyrics === ""){
+      let lyrics = await musixMatchClient.getTrackLyrics(track.name)
+      track.lyrics(lyrics)
+    }
+    return track.lyrics;
   }
 
 
