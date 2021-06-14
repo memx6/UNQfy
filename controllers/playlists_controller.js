@@ -1,3 +1,4 @@
+const ApiError = ('../Errors/ApiError');
 const controller = {}
 const utils = require('../utils.js')
 
@@ -5,6 +6,10 @@ controller.createPlaylist = (req,res) => {
     /*OJO: Aca tenemos pueden llegar de cualquiera de los 2 posts que hay en el visado.
     Tenemos que ver como diferenciar uno del otro y actuar en consecuencia*/
     let playlistJson = req.body //Ver como hacer para crear la playlist de acuerdo a que post es.
+    if (! req.body){ // Esto no es una validacion valida, es un ejemplo de como le pasamos el error al Error Handler.
+        next(ApiError.badRequest())
+        return;
+    }
     res.send()
 }
 

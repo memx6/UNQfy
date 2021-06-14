@@ -1,3 +1,4 @@
+const ApiError = ('../Errors/ApiError');
 const controller = {}
 const utils = require('../utils.js')
 
@@ -5,6 +6,10 @@ const utils = require('../utils.js')
 
 controller.addArtist = (req,res) => {
     let artistJson = req.body //TODO: Extraer los datos, y efectuar el addArtist de UNQFY.
+    if (! req.body){ // Esto no es una validacion valida, es un ejemplo de como le pasamos el error al Error Handler.
+        next(ApiError.badRequest())
+        return;
+    }
     let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
     //Agregar el artista a UNQFY
     utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
