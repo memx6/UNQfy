@@ -287,6 +287,18 @@ class UNQfy {
       return newPlayList;
   }
 
+  createPlaylistFromIds(name,trackIds){
+    if(this.allPlaylists().some(playlist => playlist.name === name)){
+      throw new ResourceAlreadyExists(`A playlist named ${name} already exists.`);
+    }
+    let tracks = trackIds.map(id => getTrackById(id))
+    if (tracks.some(track => track === undefined)){
+      throw new RelatedResourceNotFound("Some trackId given to the playlist does not exist");
+    }
+    let newPlayList = PlayList.createPlayListFromTracks(name,tracks,this.currentId);
+    this.playLists[this.currentId] = newPlayList;
+    this.currentId = this.currentId + 1;
+  }
 
   thisIs(artistaID){
    var tranksL =  this.user.map( u => u.listenedTracks).flat()
@@ -364,6 +376,10 @@ updateAlbum(albumId,newYear){
   }
 
   deletePlayList(playListId){
+    let playlist = this.getPlaylistById(playListId)
+    if (playlist === undefined) {
+      throw new RelatedResourceNotFound(`The id ${playlistId} does not belong to a playlist`);
+    }
     this.playLists[playListId] = undefined
   }
 
@@ -385,6 +401,26 @@ updateAlbum(albumId,newYear){
       track.lyrics(lyrics);
     }
     return track;
+  }
+  /*Precondicion, al menos uno de los 3 parametros debe existir
+  Ver como optimizar 
+  durationLT, durationGT son strings que representan un numero.
+  Todos los parametros son opcionales, en caso de ser undefined no se usan.
+  */
+  filterPlaylists(name,durationLT,durationGT){
+    let playlists;
+    if (name !== undefined){
+      playlists = this.getPlayListsMatchingPartialName(name);
+    } else {
+      playlists = this.allPlaylists();
+    }
+    if (durationLT !== undefined){
+      playlists = playlists.filter(playlist => playlist.duration() < parseInt(durationLT))
+    }
+    if (durationGT !== undefined){
+      playlists = playlists.filter(playlist => playlist.duration() > parseInt(durationGT))
+    }
+    return playlists
   }
 
 

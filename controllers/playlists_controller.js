@@ -1,37 +1,115 @@
 const ApiError = require('../Errors/ApiError');
+const ResourceAlreadyExists = require('../Errors/ResourceAlreadyExists')
+const RelatedResourceNotFound = require('../Errors/RelatedResourceNotFound')
 const controller = {}
 const utils = require('../utils.js')
 
-controller.createPlaylist = (req,res) => {
-    /*OJO: Aca tenemos pueden llegar de cualquiera de los 2 posts que hay en el visado.
-    Tenemos que ver como diferenciar uno del otro y actuar en consecuencia*/
-    let playlistJson = req.body //Ver como hacer para crear la playlist de acuerdo a que post es.
-    if (! req.body){ // Esto no es una validacion valida, es un ejemplo de como le pasamos el error al Error Handler.
-        next(ApiError.badRequest())
-        return;
-    }
-    res.send()
-}
-
-controller.getPlaylists = (req,res) => {
+controller.getPlaylists = (req,res,next) => {
     //Posibles query parameters:
     let name = req.query.name 
     let durationLT = req.query.durationLT
     let durationGT = req.query.durationGT
-    let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
-    let artists = JSON.stringify(unqfy.artists)
+    if(thereIsNoParams(name,durationLT,durationGT)){
+        next(ApiError.badRequest())
+    }
+    if (isInvalidDuration(durationLT) || isInvalidDuration(durationGT)){
+        next(ApiError.badRequest())
+    }
+    let unqfy = utils.getUNQfy()
+    let playlists = unqfy.filterPlaylists(name,durationLT,durationGT)
     utils.saveUNQfy(unqfy)
-    res.send(artists)
+    res.status(200).json(playlists)
+}
+const thereIsNoParams = (p1,p2,p3) =>{
+    return (p1 === undefined && p2 === undefined && p3===undefined)
+}
+const isInvalidDuration = (duration) => {
+    return (duration !== undefined && isNaN(parseInt(duration)))
 }
 
-controller.getPlaylistById = (req,res) => {
-    let parametros = req.params //TODO: ir a buscar el playlist y retornarlo como dto.
-    res.send()
+controller.getPlaylistById = (req,res,next) => {
+    let playlistId = parseInt(req.params.id); 
+    let unqfy = utils.getUNQfy();
+    let playlist = unqfy.getPlayListById(playlistId);
+    if (playlist === undefined){
+        next(ApiError.resourceNotFound());
+        return;
+    }
+    res.status(200).json(playlist);
 }
 
-controller.deletePlaylist = (req,res) => {
-    let playlistId = req.params.id //TODO: borrar el playlist y dar respuesta adecuada.
-    res.send()
+controller.deletePlaylist = (req,res,next) => {
+    let playlist = parseInt(req.params.id) 
+
+    let unqfy = utils.getUNQfy();
+    try{
+        unqfy.deletePlayList(playlist)
+    }catch(err){
+        if (err instanceof RelatedResourceNotFound){
+            next(ApiError.resourceNotFound())
+            return;
+        }
+    }
+    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    res.status(204).json()
+}
+
+controller.createPlaylist = (req,res,next) => {
+    let playlistJson = req.body 
+    let unqfy = utils.getUNQfy()
+    let playlist;
+    if (hasTracks(playlistJson)){
+        if (isIncorrectJSONForPostingTracks(playlistJson) || hasIncorrectInformationForPostingTracks(playlistJson)){
+            try{
+                playlist = unqfy.createPlaylistFromIds(playlistJson.name,playlistJson.tracks.map(trackid => parseInt(trackid)))
+            } catch(err){
+                if (err instanceof ResourceAlreadyExists){
+                    next(ApiError.resourceAlreadyExists())
+                }
+                if (err instanceof RelatedResourceNotFound){
+                    next(ApiError.relatedResourceNotFound())
+                }
+            }
+        }
+    } else {
+        if (isIncorrectJSONForPostingWithGenres(playlistJson) || hasIncorrectInformationForPostingWithGenres(playlistJson)){
+            next(ApiError.badRequest())
+            return;
+        }
+        try{    
+            playlist = unqfy.createPlaylist(playlistJson.name,playlistJson.maxDuration,playlistJson.genres)
+        } catch(err){
+            if (err instanceof ResourceAlreadyExists){
+                next(ApiError.resourceAlreadyExists())
+            }
+        }
+        
+    }
+    utils.saveUNQfy(unqfy)
+    res.status(201).json(playlist)
+}
+
+const isIncorrectJSONForPostingWithGenres = (playlistJson) => {
+    return (   playlistJson.name === undefined 
+            || playlistJson.maxDuration === undefined //Significa que no esta el campo
+            || playlistJson.genres === undefined 
+            || ((Object.keys(playlistJson).length) !== 3)//Mandaron mas/menos campos de los que deberian
+    )
+}
+
+const hasIncorrectInformationForPostingWithGenres = (playlistJson) => {
+    return (isNaN(parseInt(playlistJson.maxDuration)) || (playlistJson.genres.constructor !== Array))
+}
+
+const isIncorrectJSONForPostingTracks = (playlistJson) => {
+    return (   playlistJson.name === undefined 
+            || playlistJson.tracks === undefined
+            || ((Object.keys(playlistJson).length) !== 2)//Mandaron mas/menos campos de los que deberian
+    )
+}
+
+const hasIncorrectInformationForPostingTracks = (playlistJson) => {
+    return ((playlistJson.tracks.constructor !== Array))
 }
 
 
