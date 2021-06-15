@@ -43,6 +43,15 @@ class User {
         `User: ${this._name}\nID: ${this.id}\nEmail: ${this.email}\nListenedTracks: ${this._listenedTracks.map(track => track.name)}`;
         console.log(print);
     }
+
+    toJson () {
+        let user = {
+            name: this._name,
+            listenedTracks: this._listenedTracks.map(track => track.toJson()),
+            listen: this._listen
+        }
+        return user
+    }
 }
 
 module.exports =User;

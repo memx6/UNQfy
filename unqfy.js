@@ -9,6 +9,7 @@ const User = require('./Model/user');
 const ResourceAlreadyExists = require('./Errors/ResourceAlreadyExists');
 const RelatedResourceNotFound = require('./Errors/RelatedResourceNotFound')
 const musixMatchClient = require('./APIClients/musixmatchClient')
+const spotifyClient = require('./APIClients/SpotifyClient')
 
 class UNQfy {
   
@@ -387,6 +388,20 @@ updateAlbum(albumId,newYear){
     return track;
   }
 
+  async populateAlbumsForArtist(artistName){
+    let artist = this.getArtistByName(artistName)
+    if(artist.allAlbums().length === 0){
+      let albums = await spotifyClient.getAlbumsArtistByName(artist.name)
+      albums.forEach(album => { 
+        let albumData = { 
+          name: album.name, 
+          year: parseInt(album.release_date.split("-")[0]) }
+        this.addAlbum(this.artist.id, albumData)
+      });
+    }
+      return artist.allAlbums()
+  }
+  
 
   save(filename) {
     const serializedData = picklify.picklify(this);

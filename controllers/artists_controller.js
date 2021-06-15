@@ -22,7 +22,7 @@ controller.addArtist = (req,res,next) => {
         }
     }
     utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
-    res.status(201).json(artist)// FALTA EL TOJSON
+    res.status(201).json(artist.toJson())
 }
 
 const isIncorrectJSONForPosting = (artistJson) => {
@@ -42,7 +42,7 @@ controller.getArtistById = (req,res,next) => {
         next(ApiError.resourceNotFound());
         return;
     }
-    res.status(200).json(artist);
+    res.status(200).json(artist.toJson());
 }
 
 controller.updateArtist = (req,res,next) => {
@@ -63,7 +63,7 @@ controller.updateArtist = (req,res,next) => {
         }
     }
     utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
-    res.status(200).json(artist)// FALTA EL TOJSON
+    res.status(200).json(artist.toJson())
 
 }
 
@@ -93,7 +93,6 @@ controller.getArtists = (req,res,next) => {
     } else {
         artists = unqfy.getArtistsMatchingPartialName(artistName)
     }
-    //TODO: TRANSFORMAR TODOS LOS ARTISTS A JSON.
-    res.status(200).json(artists)
+    res.status(200).json(artists.map(artist => artist.toJson()))
 }
 module.exports = controller

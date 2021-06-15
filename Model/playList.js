@@ -53,6 +53,19 @@ class PlayList {
             newPlayList.addTracks(listOfTracksAndDuration.tracks);
             return newPlayList;
     }
+
+    toJson() {
+
+        let playlist = {
+            id: this._id,
+            name: this._name,
+            duration: this.duration(),
+            tracks: this._tracks.map(track => track.toJson()),
+            genres: this._gen            
+        }
+
+        return playlist
+    }
 }
 
 function cutPlaylistByDuration(tracks, maxDuration){

@@ -47,6 +47,16 @@ class Album{
     update(newYear){
         this.year = newYear;
     }
+
+    toJson() {
+        let album = {
+            id: this._id,
+            name: this._name,
+            year: this._year,
+            tracks: this._tracks.map(track => track.toJson())
+        }
+        return album
+    }
 }
 
 function sum(array) {
