@@ -8,7 +8,7 @@ const BASEURL = 'http://api.musixmatch.com/ws/1.1'
 
 
 musixMatchClient.getTrackLyrics = getTrackLyrics
-
+musixMatchClient.searchTrackId = searchTrackId
 
 async function searchTrackId(trackName) {
 

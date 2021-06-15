@@ -53,6 +53,20 @@ class PlayList {
             newPlayList.addTracks(listOfTracksAndDuration.tracks);
             return newPlayList;
     }
+
+    toJson() {
+
+        let playlist = {
+            id: this._id,
+            name: this._name,
+            duration: this.duration(),
+            tracks: this.allTracks().map(track => track.toJson()),
+            genres: this._gen            
+        }
+
+        return playlist
+    }
+
     static createPlayListFromTracks(name,tracks,id){
         let newPlaylist = new PlayList(id,name);
         newPlaylist.tracks = tracks;

@@ -30,8 +30,8 @@ controller.addAlbum = (req,res,next) => {
         }
     }
     
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
-    res.status(201).json(album)
+    utils.saveUNQfy(unqfy) // Para que se guarde el estado despues de agregar
+    res.status(201).json(album.toJson())
 }
 
 const isIncorrectJSONForPosting = (albumJson) => {
@@ -54,7 +54,7 @@ controller.getAlbumById = (req,res,next) => {
         next(ApiError.resourceNotFound());
         return;
     }
-    res.status(200).json(album);
+    res.status(200).json(album.toJson());
 }
 
 controller.updateAlbum = (req,res,next) => {
@@ -75,7 +75,7 @@ controller.updateAlbum = (req,res,next) => {
         }
     }
     utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
-    res.status(200).json(album)// FALTA EL TOJSON
+    res.status(200).json(album.toJson())
 }
 
 const isIncorrectJSONForUpdating = (albumUpdateJson) => {return albumUpdateJson.year === undefined}
@@ -93,7 +93,7 @@ controller.deleteAlbum = (req,res,next) => {
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    utils.saveUNQfy(unqfy) // Para que se guarde el estado despues de agregar
     res.status(204).json()
 }
 
@@ -107,7 +107,7 @@ controller.getAlbums = (req,res,next) => {
         albums = unqfy.getAlbumsMatchingPartialName(albumName)
     }
     //TODO: TRANSFORMAR TODOS LOS albums A JSON.
-    res.status(200).json(albums)
+    res.status(200).json(albums.map(album => album.toJson()))
 }
 
 module.exports = controller

@@ -15,8 +15,7 @@ controller.getLyricsById = async (req,res,next) => {
             next(ApiError.resourceNotFound())
         }
     }
-    res.status(200).json(track)
+    res.status(200).json(track.toJson())
 }
-
 
 module.exports = controller

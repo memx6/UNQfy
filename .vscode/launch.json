@@ -7,8 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run main.js",
-            "program": "${workspaceFolder}/main.js"
+            "name": "Run api.js",
+            "program": "${workspaceFolder}/api.js"
         },
         {
             "type": "node",

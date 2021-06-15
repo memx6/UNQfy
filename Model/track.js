@@ -29,6 +29,16 @@ class Track{
         `Track: ${this.name}\nID: ${this.id}\nDuration: ${this.duration}\nGenres: ${this.genres}`
         console.log(print)
     }
+
+    toJson() {
+
+        let lyrics = {
+            name: this._name,
+            lyrics: this.lyrics
+        }
+
+        return lyrics
+    }
 }
 
 module.exports = Track;

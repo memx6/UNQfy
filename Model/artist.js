@@ -57,6 +57,17 @@ class Artist {
         this.country = country;
     }
 
+    toJson() {
+
+        let artista = {
+            id: this._id,
+            name: this._name,
+            country: this._country,
+            albums: this.allTracks().map(album => album.toJson())            
+        }
+        return artista
+    }
+
 }
 
 function flatten (array) {
