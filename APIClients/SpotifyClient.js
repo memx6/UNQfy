@@ -1,6 +1,5 @@
 const { response } = require('express');
 const rp = require('request-promise');
-const RelatedResourceNotFound = require('../Errors/RelatedResourceNotFound')
 const credential = require('../spotifyCreds.json')
 const BASE_URL = 'https://api.spotify.com/v1/'
 const spotifyClient = {}
@@ -8,11 +7,6 @@ const spotifyClient = {}
 spotifyClient.searchArtistByName = searchArtistByName
 spotifyClient.getAlbumsByArtistId = getAlbumsByArtistId
 spotifyClient.getAlbumsArtistByName = getAlbumsArtistByName
-
-async function asd() {
-    let promesa = await spotifyClient.getAlbumsArtistByName("Michael Jackson")
-    console.log(promesa)
-}
 
 async function searchArtistByName(artistName) {
 
@@ -45,6 +39,5 @@ async function getAlbumsArtistByName(artistName) {
     return albums;
 }
 
-//asd()
 
 module.exports = spotifyClient

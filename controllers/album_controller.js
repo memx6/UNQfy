@@ -7,7 +7,7 @@ const utils = require('../utils.js')
 
 
 controller.addAlbum = (req,res,next) => {
-    let albumJson = req.body //TODO: Extraer los datos, y efectuar el addArtist de UNQFY.
+    let albumJson = req.body 
     if(isIncorrectJSONForPosting(albumJson) || hasIncorrectInformation(albumJson)){
         next(ApiError.badRequest())
         return;
@@ -15,7 +15,7 @@ controller.addAlbum = (req,res,next) => {
     let artistId = parseInt(albumJson.artistId)
     let albumData = {name: albumJson.name, year: parseInt(albumJson.year)}
 
-    let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
+    let unqfy = utils.getUNQfy() 
     let album;
     try {
         album = unqfy.addAlbum(artistId,albumData)
@@ -30,7 +30,7 @@ controller.addAlbum = (req,res,next) => {
         }
     }
     
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despues de agregar
+    utils.saveUNQfy(unqfy) 
     res.status(201).json(album.toJson())
 }
 
@@ -74,7 +74,7 @@ controller.updateAlbum = (req,res,next) => {
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    utils.saveUNQfy(unqfy)
     res.status(200).json(album.toJson())
 }
 
@@ -93,20 +93,19 @@ controller.deleteAlbum = (req,res,next) => {
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despues de agregar
+    utils.saveUNQfy(unqfy) 
     res.status(204).json()
 }
 
 controller.getAlbums = (req,res,next) => {
-    let albumName = req.query.name //aca tenemos el nombre que viene por query param. Si no existe, por default se retornan todos
-    let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
+    let albumName = req.query.name 
+    let unqfy = utils.getUNQfy() 
     let albums;
     if (albumName === undefined){
         albums = unqfy.allAlbums()
     } else {
         albums = unqfy.getAlbumsMatchingPartialName(albumName)
     }
-    //TODO: TRANSFORMAR TODOS LOS albums A JSON.
     res.status(200).json(albums.map(album => album.toJson()))
 }
 

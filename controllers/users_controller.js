@@ -25,8 +25,8 @@ controller.addUser = (req,res,next) => {
         }
     }
     
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
-    res.status(201).json(user)// Falta el toJson
+    utils.saveUNQfy(unqfy) 
+    res.status(201).json(user.toJson())
 }
 
 
@@ -60,7 +60,7 @@ controller.listenTrack = (req,res,next) => {
         }
     }
     utils.saveUNQfy(unqfy) 
-    res.status(200).json(user)// Falta el toJson
+    res.status(200).json(user.toJson())
 }
 
 controller.getUserById = (req,res,next) => {
@@ -71,7 +71,7 @@ controller.getUserById = (req,res,next) => {
         next(ApiError.resourceNotFound());
         return;
     }
-    res.status(200).json(user);
+    res.status(200).json(user.toJson());
 }
 
 
@@ -87,14 +87,14 @@ controller.deleteUser = (req,res,next) => {
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    utils.saveUNQfy(unqfy)
     res.status(204).json()
 }
 
 controller.getUsers = (req,res,next) => {
     let unqfy = utils.getUNQfy() 
     let users = unqfy.user
-    res.status(200).json(users)
+    res.status(200).json(users.map(user => user.toJson()))
 }
 
 module.exports = controller

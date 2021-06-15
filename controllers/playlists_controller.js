@@ -20,8 +20,9 @@ controller.getPlaylists = (req,res,next) => {
     let unqfy = utils.getUNQfy()
     let playlists = unqfy.filterPlaylists(name,durationLT,durationGT)
     utils.saveUNQfy(unqfy)
-    res.status(200).json(playlists)
+    res.status(200).json(playlists.map(playlist => playlist.toJson()))
 }
+
 const thereIsNoParams = (p1,p2,p3) =>{
     return (p1 === undefined && p2 === undefined && p3===undefined)
 }
@@ -71,9 +72,11 @@ controller.createPlaylist = (req,res,next) => {
             } catch(err){
                 if (err instanceof ResourceAlreadyExists){
                     next(ApiError.resourceAlreadyExists())
+                    return;
                 }
                 if (err instanceof RelatedResourceNotFound){
                     next(ApiError.relatedResourceNotFound())
+                    return;
                 }
             }   
         }
@@ -93,7 +96,7 @@ controller.createPlaylist = (req,res,next) => {
         
     }
     utils.saveUNQfy(unqfy)
-    res.status(201).json(playlist)
+    res.status(201).json(playlist.toJson())
 }
 
 const hasTracks = (playlistJson) => {return playlistJson.tracks !== undefined}

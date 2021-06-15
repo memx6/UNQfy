@@ -419,7 +419,6 @@ updateAlbum(albumId,newYear){
     return track;
   }
   /*Precondicion, al menos uno de los 3 parametros debe existir
-  Ver como optimizar 
   durationLT, durationGT son strings que representan un numero.
   Todos los parametros son opcionales, en caso de ser undefined no se usan.
   */
@@ -451,7 +450,18 @@ updateAlbum(albumId,newYear){
       } 
     });
     return artist.allAlbums()
-}
+  }
+
+  getAlbumsForArtist(artistName){
+    let artist = this.getArtistByName(artistName);
+    if (artist === undefined){
+      throw new RelatedResourceNotFound(`There was no artist named ${artistName}`)
+    }
+    let albumNames = artist.allAlbums().map(album => album.name)
+    return albumNames
+  }
+
+
   
 
   save(filename) {
@@ -476,9 +486,10 @@ module.exports = {
 };
 
 let verPopulatedAlbums = async () => {
-  let unq = new UNQfy()
-  unq.addArtist({name: "Michael Jackson", country: "United States"})
-  let albums = await unq.populateAlbumsForArtist("Michael Jackson")
-  albums.map(album => album.printAlbum())
+  let unqfy = new UNQfy()
+  unqfy.addArtist({name: "Michael Jackson", country: "United States"})
+  console.log(unqfy.getAlbumsForArtist("Michael Jackson"))
+  await unqfy.populateAlbumsForArtist("Michael Jackson")
+  console.log(unqfy.getAlbumsForArtist("Michael Jackson"))
 }
 //verPopulatedAlbums()

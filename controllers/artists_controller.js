@@ -21,7 +21,7 @@ controller.addArtist = (req,res,next) => {
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    utils.saveUNQfy(unqfy)
     res.status(201).json(artist.toJson())
 }
 
@@ -35,7 +35,7 @@ const isIncorrectJSONForPosting = (artistJson) => {
 }
 
 controller.getArtistById = (req,res,next) => {
-    let artistId = parseInt(req.params.id); //TODO: ir a buscar el Artist y retornarlo como dto.
+    let artistId = parseInt(req.params.id);
     let unqfy = utils.getUNQfy();
     let artist = unqfy.getArtistById(artistId);
     if (artist === undefined){
@@ -62,7 +62,7 @@ controller.updateArtist = (req,res,next) => {
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    utils.saveUNQfy(unqfy) 
     res.status(200).json(artist.toJson())
 
 }
@@ -80,13 +80,13 @@ controller.deleteArtist = (req,res,next) => {
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    utils.saveUNQfy(unqfy) 
     res.status(204).json()
 }
 
 controller.getArtists = (req,res,next) => {
-    let artistName = req.query.name //aca tenemos el nombre que viene por query param. Si no existe, por default se retornan todos
-    let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
+    let artistName = req.query.name 
+    let unqfy = utils.getUNQfy() 
     let artists;
     if (artistName === undefined){
         artists = unqfy.allArtists()

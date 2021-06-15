@@ -24,7 +24,7 @@ class User {
 
     listenMusicU(track){
         this.listenedTracks.push(track)
-        this.listen = this.name + ' listen : ' + track.name;
+        this.listen = this.name + ' is listening : ' + track.name;
         track.countListen = track.countListen + 1 
     }
     timesListenTrack(track){
