@@ -44,6 +44,9 @@ class Album{
     hasATrackNamed(trackName){
         return this.allTracks().some(track => track.name === trackName)
     }
+    update(newYear){
+        this.year = newYear;
+    }
 }
 
 function sum(array) {

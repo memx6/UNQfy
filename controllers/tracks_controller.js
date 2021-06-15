@@ -1,15 +1,21 @@
-const ApiError = ('../Errors/ApiError');
+const ApiError = require('../Errors/ApiError');
+const RelatedResourceNotFound = require('../Errors/RelatedResourceNotFound');
 const controller = {}
 const utils = require('../utils.js')
 
 
-controller.getLyricsById = (req,res) => {
-    let trackId = req.params.id //TODO: Pegarle al UNQFY con el track id y traer las lyrics.
-    if (! trackId){ // Esto no es una validacion valida, es un ejemplo de como le pasamos el error al Error Handler.
-        next(ApiError.badRequest())
-        return;
+controller.getLyricsById = async (req,res,next) => {
+    let trackId = parseInt(req.params.id) //TODO: Pegarle al UNQFY con el track id y traer las lyrics.
+    let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
+    let track;
+    try {
+        track = await unqfy.getLyrics(trackId)
+    } catch(err) {
+        if (err instanceof RelatedResourceNotFound){
+            next(ApiError.resourceNotFound())
+        }
     }
-    res.send()
+    res.status(200).json(track)
 }
 
 

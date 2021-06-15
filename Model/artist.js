@@ -1,3 +1,4 @@
+const ResourceAlreadyExists = require('../Errors/ResourceAlreadyExists')
 class Artist {
     constructor(id,name,country,albums = {}){
         this._id = id;
@@ -35,7 +36,7 @@ class Artist {
 
     addAlbum(albumId,album) {
         if(this.hasAlbumNamed(album.name)){
-            throw new Error (`Command was not successful: ${this.name} already has an album named ${album.name}`)
+            throw new ResourceAlreadyExists (`Command was not successful: ${this.name} already has an album named ${album.name}`)
         }
         this.albums[albumId] = album
     }
@@ -50,6 +51,10 @@ class Artist {
 
     deleteAlbum(albumId){
         this.albums[albumId] = undefined;
+    }
+    update(name,country){
+        this.name = name;
+        this.country = country;
     }
 
 }

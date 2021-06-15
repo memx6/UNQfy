@@ -1,41 +1,99 @@
-const ApiError = ('../Errors/ApiError');
+const ResourceAlreadyExists = require('../Errors/ResourceAlreadyExists')
+const RelatedResourceNotFound = require('../Errors/RelatedResourceNotFound')
+const ApiError = require('../Errors/ApiError.js');
 const controller = {}
 const utils = require('../utils.js')
 
-//TODO: VER EL MANEJO DE ERRORES.
 
-controller.addArtist = (req,res) => {
-    let artistJson = req.body //TODO: Extraer los datos, y efectuar el addArtist de UNQFY.
-    if (! req.body){ // Esto no es una validacion valida, es un ejemplo de como le pasamos el error al Error Handler.
+controller.addArtist = (req,res,next) => {
+    let artistJson = req.body
+    if(isIncorrectJSONForPosting(artistJson)){
         next(ApiError.badRequest())
         return;
     }
-    let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
-    //Agregar el artista a UNQFY
+    let unqfy = utils.getUNQfy()
+    let artist;
+    try{
+        artist= unqfy.addArtist(artistJson)
+    }catch(err){
+        if (err instanceof ResourceAlreadyExists){
+            next(ApiError.resourceAlreadyExists())
+            return;
+        }
+    }
     utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
-    res.send()
+    res.status(201).json(artist)// FALTA EL TOJSON
 }
 
-controller.getArtistById = (req,res) => {
-    let parametros = req.params //TODO: ir a buscar el Artist y retornarlo como dto.
-    res.send()
+const isIncorrectJSONForPosting = (artistJson) => {
+    return (
+              artistJson.name === undefined //Significa que no esta el campo
+            || artistJson.country === undefined 
+            || ((Object.keys(artistJson).length) !== 2)//Mandaron mas/menos campos de los que deberian
+    )
+           
 }
 
-controller.updateArtist = (req,res) => {
-    let artistId = req.params.id //TODO: actualizar el Artist y dar respuesta adecuada.
-    res.send()
+controller.getArtistById = (req,res,next) => {
+    let artistId = parseInt(req.params.id); //TODO: ir a buscar el Artist y retornarlo como dto.
+    let unqfy = utils.getUNQfy();
+    let artist = unqfy.getArtistById(artistId);
+    if (artist === undefined){
+        next(ApiError.resourceNotFound());
+        return;
+    }
+    res.status(200).json(artist);
 }
 
-controller.deleteArtist = (req,res) => {
-    let artistId = req.params.id //TODO: borrar el Artist y dar respuesta adecuada.
-    res.send()
+controller.updateArtist = (req,res,next) => {
+    let artistId = parseInt(req.params.id) 
+    let artistUpdateJson = req.body
+    if(isIncorrectJSONForPosting(artistUpdateJson)){
+        next(ApiError.badRequest())
+        return;
+    }
+    let unqfy = utils.getUNQfy();
+    let artist;
+    try{
+        artist= unqfy.updateArtist(artistId,artistUpdateJson)
+    }catch(err){
+        if (err instanceof RelatedResourceNotFound){
+            next(ApiError.resourceNotFound())
+            return;
+        }
+    }
+    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    res.status(200).json(artist)// FALTA EL TOJSON
+
 }
 
-controller.getArtists = (req,res) => {
-    let names = req.query.name //aca tenemos el nombre que viene por query param. Si no existe, por default se retornan todos
+controller.deleteArtist = (req,res,next) => {
+    let artistId = parseInt(req.params.id) 
+
+    let unqfy = utils.getUNQfy();
+    let artist;
+    try{
+        artist= unqfy.deleteArtist(artistId)
+    }catch(err){
+        if (err instanceof RelatedResourceNotFound){
+            next(ApiError.resourceNotFound())
+            return;
+        }
+    }
+    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    res.status(204).json()
+}
+
+controller.getArtists = (req,res,next) => {
+    let artistName = req.query.name //aca tenemos el nombre que viene por query param. Si no existe, por default se retornan todos
     let unqfy = utils.getUNQfy() // EJEMPLO DE USO DEL GET/SAVE DEL UNQFY
-    let artists = JSON.stringify(unqfy.artists)
-    utils.saveUNQfy(unqfy)
-    res.send(artists)
+    let artists;
+    if (artistName === undefined){
+        artists = unqfy.allArtists()
+    } else {
+        artists = unqfy.getArtistsMatchingPartialName(artistName)
+    }
+    //TODO: TRANSFORMAR TODOS LOS ARTISTS A JSON.
+    res.status(200).json(artists)
 }
 module.exports = controller

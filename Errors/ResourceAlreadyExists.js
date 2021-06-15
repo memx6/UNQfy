@@ -4,3 +4,5 @@ class ResourceAlreadyExists extends Error {
         this.name = "RESOURCE_ALREADY_EXISTS"
     }
 }
+
+module.exports = ResourceAlreadyExists;

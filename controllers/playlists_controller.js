@@ -1,4 +1,4 @@
-const ApiError = ('../Errors/ApiError');
+const ApiError = require('../Errors/ApiError');
 const controller = {}
 const utils = require('../utils.js')
 

@@ -5,13 +5,15 @@ const Artist = require('./Model/artist');
 const Album = require('./Model/album');
 const Track = require('./Model/track');
 const PlayList = require('./Model/playList');
-const User = require('./Model/user')
+const User = require('./Model/user');
+const ResourceAlreadyExists = require('./Errors/ResourceAlreadyExists');
+const RelatedResourceNotFound = require('./Errors/RelatedResourceNotFound')
 const musixMatchClient = require('./APIClients/musixmatchClient')
 
 class UNQfy {
   
   constructor (){
-    this.currentId = 0
+    this.currentId = 1
     this.artists   = {}
     this.playLists = {}
     this.user = []
@@ -313,7 +315,22 @@ compareCount(obj1,obj2){
     return 0
 }
 
-
+ updateArtist(artistId,newArtistData){
+  let artist = this.getArtistById(artistId)
+  if (artist === undefined){
+    throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`) 
+  }
+  artist.update(newArtistData.name,newArtistData.country)
+  return artist
+}
+updateAlbum(albumId,newYear){
+  let album = this.getAlbumById(albumId)
+  if (album === undefined){
+    throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`) 
+  }
+  album.update(newYear)
+  return album
+}
 
   //Delete methods
   deleteArtist(artistId){
@@ -358,13 +375,16 @@ compareCount(obj1,obj2){
     return this.allAlbums().find(album => album.hasTrack(trackId))
   }
 
-  async getLyrics(trackId){//Este retorna un not found.
-    let track = this.getTrackById(trackId)
-    if (track.lyrics === ""){
-      let lyrics = await musixMatchClient.getTrackLyrics(track.name)
-      track.lyrics(lyrics)
+  async getLyrics(trackId){
+    let track = this.getTrackById(trackId);
+    if (track === undefined) {
+      throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`);
     }
-    return track.lyrics;
+    if (track.lyrics === ""){
+      let lyrics = await musixMatchClient.getTrackLyrics(track.name);
+      track.lyrics(lyrics);
+    }
+    return track;
   }
 
 
