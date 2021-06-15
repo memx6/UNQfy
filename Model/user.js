@@ -16,7 +16,7 @@ class User {
     get listenedTracks(){return this._listenedTracks}
     set id(newid){this._id = newid}
     set name(newName){this._name = newName}
-    set email(newEmail){this._name = newEmail}
+    set email(newEmail){this._email = newEmail}
     set password(newPassword){this._password = newPassword}
     set listenedTracks(newList){this._listenedTracks = newList}
     get listen(){return this._listen}

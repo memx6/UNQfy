@@ -85,9 +85,8 @@ controller.deleteAlbum = (req,res,next) => {
     let albumId = parseInt(req.params.id) 
 
     let unqfy = utils.getUNQfy();
-    let album;
     try{
-        album= unqfy.deleteAlbum(albumId)
+        unqfy.deleteAlbum(albumId)
     }catch(err){
         if (err instanceof RelatedResourceNotFound){
             next(ApiError.resourceNotFound())

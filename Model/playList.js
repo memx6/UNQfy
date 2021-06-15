@@ -16,7 +16,7 @@ class PlayList {
     get maxDuration(){return this._maxDuration}
     set maxDuration(newmaxDuration){  return this._maxDuration = newmaxDuration}
     get gen(){return this._gen}
-    set gen(newGen){this._gen._gen = newGen}
+    set gen(newGen){this._gen= newGen}
 
     hasTrack(nameTrack){
         return (this.allTracks().find(track => track.name === nameTrack)) !== undefined
@@ -66,6 +66,22 @@ class PlayList {
 
         return playlist
     }
+
+    static createPlayListFromTracks(name,tracks,id){
+        let newPlaylist = new PlayList(id,name);
+        newPlaylist.tracks = tracks;
+        newPlaylist.maxDuration = newPlaylist.duration();
+        newPlaylist.gen = genresOf(tracks)
+        return newPlaylist
+    }
+    
+}
+const genresOf = (tracks) => {
+    let genres = tracks.map(track => track.genres).flat()
+    let result = genres.filter((item,index)=>{
+        return genres.indexOf(item) === index;
+      })
+    return result
 }
 
 function cutPlaylistByDuration(tracks, maxDuration){
