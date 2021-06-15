@@ -298,6 +298,7 @@ class UNQfy {
     let newPlayList = PlayList.createPlayListFromTracks(name,tracks,this.currentId);
     this.playLists[this.currentId] = newPlayList;
     this.currentId = this.currentId + 1;
+    return newPlayList;
   }
 
   thisIs(artistaID){

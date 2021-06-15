@@ -59,7 +59,10 @@ controller.createPlaylist = (req,res,next) => {
     let unqfy = utils.getUNQfy()
     let playlist;
     if (hasTracks(playlistJson)){
+        //Es un post de tracks
         if (isIncorrectJSONForPostingTracks(playlistJson) || hasIncorrectInformationForPostingTracks(playlistJson)){
+            next(ApiError.badRequest())
+        } else {
             try{
                 playlist = unqfy.createPlaylistFromIds(playlistJson.name,playlistJson.tracks.map(trackid => parseInt(trackid)))
             } catch(err){
@@ -69,9 +72,9 @@ controller.createPlaylist = (req,res,next) => {
                 if (err instanceof RelatedResourceNotFound){
                     next(ApiError.relatedResourceNotFound())
                 }
-            }
+            }   
         }
-    } else {
+    } else { //Es un post con generos{
         if (isIncorrectJSONForPostingWithGenres(playlistJson) || hasIncorrectInformationForPostingWithGenres(playlistJson)){
             next(ApiError.badRequest())
             return;
@@ -88,6 +91,8 @@ controller.createPlaylist = (req,res,next) => {
     utils.saveUNQfy(unqfy)
     res.status(201).json(playlist)
 }
+
+const hasTracks = (playlistJson) => {return playlistJson.tracks !== undefined}
 
 const isIncorrectJSONForPostingWithGenres = (playlistJson) => {
     return (   playlistJson.name === undefined 
