@@ -63,7 +63,7 @@ class Artist {
             id: this._id,
             name: this._name,
             country: this._country,
-            albums: this._albums.map(album => album.toJson())            
+            albums: this.allTracks().map(album => album.toJson())            
         }
         return artista
     }

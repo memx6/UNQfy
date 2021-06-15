@@ -53,7 +53,7 @@ class Album{
             id: this._id,
             name: this._name,
             year: this._year,
-            tracks: this._tracks.map(track => track.toJson())
+            tracks: this.allTracks().map(track => track.toJson())
         }
         return album
     }
