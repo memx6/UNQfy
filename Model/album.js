@@ -46,6 +46,7 @@ class Album{
     }
     update(newYear){
         this.year = newYear;
+        return this;
     }
 
     toJson() {

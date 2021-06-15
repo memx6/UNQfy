@@ -8,7 +8,7 @@ const utils = require('../utils.js')
 controller.addUser = (req,res,next) => {
     let userJson = req.body
     if(isIncorrectJSONForPosting(userJson)){
-        next(ApiError.badRequest())
+        next(ApiError.badRequest());
         return;
     }
     //user data name, email, pass
@@ -43,7 +43,8 @@ const isIncorrectJSONForPosting = (userJson) => {
 controller.listenTrack = (req,res,next) => {
     let trackId = req.query.trackId;
     if (trackId === undefined){
-        next(ApiError.badRequest())
+        next(ApiError.badRequest());
+        return;
     }
     trackId = parseInt(trackId);
     let userId = parseInt(req.params.id);
@@ -55,6 +56,7 @@ controller.listenTrack = (req,res,next) => {
     } catch (err){
         if (err instanceof RelatedResourceNotFound){
             next(ApiError.relatedResourceNotFound())
+            return;
         }
     }
     utils.saveUNQfy(unqfy) 

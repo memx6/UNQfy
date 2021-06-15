@@ -1,3 +1,4 @@
+const RelatedResourceNotFound = require('../Errors/RelatedResourceNotFound');
 const ResourceAlreadyExists = require('../Errors/ResourceAlreadyExists')
 class Artist {
     constructor(id,name,country,albums = {}){
@@ -63,11 +64,17 @@ class Artist {
             id: this._id,
             name: this._name,
             country: this._country,
-            albums: this.allTracks().map(album => album.toJson())            
+            albums: this.allAlbums().map(album => album.toJson())            
         }
         return artista
     }
 
+    updateAlbum(albumId,album){
+        if(! this.hasAlbumNamed(album.name)){
+            throw new RelatedResourceNotFound ("The ID provided does not belong to an album from the artist")
+        }
+        this.albums[albumId] = album
+    }
 }
 
 function flatten (array) {

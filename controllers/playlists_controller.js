@@ -10,10 +10,12 @@ controller.getPlaylists = (req,res,next) => {
     let durationLT = req.query.durationLT
     let durationGT = req.query.durationGT
     if(thereIsNoParams(name,durationLT,durationGT)){
-        next(ApiError.badRequest())
+        next(ApiError.badRequest());
+        return;
     }
     if (isInvalidDuration(durationLT) || isInvalidDuration(durationGT)){
         next(ApiError.badRequest())
+        return;
     }
     let unqfy = utils.getUNQfy()
     let playlists = unqfy.filterPlaylists(name,durationLT,durationGT)
@@ -30,27 +32,27 @@ const isInvalidDuration = (duration) => {
 controller.getPlaylistById = (req,res,next) => {
     let playlistId = parseInt(req.params.id); 
     let unqfy = utils.getUNQfy();
-    let playlist = unqfy.getPlayListById(playlistId);
+    let playlist = unqfy.getPlaylistById(playlistId);
     if (playlist === undefined){
         next(ApiError.resourceNotFound());
         return;
     }
-    res.status(200).json(playlist);
+    res.status(200).json(playlist.toJson());
 }
 
 controller.deletePlaylist = (req,res,next) => {
-    let playlist = parseInt(req.params.id) 
+    let playlistId = parseInt(req.params.id) 
 
     let unqfy = utils.getUNQfy();
     try{
-        unqfy.deletePlayList(playlist)
+        unqfy.deletePlayList(playlistId)
     }catch(err){
         if (err instanceof RelatedResourceNotFound){
             next(ApiError.resourceNotFound())
             return;
         }
     }
-    utils.saveUNQfy(unqfy) // Para que se guarde el estado despeus de agregar
+    utils.saveUNQfy(unqfy)
     res.status(204).json()
 }
 
@@ -62,6 +64,7 @@ controller.createPlaylist = (req,res,next) => {
         //Es un post de tracks
         if (isIncorrectJSONForPostingTracks(playlistJson) || hasIncorrectInformationForPostingTracks(playlistJson)){
             next(ApiError.badRequest())
+            return;
         } else {
             try{
                 playlist = unqfy.createPlaylistFromIds(playlistJson.name,playlistJson.tracks.map(trackid => parseInt(trackid)))
@@ -84,6 +87,7 @@ controller.createPlaylist = (req,res,next) => {
         } catch(err){
             if (err instanceof ResourceAlreadyExists){
                 next(ApiError.resourceAlreadyExists())
+                return;
             }
         }
         

@@ -292,7 +292,7 @@ class UNQfy {
     if(this.allPlaylists().some(playlist => playlist.name === name)){
       throw new ResourceAlreadyExists(`A playlist named ${name} already exists.`);
     }
-    let tracks = trackIds.map(id => getTrackById(id))
+    let tracks = trackIds.map(id => this.getTrackById(id))
     if (tracks.some(track => track === undefined)){
       throw new RelatedResourceNotFound("Some trackId given to the playlist does not exist");
     }
@@ -342,8 +342,10 @@ updateAlbum(albumId,newYear){
   if (album === undefined){
     throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`) 
   }
-  album.update(newYear)
-  return album
+  let author = this.authorOf(albumId)
+  let updatedAlbum = album.update(newYear)
+  author.updateAlbum(albumId,updatedAlbum)
+  return updatedAlbum
 }
 
   //Delete methods
@@ -380,7 +382,7 @@ updateAlbum(albumId,newYear){
   deletePlayList(playListId){
     let playlist = this.getPlaylistById(playListId)
     if (playlist === undefined) {
-      throw new RelatedResourceNotFound(`The id ${playlistId} does not belong to a playlist`);
+      throw new RelatedResourceNotFound(`The id ${playlist} does not belong to a playlist`);
     }
     this.playLists[playListId] = undefined
   }
@@ -407,8 +409,12 @@ updateAlbum(albumId,newYear){
       throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`);
     }
     if (track.lyrics === ""){
-      let lyrics = await musixMatchClient.getTrackLyrics(track.name);
-      track.lyrics(lyrics);
+      try {
+        let lyrics = await musixMatchClient.getTrackLyrics(track.name);
+        track.lyrics = lyrics;
+      } catch(err){
+        throw new RelatedResourceNotFound("No lyrics available")
+      }
     }
     return track;
   }
@@ -435,17 +441,17 @@ updateAlbum(albumId,newYear){
 
   async populateAlbumsForArtist(artistName){
     let artist = this.getArtistByName(artistName)
-    if(artist.allAlbums().length === 0){
-      let albums = await spotifyClient.getAlbumsArtistByName(artist.name)
-      albums.forEach(album => { 
+    let albums = await spotifyClient.getAlbumsArtistByName(artistName)
+    albums.forEach(album => { 
+      if(!artist.hasAlbumNamed(album.name)){
         let albumData = { 
-          name: album.name, 
-          year: parseInt(album.release_date.split("-")[0]) }
-        this.addAlbum(this.artist.id, albumData)
-      });
-    }
-      return artist.allAlbums()
-  }
+        name: album.name, 
+        year: parseInt(album.release_date.split("-")[0]) }
+        this.addAlbum(artist.id, albumData)
+      } 
+    });
+    return artist.allAlbums()
+}
   
 
   save(filename) {
@@ -469,3 +475,10 @@ module.exports = {
   UNQfy: UNQfy,
 };
 
+let verPopulatedAlbums = async () => {
+  let unq = new UNQfy()
+  unq.addArtist({name: "Michael Jackson", country: "United States"})
+  let albums = await unq.populateAlbumsForArtist("Michael Jackson")
+  albums.map(album => album.printAlbum())
+}
+//verPopulatedAlbums()

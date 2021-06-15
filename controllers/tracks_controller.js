@@ -13,6 +13,7 @@ controller.getLyricsById = async (req,res,next) => {
     } catch(err) {
         if (err instanceof RelatedResourceNotFound){
             next(ApiError.resourceNotFound())
+            return;
         }
     }
     res.status(200).json(track.toJson())

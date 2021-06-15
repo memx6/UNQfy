@@ -31,12 +31,10 @@ class Track{
     }
 
     toJson() {
-
         let lyrics = {
             name: this._name,
             lyrics: this.lyrics
         }
-
         return lyrics
     }
 }

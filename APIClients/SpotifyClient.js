@@ -45,6 +45,6 @@ async function getAlbumsArtistByName(artistName) {
     return albums;
 }
 
-asd()
+//asd()
 
 module.exports = spotifyClient
