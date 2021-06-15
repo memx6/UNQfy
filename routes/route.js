@@ -3,6 +3,7 @@ let router_albums = require('./albums')
 let router_artists = require('./artists')
 let router_playlists = require('./playlists')
 let router_tracks = require('./tracks')
+let router_users = require('./users')
 let router_invalidRoute = require('./invalidRoute')
 
 function seteoRutas(app){
@@ -10,6 +11,7 @@ function seteoRutas(app){
     app.use('/api/artists',router_artists);
     app.use('/api/tracks',router_tracks);
     app.use('/api/playlists',router_playlists);
+    app.use('/api/users',router_users);
     app.use('*', router_invalidRoute);
 }
 module.exports.seteoRutas = seteoRutas;

@@ -383,6 +383,14 @@ updateAlbum(albumId,newYear){
     this.playLists[playListId] = undefined
   }
 
+  deleteUser(userId){
+    let user = this.getUserById(userId)
+    if (user === undefined) {
+      throw new RelatedResourceNotFound(`The id ${userId} does not belong to a user`);
+    }
+    this.user = this.user.filter(user => user.id ==! userId)
+  }
+
   authorOf(albumId){
     return this.allArtists().find(artist => artist.isAuthorOf(albumId))
   }
