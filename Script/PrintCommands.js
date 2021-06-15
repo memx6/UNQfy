@@ -35,13 +35,20 @@ function main(filteredArgs) {
   console.log("¡¡¡   Print Track  !!!")
   main(['PrintTrack','Smooth Criminal'])
   console.log("¡¡¡   Print PlayList  !!!")
-  main(['PrintPlayList','tini<3'])
+  main(['PrintPlayList','dev1'])
   console.log("¡¡¡   Print User  !!!")
   main(['PrintUser','14'])
 
   
   
-  
-  
+  //duracion mayor a 1000
+//dev3 - pop
+//dev5 -pop
+//dev7 - pop
+//dev8 - Rock
 
+ //duracion menor a 1000 
+//dev2 - Rock
+//dev4 - rock
+//dev6 - rock
 
