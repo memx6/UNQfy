@@ -86,6 +86,7 @@ controller.deleteUser = (req,res,next) => {
             next(ApiError.resourceNotFound())
             return;
         }
+        throw err
     }
     utils.saveUNQfy(unqfy)
     res.status(204).json()

@@ -392,7 +392,7 @@ updateAlbum(albumId,newYear){
     if (user === undefined) {
       throw new RelatedResourceNotFound(`The id ${userId} does not belong to a user`);
     }
-    this.user = this.user.filter(user => user.id ==! userId)
+    this.user = this.user.filter(user => user.id !== userId)
   }
 
   authorOf(albumId){
@@ -412,7 +412,7 @@ updateAlbum(albumId,newYear){
       try {
         let lyrics = await musixMatchClient.getTrackLyrics(track.name);
         track.lyrics = lyrics;
-      } catch(err){
+      }catch(err){
         throw new RelatedResourceNotFound("No lyrics available")
       }
     }
@@ -492,4 +492,4 @@ let verPopulatedAlbums = async () => {
   await unqfy.populateAlbumsForArtist("Michael Jackson")
   console.log(unqfy.getAlbumsForArtist("Michael Jackson"))
 }
-//verPopulatedAlbums()
+verPopulatedAlbums()

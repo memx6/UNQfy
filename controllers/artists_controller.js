@@ -20,6 +20,7 @@ controller.addArtist = (req,res,next) => {
             next(ApiError.resourceAlreadyExists())
             return;
         }
+        throw err
     }
     utils.saveUNQfy(unqfy)
     res.status(201).json(artist.toJson())
