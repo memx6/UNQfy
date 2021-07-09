@@ -484,7 +484,7 @@ function flatten (array) {
 module.exports = {
   UNQfy: UNQfy,
 };
-
+/*
 let verPopulatedAlbums = async () => {
   let unqfy = new UNQfy()
   unqfy.addArtist({name: "Michael Jackson", country: "United States"})
@@ -493,3 +493,4 @@ let verPopulatedAlbums = async () => {
   console.log(unqfy.getAlbumsForArtist("Michael Jackson"))
 }
 verPopulatedAlbums()
+*/
