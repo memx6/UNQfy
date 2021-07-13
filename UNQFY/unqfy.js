@@ -7,17 +7,17 @@ const Track = require('./Model/track');
 const PlayList = require('./Model/playList');
 const User = require('./Model/user');
 const ResourceAlreadyExists = require('./Errors/ResourceAlreadyExists');
-const RelatedResourceNotFound = require('./Errors/RelatedResourceNotFound')
-const musixMatchClient = require('./APIClients/musixmatchClient')
-const spotifyClient = require('./APIClients/SpotifyClient')
+const RelatedResourceNotFound = require('./Errors/RelatedResourceNotFound');
+const musixMatchClient = require('./APIClients/musixmatchClient');
+const spotifyClient = require('./APIClients/SpotifyClient');
 
 class UNQfy {
   
   constructor (){
-    this.currentId = 1
-    this.artists   = {}
-    this.playLists = {}
-    this.user = []
+    this.currentId = 1;
+    this.artists   = {};
+    this.playLists = {};
+    this.user = [];
   }
   
 
@@ -34,34 +34,34 @@ class UNQfy {
     if(this.hasArtistNamed(artistData.name)){
       throw new ResourceAlreadyExists(`An artist named ${artistData.name} already exists.`);
     }
-    let artist = new Artist(this.currentId,artistData.name,artistData.country)
-    this.artists[this.currentId] = artist
-    this.currentId = this.currentId + 1
-    return artist
+    const artist = new Artist(this.currentId,artistData.name,artistData.country);
+    this.artists[this.currentId] = artist;
+    this.currentId = this.currentId + 1;
+    return artist;
   }
 
   addUser(userData){
-    let emailExists = this.user.some(user => user.email === userData.email)
+    const emailExists = this.user.some(user => user.email === userData.email);
     if(emailExists){
-      throw new ResourceAlreadyExists('Email is already in use')
+      throw new ResourceAlreadyExists('Email is already in use');
     }
-    let newUser = new User(this.currentId,userData.name,userData.email,userData.password,[])
-      this.user.push(newUser)
-      this.currentId = this.currentId + 1
-      return newUser 
+    const newUser = new User(this.currentId,userData.name,userData.email,userData.password,[]);
+      this.user.push(newUser);
+      this.currentId = this.currentId + 1;
+      return newUser ;
   }
 
   hasArtistNamed(name){
-    let artist = this.getArtistByName(name)
-    return artist !== undefined
+    const artist = this.getArtistByName(name);
+    return artist !== undefined;
   }
   hasArtistId(id){
-    let artist = this.getArtistById(id)
-    return artist !== undefined
+    const artist = this.getArtistById(id);
+    return artist !== undefined;
   }
 
   getArtistByName(name){
-    return this.allArtists().find(artist => artist.name === name)
+    return this.allArtists().find(artist => artist.name === name);
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
@@ -74,19 +74,19 @@ class UNQfy {
      - una propiedad name (string)
      - una propiedad year (number)
   */
-    let artist = this.getArtistById(artistId)
+    const artist = this.getArtistById(artistId);
     if(artist === undefined){
-      throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`)  
+      throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`);  
     }
-    let newAlbum = new Album(this.currentId,albumData.name,albumData.year)
-    artist.addAlbum(this.currentId,newAlbum)
-    this.currentId = this.currentId + 1
-    return newAlbum 
+    const newAlbum = new Album(this.currentId,albumData.name,albumData.year);
+    artist.addAlbum(this.currentId,newAlbum);
+    this.currentId = this.currentId + 1;
+    return newAlbum ;
   }
 
 
   hasAlbumNamed(name){
-    let album = this.getAlbumByName(name);
+    const album = this.getAlbumByName(name);
     return album !== undefined;
   }
 
@@ -95,19 +95,19 @@ class UNQfy {
   }
   
   getAlbumByNameAndArtist(artistName, albumName){
-    let artist = this.getArtistByName(artistName)
+    const artist = this.getArtistByName(artistName);
     if (artist === undefined){
-      throw new RelatedResourceNotFound(`artist ${artistName} is not in the system`)
+      throw new RelatedResourceNotFound(`artist ${artistName} is not in the system`);
     }
-    let album = artist.allAlbums().find(album => album.name === albumName)
+    const album = artist.allAlbums().find(album => album.name === albumName);
     if (album === undefined){
-      throw new RelatedResourceNotFound(`the album ${albumName} does not belong to the artist ${artistName}`)
+      throw new RelatedResourceNotFound(`the album ${albumName} does not belong to the artist ${artistName}`);
     }
     return album;
   }
 
   hasTrackNamed(name){
-    let track = this.getTrackByName(name);
+    const track = this.getTrackByName(name);
     return track !== undefined;
   }
 
@@ -116,7 +116,7 @@ class UNQfy {
   }
 
   hasPlayListNamed(name){
-    let playList = this.getPlayListByName(name);
+    const playList = this.getPlayListByName(name);
     return playList !== undefined;
   }
 
@@ -125,15 +125,15 @@ class UNQfy {
   }
 
   listenMusic(trackId,userId){
-    let track = this.getTrackById(trackId)
-    let user = this.getUserById(userId)
+    const track = this.getTrackById(trackId);
+    const user = this.getUserById(userId);
     if( track === undefined){
-      throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`)
+      throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`);
     }
     if (user === undefined){
-      throw new RelatedResourceNotFound(`The id ${userId} does not belong to an user`)
+      throw new RelatedResourceNotFound(`The id ${userId} does not belong to an user`);
     }
-    user.listenMusicU(track)
+    user.listenMusicU(track);
   }
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
@@ -147,11 +147,11 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-      let album = this.getAlbumById(albumId)
+      const album = this.getAlbumById(albumId);
       if(album === undefined){
-        throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`)
+        throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`);
       } 
-      let newTrack = new Track(this.currentId,trackData.name,trackData.duration,trackData.genres);
+      const newTrack = new Track(this.currentId,trackData.name,trackData.duration,trackData.genres);
       album.addTrack(this.currentId,newTrack);
       this.currentId = this.currentId + 1;
       return newTrack;  
@@ -159,18 +159,18 @@ class UNQfy {
 
 
   allArtists(){
-    return Object.values(this.artists).filter(artist => artist !== undefined)
+    return Object.values(this.artists).filter(artist => artist !== undefined);
   }
 
   allAlbums(){
-    return flatten(this.allArtists().map(artist => artist.allAlbums()))
+    return flatten(this.allArtists().map(artist => artist.allAlbums()));
   }
 
   allTracks(){
-    return flatten(this.allArtists().map(artist => artist.allTracks()))
+    return flatten(this.allArtists().map(artist => artist.allTracks()));
   }
   allPlaylists(){
-    return Object.values(this.playLists).filter(playlist => playlist !== undefined)
+    return Object.values(this.playLists).filter(playlist => playlist !== undefined);
   }
 
 
@@ -179,50 +179,50 @@ class UNQfy {
   }
 
   getAlbumById(id) {
-    return this.allAlbums().find(album => album.id === id)
+    return this.allAlbums().find(album => album.id === id);
   }
 
   getTrackById(id) {
-    return this.allTracks().find(track => track.id === id)
+    return this.allTracks().find(track => track.id === id);
   }
 
   getUserById(id){
-    return this.user.find(user => user.id === id)
+    return this.user.find(user => user.id === id);
   }
 
   getPlaylistById(id) {
-    return this.allPlaylists().find(playlist => playlist.id === id)
+    return this.allPlaylists().find(playlist => playlist.id === id);
   }
 
   //Prints all the tracks with the name "name"
   printTrack(name){
-    let tracksWithName = this.allTracks().filter(track => track.name === name)
-    tracksWithName.map(track => track.printTrack())
+    const tracksWithName = this.allTracks().filter(track => track.name === name);
+    tracksWithName.map(track => track.printTrack());
   }
 
   //Prints all the albums with the name "name"
   printAlbum(name){
-    let albumsWithName = this.allAlbums().filter(album => album.name === name)
-    albumsWithName.map(album => album.printAlbum())
+    const albumsWithName = this.allAlbums().filter(album => album.name === name);
+    albumsWithName.map(album => album.printAlbum());
   }
 
   //Prints the artist with the name "name"
   printArtist(name){
-    let artistWithName = this.getArtistByName(name)
-    artistWithName.printArtist()
+    const artistWithName = this.getArtistByName(name);
+    artistWithName.printArtist();
   }
 
   //Prints all the playLists with the name "name"
   printPlayList(name){
-    let playListsWithName = this.allPlaylists().filter(playList => playList.name === name)
-    playListsWithName.map(playList => playList.printPlayList())
+    const playListsWithName = this.allPlaylists().filter(playList => playList.name === name);
+    playListsWithName.map(playList => playList.printPlayList());
   }
 
   //Print all User by id
   printUser(userID){
     //console.log(this.user)
-    let user = this.user.find( u => u.id == userID)
-    user.printUser()
+    const user = this.user.find( u => u.id === userID);
+    user.printUser();
    // console.log(this.user.find( u => u.id == userID))
   }
   
@@ -253,18 +253,18 @@ class UNQfy {
   }
 
   searchByName(name) {
-    let dicctionary = {
+    const dicctionary = {
         artists:   this.getArtistsMatchingPartialName(name),
         albums:    this.getAlbumsMatchingPartialName(name),
         tracks:    this.getTracksMatchingPartialName(name),
         playlists: this.getPlayListsMatchingPartialName(name)
-    }
+    };
     return dicctionary;
   }
 
   createUser(id,name,email,pass,list){
-  var u =  new User(id,name,email,pass,list)
-  this.user.push(u)
+  const u =  new User(id,name,email,pass,list);
+  this.user.push(u);
   
   }
   // name: nombre de la playlist
@@ -279,10 +279,10 @@ class UNQfy {
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
     if(this.allPlaylists().some(playlist => playlist.name === name)){
-      throw new ResourceAlreadyExists(`A playlist named ${name} already exists.`)
+      throw new ResourceAlreadyExists(`A playlist named ${name} already exists.`);
     }
-      let tracks = this.getTracksMatchingGenres(genresToInclude);
-      let newPlayList = PlayList.createPlayList(name,maxDuration, genresToInclude, tracks, this.currentId)
+      const tracks = this.getTracksMatchingGenres(genresToInclude);
+      const newPlayList = PlayList.createPlayList(name,maxDuration, genresToInclude, tracks, this.currentId);
       this.playLists[this.currentId] = newPlayList;
       this.currentId = this.currentId + 1;
       return newPlayList;
@@ -292,128 +292,128 @@ class UNQfy {
     if(this.allPlaylists().some(playlist => playlist.name === name)){
       throw new ResourceAlreadyExists(`A playlist named ${name} already exists.`);
     }
-    let tracks = trackIds.map(id => this.getTrackById(id))
+    const tracks = trackIds.map(id => this.getTrackById(id));
     if (tracks.some(track => track === undefined)){
       throw new RelatedResourceNotFound("Some trackId given to the playlist does not exist");
     }
-    let newPlayList = PlayList.createPlayListFromTracks(name,tracks,this.currentId);
+    const newPlayList = PlayList.createPlayListFromTracks(name,tracks,this.currentId);
     this.playLists[this.currentId] = newPlayList;
     this.currentId = this.currentId + 1;
     return newPlayList;
   }
 
   thisIs(artistaID){
-   var tranksL =  this.user.map( u => u.listenedTracks).flat()
-   var a  =  this.getArtistById(parseInt(artistaID))
+   const tranksL =  this.user.map( u => u.listenedTracks).flat();
+   const a  =  this.getArtistById(parseInt(artistaID));
     
-   var name = a.name
-   var alltrackArtist= this.getTracksMatchingArtist(name)
-   var listenArtistt= []
-   for (var  i = 0 ; i < alltrackArtist.length ; i++){
-    listenArtistt.push({track : alltrackArtist[i]
-                        , count : tranksL.filter( t => t.name === alltrackArtist[i].name).length})
+   const name = a.name;
+   const alltrackArtist= this.getTracksMatchingArtist(name);
+   const listenArtistt= [];
+   for (let  i = 0 ; i < alltrackArtist.length ; i++){
+    listenArtistt.push({track : alltrackArtist[i], 
+      count : tranksL.filter( t => t.name === alltrackArtist[i].name).length});
    }
-   listenArtistt.sort((obj1,obj2)=> this.compareCount(obj1,obj2))
-  console.log("This is " + name )
-  return listenArtistt.slice(0,3).map( obj => obj.track) 
+   listenArtistt.sort((obj1,obj2)=> this.compareCount(obj1,obj2));
+  console.log("This is " + name );
+  return listenArtistt.slice(0,3).map( obj => obj.track); 
   
 }
 
 compareCount(obj1,obj2){
     if(obj1.count > obj2.count){
-      return -1
+      return -1;
     }
     if (obj1.count < obj2.count){
-      return 1 
+      return 1; 
     }
-    return 0
+    return 0;
 }
 
  updateArtist(artistId,newArtistData){
-  let artist = this.getArtistById(artistId)
+  const artist = this.getArtistById(artistId);
   if (artist === undefined){
-    throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`) 
+    throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`) ;
   }
-  artist.update(newArtistData.name,newArtistData.country)
-  return artist
+  artist.update(newArtistData.name,newArtistData.country);
+  return artist;
 }
 updateAlbum(albumId,newYear){
-  let album = this.getAlbumById(albumId)
+  const album = this.getAlbumById(albumId);
   if (album === undefined){
-    throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`) 
+    throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`) ;
   }
-  let author = this.authorOf(albumId)
-  let updatedAlbum = album.update(newYear)
-  author.updateAlbum(albumId,updatedAlbum)
-  return updatedAlbum
+  const author = this.authorOf(albumId);
+  const updatedAlbum = album.update(newYear);
+  author.updateAlbum(albumId,updatedAlbum);
+  return updatedAlbum;
 }
 
   //Delete methods
   deleteArtist(artistId){
-    let artist = this.getArtistById(artistId)
+    const artist = this.getArtistById(artistId);
     if (artist === undefined){
-      throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`) 
+      throw new RelatedResourceNotFound(`The id ${artistId} does not belong to an artist`); 
     } 
-    artist.allAlbums().map(album => this.deleteAlbum(album.id))
-    this.artists[artistId] = undefined
+    artist.allAlbums().map(album => this.deleteAlbum(album.id));
+    this.artists[artistId] = undefined;
   }
   
   deleteAlbum(albumId){
-    let album = this.getAlbumById(albumId)
+    const album = this.getAlbumById(albumId);
     if (album === undefined){
-      throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`) 
+      throw new RelatedResourceNotFound(`The id ${albumId} does not belong to an album`); 
     }
-    let artist = this.authorOf(albumId)
-    album.allTracks().map(track => this.deleteTrack(track.id))
-    artist.deleteAlbum(albumId)
+    const artist = this.authorOf(albumId);
+    album.allTracks().map(track => this.deleteTrack(track.id));
+    artist.deleteAlbum(albumId);
   }
 
   deleteTrack(trackId){
-    let track = this.getTrackById(trackId)
+    const track = this.getTrackById(trackId);
     if (track === undefined) {
       throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`);
     }
-    let album = this.albumOf(trackId)
+    const album = this.albumOf(trackId);
     album.deleteTrack(trackId);
     this.allPlaylists().filter(playlist => playlist.hasTrackWithId(trackId))
                        .map(playlist => playlist.deleteTrack(trackId));
   }
 
   deletePlayList(playListId){
-    let playlist = this.getPlaylistById(playListId)
+    const playlist = this.getPlaylistById(playListId);
     if (playlist === undefined) {
       throw new RelatedResourceNotFound(`The id ${playlist} does not belong to a playlist`);
     }
-    this.playLists[playListId] = undefined
+    this.playLists[playListId] = undefined;
   }
 
   deleteUser(userId){
-    let user = this.getUserById(userId)
+    const user = this.getUserById(userId);
     if (user === undefined) {
       throw new RelatedResourceNotFound(`The id ${userId} does not belong to a user`);
     }
-    this.user = this.user.filter(user => user.id !== userId)
+    this.user = this.user.filter(user => user.id !== userId);
   }
 
   authorOf(albumId){
-    return this.allArtists().find(artist => artist.isAuthorOf(albumId))
+    return this.allArtists().find(artist => artist.isAuthorOf(albumId));
   }
 
   albumOf(trackId){
-    return this.allAlbums().find(album => album.hasTrack(trackId))
+    return this.allAlbums().find(album => album.hasTrack(trackId));
   }
 
   async getLyrics(trackId){
-    let track = this.getTrackById(trackId);
+    const track = this.getTrackById(trackId);
     if (track === undefined) {
       throw new RelatedResourceNotFound(`The id ${trackId} does not belong to a track`);
     }
     if (track.lyrics === ""){
       try {
-        let lyrics = await musixMatchClient.getTrackLyrics(track.name);
+        const lyrics = await musixMatchClient.getTrackLyrics(track.name);
         track.lyrics = lyrics;
       }catch(err){
-        throw new RelatedResourceNotFound("No lyrics available")
+        throw new RelatedResourceNotFound("No lyrics available");
       }
     }
     return track;
@@ -430,35 +430,35 @@ updateAlbum(albumId,newYear){
       playlists = this.allPlaylists();
     }
     if (durationLT !== undefined){
-      playlists = playlists.filter(playlist => playlist.duration() < parseInt(durationLT))
+      playlists = playlists.filter(playlist => playlist.duration() < parseInt(durationLT));
     }
     if (durationGT !== undefined){
-      playlists = playlists.filter(playlist => playlist.duration() > parseInt(durationGT))
+      playlists = playlists.filter(playlist => playlist.duration() > parseInt(durationGT));
     }
-    return playlists
+    return playlists;
   }
 
   async populateAlbumsForArtist(artistName){
-    let artist = this.getArtistByName(artistName)
-    let albums = await spotifyClient.getAlbumsArtistByName(artistName)
+    const artist = this.getArtistByName(artistName);
+    const albums = await spotifyClient.getAlbumsArtistByName(artistName);
     albums.forEach(album => { 
       if(!artist.hasAlbumNamed(album.name)){
-        let albumData = { 
+        const albumData = { 
         name: album.name, 
-        year: parseInt(album.release_date.split("-")[0]) }
-        this.addAlbum(artist.id, albumData)
+        year: parseInt(album.release_date.split("-")[0]) };
+        this.addAlbum(artist.id, albumData);
       } 
     });
-    return artist.allAlbums()
+    return artist.allAlbums();
   }
 
   getAlbumsForArtist(artistName){
-    let artist = this.getArtistByName(artistName);
+    const artist = this.getArtistByName(artistName);
     if (artist === undefined){
-      throw new RelatedResourceNotFound(`There was no artist named ${artistName}`)
+      throw new RelatedResourceNotFound(`There was no artist named ${artistName}`);
     }
-    let albumNames = artist.allAlbums().map(album => album.name)
-    return albumNames
+    const albumNames = artist.allAlbums().map(album => album.name);
+    return albumNames;
   }
 
 

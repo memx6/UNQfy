@@ -1,7 +1,11 @@
 const RelatedResourceNotFound = require('../Errors/RelatedResourceNotFound');
 const ResourceAlreadyExists = require('../Errors/ResourceAlreadyExists')
-class Artist {
+
+
+
+class Artist extends Subject {
     constructor(id,name,country,albums = {}){
+        super();
         this._id = id;
         this._name = name;
         this._country = country;
@@ -40,6 +44,9 @@ class Artist {
             throw new ResourceAlreadyExists (`Command was not successful: ${this.name} already has an album named ${album.name}`)
         }
         this.albums[albumId] = album
+        /*notify(
+            {type: "album added", artistId: this.id ,artistName: this.name, albumName: album.name}
+        )*/
     }
 
     hasAlbumNamed(albumName){
@@ -82,3 +89,25 @@ function flatten (array) {
 }
 
 module.exports = Artist;
+
+
+
+
+class Subject {
+    constructor(){
+        this.observers = [];
+    }
+
+    addObserver(observer){
+        this.observers.push(observer);
+    }
+
+    removeObserver(observer){
+        this.observers = this.observers.filter(obs => obs !== observer);
+    }
+
+    notify(event){
+        this.observers.forEach(obs => obs.update(event));
+    }
+
+}
