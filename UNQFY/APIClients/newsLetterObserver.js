@@ -1,23 +1,40 @@
+const rp = require('request-promise');
+const NEWSLETTER_PORT = process.env["NEWSLETTER-PORT"] || 3001;
+
+const optionsForNotify = {
+    method: 'POST',
+    uri: `http://localhost:${NEWSLETTER_PORT}/api/notify`,
+    body: {},
+    json: true // Automatically stringifies the body to JSON
+};
+const optionsForDeletion = {
+    method: 'DELETE',
+    uri: `http://localhost:${NEWSLETTER_PORT}/api/subscriptions`,
+    body: {},
+    json: true // Automatically stringifies the body to JSON
+};
+ 
+
 class NewsletterObserver {
     constructor(){}
 
-    update(event){
-        //chequea que evento es y si le interesa,
-        if (event.type === "album added") {
-            const requestBody = 
-                {
-                    artistId: event.artistId,
-                    subject: `Nuevo Album para artista ${event.artistName}}`, 
-                    message: `Se ha agregado el album ${event.albumName} al artista ${event.artistName}`
-                };
-            console.log(requestBody);
-            //llamada a la API de Newsletter en el EP (Post) api/notify
-        }
-        if (event.type === "artist deleted") {
-            const requestBody = {artistId: event.artistId};
-            console.log(requestBody);
-            //llamada a la API de Newsletter en el EP (Delete) api/subscriptions
-        }
+    // information contains an artistId, artistName, and albumName
+    notifyAlbumAddition(information){
+    const requestBody = 
+        {
+            artistId: information.artistId,
+            subject: `Nuevo Album para artista ${information.artistName}}`, 
+            message: `Se ha agregado el album ${information.albumName} al artista ${information.artistName}`
+        };
+    optionsForNotify.body = requestBody;
+    rp(optionsForNotify);
+
+    }
+// information contains an artistId
+    notifyArtistDeletion(information){
+        const requestBody = {artistId: information.artistId};
+        optionsForDeletion.body = requestBody;
+        rp(optionsForDeletion);
     }
 }
 

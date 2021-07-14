@@ -15,7 +15,6 @@ controller.addSubscriber = (req,res,next) => {
     let email = subscriptionJson.email;
 
     let newsletter = utils.getNewsletter(); //No deberia guardarse no? porque es siempre la misma instancia. Cuando muere el node muere.
-    console.log(newsletter);
     newsletter.subscribe(artistId,email) //AL ESTO DEVOLVER UNA PROMESA PORQUE HAY QUE IR A BUSCAR INFO A OTRO LADO, CREO QUE SE MANEJA ASI.
     .then(() => {
         res.status(200).json()
@@ -52,8 +51,8 @@ controller.notify = (req,res,next) => {
         return;
     };
     let artistId = parseInt(notification.artistId);
-    let subject = notifcation.subject;
-    let message = notifcation.message;
+    let subject = notification.subject;
+    let message = notification.message;
 
     let newsletter = utils.getNewsletter();
 
