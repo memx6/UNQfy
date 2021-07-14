@@ -29,7 +29,7 @@ const RelatedResourceNotFound = require('./Errors/RelatedResourceNotFound');
 const musixMatchClient = require('./APIClients/musixmatchClient');
 const spotifyClient = require('./APIClients/SpotifyClient');
 const DependencyTransformer = require('./APIClients/DependencyTransformer');
-
+const NewsletterObserver = require('./APIClients/newsLetterObserver');
 
 class UNQfy extends Subject {
   
@@ -103,7 +103,7 @@ class UNQfy extends Subject {
     artist.addAlbum(this.currentId,newAlbum);
     this.currentId = this.currentId + 1;
     this.notify(
-          "album added", {artistId: this.id ,artistName: this.name, albumName: newAlbum.name}
+          "album added", {artistId: artistId ,artistName: artist.name, albumName: newAlbum.name}
     );
     return newAlbum ;
   }
@@ -244,7 +244,6 @@ class UNQfy extends Subject {
 
   //Print all User by id
   printUser(userID){
-    //console.log(this.user)
     const user = this.user.find( u => u.id === userID);
     user.printUser();
    // console.log(this.user.find( u => u.id == userID))
@@ -497,7 +496,7 @@ updateAlbum(albumId,newYear){
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artist,Album,Track, PlayList,User,DependencyTransformer];
+    const classes = [UNQfy,Artist,Album,Track, PlayList,User,DependencyTransformer,NewsletterObserver];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

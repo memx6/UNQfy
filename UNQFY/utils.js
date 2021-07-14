@@ -19,10 +19,9 @@ function getUNQfy(filename = 'data.json') {
     unqfy = unqmod.UNQfy.load(filename);
   }
   if (unqfy.observers.length === 0){
-    const dependencyTransformerForAlbumAddition = new DependencyTransformer("album added",NewsletterObserver.notifyAlbumAddition);
-    const dependencyTransformerForArtistDeletion = new DependencyTransformer("artist deleted",NewsletterObserver.notifyArtistDeletion);
-    unqfy.addObserver(dependencyTransformerForAlbumAddition);
-    unqfy.addObserver(dependencyTransformerForArtistDeletion);
+  const newsletterObserver = new NewsletterObserver();
+  const dependecyTransformer = new DependencyTransformer(newsletterObserver);
+    unqfy.addObserver(dependecyTransformer);
   }
   return unqfy;
 }
@@ -31,4 +30,4 @@ function saveUNQfy(unqfy, filename = 'data.json') {
   unqfy.save(filename);
 }
 
-module.exports = utils;
+module.exports = utils
