@@ -13,12 +13,8 @@ gmailClient.send_mail(
    /* "name": "Lautaro Woites",
     "email": "lautaro.woites@gmail.com",*/
     "name": "UNQfy newsletter",
-    "email": "memx6.mm@gmail.com",    
+    "email": "memx6.mm@gmail.com",    //Este mail es el receptor
   },
-  {
-     "name": "UNQfy newsletter",
-     "email": "trejojulian998@gmail.com",    
-   },
   {
     "name": "UNQfy newsletter",
     "email": "unqfy@gmail.com",
