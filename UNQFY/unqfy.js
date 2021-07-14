@@ -1,3 +1,21 @@
+class Subject {
+  constructor(){
+      this.observers = [];
+  }
+
+  addObserver(observer){
+      this.observers.push(observer);
+  }
+
+  removeObserver(observer){
+      this.observers = this.observers.filter(obs => obs !== observer);
+  }
+
+  notify(aspect,event){
+      this.observers.forEach(obs => obs.update(aspect,event));
+  }
+
+}
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
@@ -10,10 +28,13 @@ const ResourceAlreadyExists = require('./Errors/ResourceAlreadyExists');
 const RelatedResourceNotFound = require('./Errors/RelatedResourceNotFound');
 const musixMatchClient = require('./APIClients/musixmatchClient');
 const spotifyClient = require('./APIClients/SpotifyClient');
+const DependencyTransformer = require('./APIClients/DependencyTransformer');
 
-class UNQfy {
+
+class UNQfy extends Subject {
   
   constructor (){
+    super();
     this.currentId = 1;
     this.artists   = {};
     this.playLists = {};
@@ -81,6 +102,9 @@ class UNQfy {
     const newAlbum = new Album(this.currentId,albumData.name,albumData.year);
     artist.addAlbum(this.currentId,newAlbum);
     this.currentId = this.currentId + 1;
+    this.notify(
+          "album added", {artistId: this.id ,artistName: this.name, albumName: newAlbum.name}
+    );
     return newAlbum ;
   }
 
@@ -356,6 +380,7 @@ updateAlbum(albumId,newYear){
     } 
     artist.allAlbums().map(album => this.deleteAlbum(album.id));
     this.artists[artistId] = undefined;
+    this.notify("artist deleted",{artistId: artistId});
   }
   
   deleteAlbum(albumId){
@@ -472,7 +497,7 @@ updateAlbum(albumId,newYear){
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artist,Album,Track, PlayList,User];
+    const classes = [UNQfy,Artist,Album,Track, PlayList,User,DependencyTransformer];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
@@ -494,3 +519,4 @@ let verPopulatedAlbums = async () => {
 }
 verPopulatedAlbums()
 */
+
