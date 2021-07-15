@@ -14,11 +14,11 @@ controller.addSubscriber = (req,res,next) => {
     let artistId = parseInt(subscriptionJson.artistId);
     let email = subscriptionJson.email;
 
-    let newsletter = utils.getNewsletter(); //No deberia guardarse no? porque es siempre la misma instancia. Cuando muere el node muere.
-    newsletter.subscribe(artistId,email) //AL ESTO DEVOLVER UNA PROMESA PORQUE HAY QUE IR A BUSCAR INFO A OTRO LADO, CREO QUE SE MANEJA ASI.
+    let newsletter = utils.getNewsletter(); 
+    newsletter.subscribe(artistId,email)
     .then(() => {
         res.status(200).json()
-    })//ESTO ESTA BIEN???
+    })
     .catch( (err) => next (
         (err instanceof ArtistNotFound)? ApiError.relatedResourceNotFound() : err
     ))
@@ -33,9 +33,9 @@ controller.removeSubscriber = (req,res,next) => {
     let artistId = parseInt(unSubscriptionJson.artistId);
     let email = unSubscriptionJson.email;
 
-    let newsletter = utils.getNewsletter(); //No deberia guardarse no? porque es siempre la misma instancia. Cuando muere el node muere.
+    let newsletter = utils.getNewsletter(); 
 
-    newsletter.unsubscribe(artistId,email) //AL ESTO DEVOLVER UNA PROMESA PORQUE HAY QUE IR A BUSCAR INFO A OTRO LADO, CREO QUE SE MANEJA ASI.
+    newsletter.unsubscribe(artistId,email)
     .then(() => {
         res.status(200).json();
     })
@@ -56,10 +56,10 @@ controller.notify = (req,res,next) => {
 
     let newsletter = utils.getNewsletter();
 
-    newsletter.notify(artistId,subject,message) //AL ESTO DEVOLVER UNA PROMESA PORQUE HAY QUE IR A BUSCAR INFO A OTRO LADO, CREO QUE SE MANEJA ASI.
+    newsletter.notify(artistId,subject,message)
     .then(() => {
         res.status(200).json()
-    })//ESTO ESTA BIEN???
+    })
     .catch( (err) => next (
         (err instanceof ArtistNotFound)? ApiError.relatedResourceNotFound() : err
     ))
@@ -126,5 +126,10 @@ const isIncorrectJSONForDeleting = (deleteJson) =>{
         || ((Object.keys(deleteJson).length) !== 1)
     )   
 }
+
+controller.isAlive = (req,res,next) => {
+    res.status(200).json("Newsletter is alive")
+}
+
 
 module.exports = controller
