@@ -2,10 +2,11 @@ const express = require('express')
 const route = require("./routes/route")
 const apiErrorHandler = require('./Errors/ErrorHandler')
 let bodyParser = require('body-parser')
+const NEWSLETTER_PORT = process.env["NEWSLETTER-PORT"] || 3001;
 //Creacion de app
 const app = express();
 
-const port = 3001;//PONER ENV
+const port = NEWSLETTER_PORT;
 
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }));

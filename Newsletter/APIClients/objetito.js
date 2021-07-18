@@ -1,6 +1,7 @@
 const { response } = require('express');
+const UNQFY_PORT = process.env["UNQFY-PORT"] || 3000;
 const rp = require('request-promise');
-const BASE_URL = 'http://localhost:3000/api/artists/'
+const BASE_URL = `http://localhost:${UNQFY_PORT}/api/artists/`
 const objetito = {}
 
 objetito.artistExists = artistExists
