@@ -24,7 +24,6 @@ async function sendNotification(msg) {
     rp(optionsForNotify);
 }
 
-
 discord.sendNotification = sendNotification
 discord.notificationServiceActive = notificationServiceActive
 discord.notificationServiceInactive = notificationServiceInactive

@@ -1,7 +1,9 @@
 const express = require('express')
 const route = require("./routes/route")
 const apiErrorHandler = require('./Errors/ErrorHandler')
-let bodyParser = require('body-parser')
+const monitor = require('./utils.js')
+
+monitor.getMonitor().startCheck()
 //Creacion de app
 const app = express();
 
