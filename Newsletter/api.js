@@ -2,7 +2,7 @@ const express = require('express')
 const route = require("./routes/route")
 const apiErrorHandler = require('./Errors/ErrorHandler')
 let bodyParser = require('body-parser')
-const NEWSLETTER_PORT = process.env["NEWSLETTER-PORT"] || 3001;
+const NEWSLETTER_PORT = process.env["NEWSLETTER_PORT"] || 5001;
 //Creacion de app
 const app = express();
 

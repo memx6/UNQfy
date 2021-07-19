@@ -17,7 +17,7 @@ COPY package-lock.json .
 RUN ["npm", "install"]
 
 # Expone el puerto 3000 donde corre la aplicación
-EXPOSE 3001
+EXPOSE 5001
 
 # Copia los fuentes dentro del container
 COPY . . /home/node/my_node_app/
@@ -40,4 +40,5 @@ CMD [ "node", "api.js" ]
 # docker build -t newsletter .
 
 # Para correr el container
-# docker run -p 3001:3001 --name newsletter_container --user node newsletter
+# docker run -p 5001:5001 --name newsletter_container --user node newsletter
+# docker run  --network=unqfynet --ip 172.20.0.22 -p 5001:5001 -e UNQFY_PORT=http://172.20.0.21:5000 --name newsletter_container --user node newsletter

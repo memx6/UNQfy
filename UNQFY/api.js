@@ -2,7 +2,7 @@ const express = require('express');
 const route = require("./routes/route");
 const apiErrorHandler = require('./Errors/ErrorHandler');
 let bodyParser = require('body-parser');
-const UNQFY_PORT = process.env['UNQFY-PORT'] || 3000;
+const UNQFY_PORT = process.env['UNQFY_PORT'] || 5000;
 
 //Creacion de app
 const app = express();

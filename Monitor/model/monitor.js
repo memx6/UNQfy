@@ -36,6 +36,8 @@ class Monitor {
     }
 
     intervalFunction() {
+        console.log(process.env["NEWSLETTER_PORT"])
+        console.log(process.env["UNQFY_PORT"])
         if(this.isActive) {
             this.services.map((service) => this.checkService(service));
         }

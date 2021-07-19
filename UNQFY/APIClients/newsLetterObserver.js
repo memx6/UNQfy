@@ -1,15 +1,15 @@
 const rp = require('request-promise');
-const NEWSLETTER_PORT = process.env["NEWSLETTER-PORT"] || 3001;
+const NEWSLETTER_PORT = process.env["NEWSLETTER_PORT"] || "http://localhost:5001";
 
 const optionsForNotify = {
     method: 'POST',
-    uri: `http://localhost:${NEWSLETTER_PORT}/api/notify`,
+    uri: `${NEWSLETTER_PORT}/api/notify`,
     body: {},
     json: true // Automatically stringifies the body to JSON
 };
 const optionsForDeletion = {
     method: 'DELETE',
-    uri: `http://localhost:${NEWSLETTER_PORT}/api/subscriptions`,
+    uri: `${NEWSLETTER_PORT}/api/subscriptions`,
     body: {},
     json: true // Automatically stringifies the body to JSON
 };

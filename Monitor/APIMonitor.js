@@ -7,7 +7,7 @@ monitor.getMonitor().startCheck()
 //Creacion de app
 const app = express();
 
-const port = 3002;//PONER ENV
+const port = 5002;//Puede haber ENV
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));

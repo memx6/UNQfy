@@ -17,7 +17,7 @@ COPY package-lock.json .
 RUN ["npm", "install"]
 
 # Expone el puerto 3000 donde corre la aplicación
-EXPOSE 3002
+EXPOSE 5002
 
 # Copia los fuentes dentro del container
 COPY . . /home/node/my_node_app/
@@ -40,4 +40,5 @@ CMD [ "node", "APIMonitor.js" ]
 # docker build -t monitor .
 
 # Para correr el container
-# docker run -p 3002:3002 --name monitor_container --user node monitor
+# deprecado: docker run -p 5002:5002 --name monitor_container --user node monitor
+# docker run  --network=unqfynet --ip 172.20.0.23 -p 5002:5002 -e UNQFY_PORT=http://172.20.0.21:5000 -e NEWSLETTER_PORT=http://172.20.0.22:5001 --name monitor_container --user node monitor

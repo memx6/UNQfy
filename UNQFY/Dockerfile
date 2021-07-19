@@ -17,7 +17,7 @@ COPY package-lock.json .
 RUN ["npm", "install"]
 
 # Expone el puerto 3000 donde corre la aplicación
-EXPOSE 3000
+EXPOSE 5000
 
 # Copia los fuentes dentro del container
 COPY . . /home/node/my_node_app/
@@ -37,7 +37,7 @@ CMD [ "node", "api.js" ]
 
 
 # Para construir la imagen
-# docker build -t <nombre_de_la_imagen> .
+# docker build -t unqfy .
 
 # Para correr el container
-# docker run -p 3000:3000 --name <nombre_container> --user node <nombre_de_la_imagen>
+#docker run  --network=unqfynet --ip 172.20.0.21 -p 5000:5000 -e NEWSLETTER_PORT=http://172.20.0.22:5001 --name unqfy_container --user node unqfy
