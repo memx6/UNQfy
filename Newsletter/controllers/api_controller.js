@@ -99,12 +99,12 @@ controller.deleteArtist = (req,res,next) => {
     };
     let artistId = parseInt(deleteJson.artistId);
 
-    let newsletter = utils.getNewsletter(); //No deberia guardarse no? porque es siempre la misma instancia. Cuando muere el node muere.
+    let newsletter = utils.getNewsletter(); 
 
-    newsletter.deleteSubscribersOf(artistId) //AL ESTO DEVOLVER UNA PROMESA PORQUE HAY QUE IR A BUSCAR INFO A OTRO LADO, CREO QUE SE MANEJA ASI.
+    newsletter.deleteSubscribersOf(artistId) 
     .then(() => {
         res.status(200).json()
-    })//ESTO ESTA BIEN???
+    })
     .catch( (err) => next (
         (err instanceof ArtistNotFound)? ApiError.relatedResourceNotFound() : err
     ))

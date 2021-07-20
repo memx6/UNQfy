@@ -9,7 +9,6 @@ function apiErrorHandler(err, req, res, next){
         res.status(error.status).json(new ErrorResponse(error))
         return;
     }
-    console.log(err);
     res.status(500).json({status: 500,
                           errorCode: "INTERNAL_SERVER_ERROR"})
 }
