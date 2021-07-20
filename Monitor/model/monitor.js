@@ -15,7 +15,7 @@ class Monitor {
         this.isActive = false;
     }
 
-    async checkService(service) {
+    checkService(service) {
         return this.isAliveService(service.url)
         .then(() => {
             if(!service.status){
@@ -31,8 +31,14 @@ class Monitor {
         }); 
     }
 
-    async isAliveService(URL) {
+    isAliveService(URL) {
         return rp.get(URL);
+    }
+
+    servicesStatus() {
+        let response = {};
+        this.services.forEach(service => { response= {...response , [service.name] : service.status? "Servicio Activo" : "Servicio Inactivo"} });
+        return response;
     }
 
     intervalFunction() {

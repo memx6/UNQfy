@@ -9,13 +9,31 @@ const optionsForNotify = {
     json: true
 };
 
-async function notificationServiceActive(serviceName){
-    sendNotification((`El servicio ${serviceName} se encuentra nuevamente en servicio`));
+function getTime(){
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes();
+    let  dateTime = date+' '+time;
+    return dateTime;
 }
-async function notificationServiceInactive(serviceName){
-    sendNotification((`El servicio ${serviceName} se encuentra fuera de servicio`));
+
+function serviceNotification(serviceName, isActive) {
+    if(isActive){
+        sendNotification((`${getTime()} El servicio ${serviceName} se encuentra nuevamente en servicio`));
+    }else {
+        sendNotification((`${getTime()} El servicio ${serviceName} se encuentra fuera de servicio`));
+    }
 }
-async function sendNotification(msg) {
+
+function notificationServiceActive(serviceName){
+    serviceNotification(serviceName, true)
+}
+
+function notificationServiceInactive(serviceName){
+    serviceNotification(serviceName, false)
+}
+
+function sendNotification(msg) {
     const requestBody = 
         {
             content: msg

@@ -4,7 +4,6 @@ const utils = require('../utils.js')
 
 controller.isActiveMonitor = (req, res, next) => {
     let toggleJson = req.body;
-    console.log(req.body)
     if (isIncorrectJson(toggleJson) || hasIncorrectInformation(toggleJson)) {
         next(ApiError.badRequest());
         return;
@@ -16,10 +15,14 @@ controller.isActiveMonitor = (req, res, next) => {
     }else{
         monitor.turnOn();
     }
-    console.log(monitor)
     res.status(200).json()
 }
 
+controller.servicesStatus = (req, res, next) => {
+    let monitor = utils.getMonitor()
+    let response = monitor.servicesStatus()
+    res.status(200).json(response)
+}
 
 const isIncorrectJson = (toggleJson) => {
     return (   toggleJson.toggle === undefined 

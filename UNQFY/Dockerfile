@@ -40,4 +40,7 @@ CMD [ "node", "api.js" ]
 # docker build -t unqfy .
 
 # Para correr el container
-#docker run  --network=unqfynet --ip 172.20.0.21 -p 5000:5000 -e NEWSLETTER_PORT=http://172.20.0.22:5001 --name unqfy_container --user node unqfy
+# docker run  --network=unqfynet --ip 172.20.0.21 -p 5000:5000 -e NEWSLETTER_PORT=http://172.20.0.22:5001 --name unqfy_container --user node unqfy
+
+# Comando para vaciar el data.json
+# docker exec unqfy_container rm data.json
