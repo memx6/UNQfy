@@ -20,5 +20,5 @@ app.use(apiErrorHandler);
 
 
 app.listen(port, () => {
-    console.log("Monitor Avisando")
+    console.log("Servidor escuchando en el puerto " + port)
 })

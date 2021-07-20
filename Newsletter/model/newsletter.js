@@ -29,7 +29,7 @@ class Newsletter {
             throw new ArtistNotFound()
         }
 
-        if(! subscribers[artistId] === undefined){
+        if(! this.subscribers[artistId] === undefined){
             this.subscribers[artistId] = this.subscribers[artistId].filter(subscribedEmail => subscribedEmail !== email);
         }
         
