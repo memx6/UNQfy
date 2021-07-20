@@ -23,7 +23,7 @@ class NewsletterObserver {
     const requestBody = 
         {
             artistId: information.artistId,
-            subject: `Nuevo Album para artista ${information.artistName}}`, 
+            subject: `Nuevo Album para artista ${information.artistName}`, 
             message: `Se ha agregado el album ${information.albumName} al artista ${information.artistName}`
         };
     optionsForNotify.body = requestBody;
