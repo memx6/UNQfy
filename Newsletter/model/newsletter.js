@@ -57,10 +57,6 @@ class Newsletter {
     }
 
     async deleteSubscribersOf(artistId) {
-        const artistExists = await UNQFYClient.artistExists(artistId)
-        if (!artistExists){
-            throw new ArtistNotFound()
-        }
         this.subscribers[artistId] = undefined;
     }
 
